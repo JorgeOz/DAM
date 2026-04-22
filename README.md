@@ -20,4 +20,4 @@ Este repositorio centraliza las prácticas, ejercicios y proyectos realizados du
 * **Sistemas:** Administración de entornos Linux y virtualización (VirtualBox).
 
 ---
-*Este repositorio es un portafolio vivo de mi crecimiento como desarrollador de aplicaciones multiplataforma.*
+*Este repositorio es un porfolio vivo de mi crecimiento como desarrollador de aplicaciones multiplataforma.*
