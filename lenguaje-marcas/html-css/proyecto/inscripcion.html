@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro</title>
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+
+<body>
+    <!-- HEADER -->
+    <header>
+        <div class="header-left">
+            <h1 class="titulo">II Jornadas de Micología</h1>
+            <h5 class="subtitulo">Soria, 10 y 11 de Noviembre de 2024</h5>
+        </div>
+
+        <div class="header-right">
+            <img src="img/logo_hongo.png" alt="Logo de los Hongos">
+        </div>
+    </header>
+
+    <!-- MENÚ -->
+    <nav class="menu">
+        <ul>
+            <li><b><a href="index.html">INICIO</a></b></li>
+            <li><b><a href="programacion.html">PROGRAMACIÓN</a></b></li>
+            <li class="activo"><b><a href="inscripcion.html">REGISTRO</a></b></li>
+        </ul>
+    </nav>
+
+    <!-- MAIN -->
+    <main>
+        <section class="container3">
+            <h2 class="tituloformulario">Registro a las II Jornadas de Micología</h2>
+
+            <!-- DATOS PERSONALES -->
+            <h3 class="subtitulo3">Datos personales</h3>
+
+            <!-- FORMULARIO COMPLETO -->
+            <form class="formulario-completo">
+
+                <div class="datospersonales">
+                    <label for="dni">DNI:</label><br>
+                    <input type="text" id="dni" name="dni" placeholder="12345678Z" minlength="9" maxlength="9" required><br>
+
+                    <label for="nombre">Nombre completo:</label><br>
+                    <input type="text" id="nombre" name="nombre" required><br>
+
+                    <label for="correo">Correo electrónico:</label><br>
+                    <input type="email" id="correo" name="correo" minlength="10" maxlength="128" required><br>
+
+                    <label for="telefono">Teléfono:</label><br>
+                    <input type="tel" id="telefono" name="telefono" required><br>
+                </div>
+
+                <!-- INTERESES -->
+                <h3 class="subtitulo3">Intereses en las jornadas</h3>
+
+                <div class="intereses">
+                    <p><strong>¿Qué talleres te interesan?</strong></p>
+
+                    <div class="opciones">
+                        <label><input type="checkbox"> Diversidad de hongos</label>
+                        <label><input type="checkbox"> Hongos y sus aplicaciones prácticas</label>
+                        <label><input type="checkbox"> Taller práctico: Observación de hongos</label>
+                        <label><input type="checkbox"> Micología médica</label>
+                        <label><input type="checkbox"> Micología ambiental</label>
+                        <label><input type="checkbox"> Avances en el estudio de hongos</label>
+                        <label><input type="checkbox"> Identificación de hongos comestibles y tóxicos</label>
+                    </div>
+
+                    <!-- TEXTAREA -->
+                    <label><strong>Motivo de participación: </strong></label>
+                    <textarea required></textarea>
+
+                    <!-- FECHA -->
+                    <label><strong>Fecha de asistencia: </strong></label><br>
+                    <select class="fecha-asistencia" required>
+                        <option value="" disabled selected hidden>Elige una fecha</option>
+                        <option value="10">10/11/2025</option>
+                        <option value="11">11/11/2025</option>
+                        <option value="Ambos días">Ambos días</option>
+                    </select>
+
+                    <!-- TÉRMINOS Y CONDICIONES -->
+                    <div class="terminos">
+                        <input type="checkbox" id="condiciones" required>
+                        <label for="condiciones"><strong>He leído y acepto las condiciones de participación</strong></label>
+                    </div>
+
+                    <div class="boton-enviar">
+                        <button type="submit">Enviar registro</button>
+                    </div>
+                </div>
+
+            </form>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="verde">
+            <p>Actividad realizada por <b>Jorge Ortiz Vilaplana</b>, para la asignatura de Lenguajes de Marcas.</p>
+            <p class="curso">Curso 2025-2026</p>
+        </div>
+    </footer>
+</body>
+
+</html>
