@@ -6,7 +6,7 @@ Este repositorio centraliza las prácticas, ejercicios y proyectos realizados du
 
 ### 🔵 Primer Curso (1º DAM)
 * **`/programacion`**: Fundamentos de Java, POO, gestión de excepciones y colecciones.
-* **`/lenguaje-marcas`**: Diseño web con HTML5/CSS3 y estructuración de datos con XML/XSD.
+* **`/lenguaje-marcas`**: Diseño web con HTML5/CSS3, estructuración de datos con XML/XSD y desarrollo de lógica frontend con **JavaScript**.
 * **`/entornos-desarrollo`**: Control de versiones (Git/GitHub) y fundamentos de testing.
 
 ### 🟢 Segundo Curso (2º DAM - Próximamente)
