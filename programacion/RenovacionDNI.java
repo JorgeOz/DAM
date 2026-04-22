@@ -1,4 +1,4 @@
-// Este código **reconstruye DNIs dañados** calculando qué números encajan con la letra de control proporcionada según un patrón de error.
+// Este código reconstruye DNIs dañados calculando qué números encajan con la letra de control proporcionada según un patrón de error.
 
 import java.util.ArrayList;
 import java.util.List;
