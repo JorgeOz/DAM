@@ -8,15 +8,15 @@ Este repositorio centraliza las prácticas, ejercicios y proyectos realizados du
 * **`/programacion`**: Fundamentos de Java, POO, gestión de excepciones y colecciones.
 * **`/lenguaje-marcas`**: Diseño web con HTML5/CSS3, estructuración de datos con XML/XSD y desarrollo de lógica frontend con JavaScript.
 
-### 🟢 Segundo Curso (2º DAM - Próximamente)
+### 🟢 Segundo Curso (2º DAM)
 * **`/acceso-datos`**: Persistencia avanzada (Hibernate, JPA, Spring Data).
 * **`/desarrollo-interfaces`**: Creación de GUIs modernas y experiencia de usuario.
 * **`/programacion-multimedia`**: Desarrollo de aplicaciones para dispositivos móviles.
 * **`/servicios-procesos`**: Programación concurrente, de red y seguridad.
 
 ## 🛠️ Stack Tecnológico Global
-* **Lenguajes:** Java, SQL, JavaScript, HTML/CSS, XML.
-* **Herramientas:** IntelliJ IDEA, VS Code, Git, MySQL Workbench, Docker.
+* **Lenguajes:** Java, Kotlin, C#, SQL, JavaScript, HTML/CSS, XML.
+* **Herramientas:** IntelliJ IDEA, Android Studio, VS Code, .NET, Git, MySQL Workbench, Docker.
 * **Sistemas:** Administración de entornos Linux y virtualización (VirtualBox).
 
 ---
