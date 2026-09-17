@@ -16,8 +16,10 @@ Este repositorio centraliza las prácticas, ejercicios y proyectos realizados du
 
 ## 🛠️ Stack Tecnológico Global
 * **Lenguajes:** Java, Kotlin, C#, SQL, JavaScript, HTML/CSS, XML.
-* **Herramientas:** IntelliJ IDEA, Android Studio, VS Code, .NET, Git, MySQL Workbench, Docker.
-* **Sistemas:** Administración de entornos Linux y virtualización (VirtualBox).
+* **Frameworks y tecnologías:** Spring, Hibernate, JPA, .NET, Docker.
+* **Herramientas:** IntelliJ IDEA, Android Studio, VS Code, Git, MySQL Workbench, VirtualBox.
+* **Cloud/DevOps:** AWS, Docker y entornos Linux.
+* **Sistemas:** Administración de entornos Linux y virtualización con VirtualBox.
 
 ---
 *Este repositorio es un porfolio vivo de mi crecimiento como desarrollador de aplicaciones multiplataforma.*
