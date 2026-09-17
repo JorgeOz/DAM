@@ -21,6 +21,3 @@ Este repositorio centraliza las prácticas, ejercicios y proyectos realizados du
 * **Herramientas:** IntelliJ IDEA, Eclipse, Android Studio, VS Code, Git, MySQL Workbench, VirtualBox, Docker.
 * **Cloud:** AWS.
 * **Sistemas:** Administración de entornos Linux y virtualización con VirtualBox.
-
----
-*Este repositorio es un porfolio vivo de mi crecimiento como desarrollador de aplicaciones multiplataforma.*
