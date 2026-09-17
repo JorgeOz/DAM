@@ -9,16 +9,17 @@ Este repositorio centraliza las prácticas, ejercicios y proyectos realizados du
 * **`/lenguaje-marcas`**: Diseño web con HTML5/CSS3, estructuración de datos con XML/XSD y desarrollo de lógica frontend con JavaScript.
 
 ### 🟢 Segundo Curso (2º DAM)
-* **`/acceso-datos`**: Persistencia avanzada (Hibernate, JPA, Spring Data).
+* **`/acceso-datos`**: Persistencia de datos con Hibernate, JPA, Spring Data, MySQL y MongoDB.
 * **`/desarrollo-interfaces`**: Creación de GUIs modernas y experiencia de usuario.
 * **`/programacion-multimedia`**: Desarrollo de aplicaciones para dispositivos móviles.
 * **`/servicios-procesos`**: Programación concurrente, de red y seguridad.
 
 ## 🛠️ Stack Tecnológico Global
 * **Lenguajes:** Java, Kotlin, C#, SQL, JavaScript, HTML/CSS, XML.
-* **Frameworks y tecnologías:** Spring, Hibernate, JPA, .NET, Docker.
-* **Herramientas:** IntelliJ IDEA, Android Studio, VS Code, Git, MySQL Workbench, VirtualBox.
-* **Cloud/DevOps:** AWS, Docker y entornos Linux.
+* **Frameworks y tecnologías:** Spring, Hibernate, JPA, .NET.
+* **Bases de datos:** MySQL, MongoDB.
+* **Herramientas:** IntelliJ IDEA, Eclipse, Android Studio, VS Code, Git, MySQL Workbench, VirtualBox, Docker.
+* **Cloud:** AWS.
 * **Sistemas:** Administración de entornos Linux y virtualización con VirtualBox.
 
 ---
