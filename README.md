@@ -18,6 +18,6 @@ Este repositorio centraliza las prácticas, ejercicios y proyectos realizados du
 * **Lenguajes:** Java, Kotlin, C#, SQL, JavaScript, HTML/CSS, XML.
 * **Frameworks y tecnologías:** Spring, Hibernate, JPA, .NET.
 * **Bases de datos:** MySQL, MongoDB.
-* **Herramientas:** IntelliJ IDEA, Eclipse, Android Studio, VS Code, Git, MySQL Workbench, VirtualBox, Docker.
+* **Herramientas:** IntelliJ IDEA, Eclipse, Android Studio, VS, VS Code, Git, MySQL Workbench, VirtualBox, Docker.
 * **Cloud:** AWS.
 * **Sistemas:** Administración de entornos Linux y virtualización con VirtualBox.
