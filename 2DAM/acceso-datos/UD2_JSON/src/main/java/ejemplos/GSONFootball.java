@@ -1,0 +1,28 @@
+package ejemplos;
+
+import java.io.*;
+import java.util.*;
+
+import com.google.gson.Gson;
+
+public class GSONFootball {
+
+	public static void main(String[] args) {
+
+		List<FootballPlayer> jugador = Arrays.asList(new FootballPlayer(13, "Jaume Domenech", Arrays.asList("portero"), "Valencia CF"),
+				new FootballPlayer(15, "César Tárrega", Arrays.asList("Defensa central", "central"), "Valencia CF"));
+		
+		String json = new Gson().toJson(jugador);
+		System.out.println(json);
+		
+		try {
+			
+			FileWriter file = new FileWriter("ficheros/FootballJson.json ");
+			file.write(json);
+			file.flush();
+			
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
+}
