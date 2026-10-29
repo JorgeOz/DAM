@@ -1,0 +1,11 @@
+package ejemplos;
+
+public class SocioMongoDBFrom {
+
+	public static void main(String[] args) {
+		
+		
+
+	}
+
+}

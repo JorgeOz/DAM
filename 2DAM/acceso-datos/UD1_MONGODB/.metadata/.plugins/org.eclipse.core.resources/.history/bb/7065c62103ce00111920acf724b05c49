@@ -1,0 +1,54 @@
+package practica1;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+public class Act6 {
+
+	public static void main(String[] args) {
+
+		System.out.println(
+				"EJ6. Mostrar el nombre y el tipo de los productos que estén el <<Almacén 1>> y que su precio es inferior a 15");
+		System.out.println(
+				"=============================================================================================================");
+
+		JSONParser parser = new JSONParser();
+		JSONArray productos = null;
+		JSONObject producto = null;
+		JSONObject ubicacion = null;
+		String v_almacen = "";
+		Double v_precio = 0.0;
+
+		try {
+			productos = (JSONArray) parser.parse(new FileReader("ficheros/productos.json"));
+
+			for (Object produc : productos) {
+				producto = (JSONObject) produc;
+				ubicacion = (JSONObject) producto.get("ubicacion");
+				v_precio = (Double) producto.get("precio");
+				v_almacen = (String) ubicacion.get("almacen");
+
+				if (v_almacen.equals("Almacén 1") && v_precio < 15) {
+					System.out.println("-- Nombre del producto: " + producto.get("nombre_producto"));
+					System.out.println("-- Tipo del producto: " + producto.get("tipo_producto"));
+					System.out.println();
+				}
+			}
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+}

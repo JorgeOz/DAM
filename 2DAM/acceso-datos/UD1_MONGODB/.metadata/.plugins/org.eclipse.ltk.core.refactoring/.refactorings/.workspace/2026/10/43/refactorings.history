@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename Java project &apos;UD1&apos; to &apos;UD1_MongoDB_Biblioteca&apos;&#x0D;&#x0A;- Original element: &apos;UD1&apos;&#x0D;&#x0A;- Renamed element: &apos;UD1&apos;&#x0D;&#x0A;- Update references to refactored element" description="Rename Java project &apos;UD1&apos;" flags="7" id="org.eclipse.jdt.ui.rename.java.project" input="=UD1" name="UD1_MongoDB_Biblioteca" references="true" stamp="1792653077909" version="1.0"/>
+</session>
