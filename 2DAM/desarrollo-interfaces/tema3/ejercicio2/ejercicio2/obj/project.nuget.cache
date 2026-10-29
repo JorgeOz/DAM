@@ -1,0 +1,30 @@
+{
+  "version": 2,
+  "dgSpecHash": "Op9Y2zU5NBI=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema3\\ejercicio2\\ejercicio2\\ejercicio2.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\jorortvil2\\.nuget\\packages\\controlzex\\7.0.3\\controlzex.7.0.3.nupkg.sha512",
+    "C:\\Users\\jorortvil2\\.nuget\\packages\\fluent.ribbon\\11.0.2\\fluent.ribbon.11.0.2.nupkg.sha512",
+    "C:\\Users\\jorortvil2\\.nuget\\packages\\mahapps.metro\\2.4.11\\mahapps.metro.2.4.11.nupkg.sha512",
+    "C:\\Users\\jorortvil2\\.nuget\\packages\\materialdesigncolors\\5.4.0\\materialdesigncolors.5.4.0.nupkg.sha512",
+    "C:\\Users\\jorortvil2\\.nuget\\packages\\materialdesignthemes\\5.4.0\\materialdesignthemes.5.4.0.nupkg.sha512",
+    "C:\\Users\\jorortvil2\\.nuget\\packages\\materialdesignthemes.mahapps\\5.4.0\\materialdesignthemes.mahapps.5.4.0.nupkg.sha512",
+    "C:\\Users\\jorortvil2\\.nuget\\packages\\microsoft.xaml.behaviors.wpf\\1.1.142\\microsoft.xaml.behaviors.wpf.1.1.142.nupkg.sha512",
+    "C:\\Users\\jorortvil2\\.nuget\\packages\\system.text.json\\8.0.5\\system.text.json.8.0.5.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1608",
+      "level": "Warning",
+      "message": "Detected package version outside of dependency constraint: MahApps.Metro 2.4.11 requires ControlzEx (>= 4.4.0 && < 6.0.0) but version ControlzEx 7.0.3 was resolved.",
+      "projectPath": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema3\\ejercicio2\\ejercicio2\\ejercicio2.csproj",
+      "warningLevel": 1,
+      "filePath": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema3\\ejercicio2\\ejercicio2\\ejercicio2.csproj",
+      "libraryId": "ControlzEx",
+      "targetGraphs": [
+        "net8.0-windows7.0"
+      ]
+    }
+  ]
+}

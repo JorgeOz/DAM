@@ -1,0 +1,69 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema3\\ejercicio1\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{2E793C2A-E3A2-47A9-BEB7-21D34DFD0ABB}|ejercicio1\\ejercicio1.csproj|c:\\users\\jorortvil2\\documents\\dam\\2dam\\desarrollo-interfaces\\tema3\\ejercicio1\\ejercicio1\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{2E793C2A-E3A2-47A9-BEB7-21D34DFD0ABB}|ejercicio1\\ejercicio1.csproj|solutionrelative:ejercicio1\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2E793C2A-E3A2-47A9-BEB7-21D34DFD0ABB}|ejercicio1\\ejercicio1.csproj|c:\\users\\jorortvil2\\documents\\dam\\2dam\\desarrollo-interfaces\\tema3\\ejercicio1\\ejercicio1\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2E793C2A-E3A2-47A9-BEB7-21D34DFD0ABB}|ejercicio1\\ejercicio1.csproj|solutionrelative:ejercicio1\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2E793C2A-E3A2-47A9-BEB7-21D34DFD0ABB}|ejercicio1\\ejercicio1.csproj|c:\\users\\jorortvil2\\documents\\dam\\2dam\\desarrollo-interfaces\\tema3\\ejercicio1\\ejercicio1\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{2E793C2A-E3A2-47A9-BEB7-21D34DFD0ABB}|ejercicio1\\ejercicio1.csproj|solutionrelative:ejercicio1\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "App.xaml",
+              "DocumentMoniker": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema3\\ejercicio1\\ejercicio1\\App.xaml",
+              "RelativeDocumentMoniker": "ejercicio1\\App.xaml",
+              "ToolTip": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema3\\ejercicio1\\ejercicio1\\App.xaml",
+              "RelativeToolTip": "ejercicio1\\App.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2026-10-29T11:51:06.307Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema3\\ejercicio1\\ejercicio1\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "ejercicio1\\MainWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema3\\ejercicio1\\ejercicio1\\MainWindow.xaml.cs",
+              "RelativeToolTip": "ejercicio1\\MainWindow.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-29T11:38:21.546Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema3\\ejercicio1\\ejercicio1\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "ejercicio1\\MainWindow.xaml",
+              "ToolTip": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema3\\ejercicio1\\ejercicio1\\MainWindow.xaml",
+              "RelativeToolTip": "ejercicio1\\MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2026-10-29T11:24:56.991Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

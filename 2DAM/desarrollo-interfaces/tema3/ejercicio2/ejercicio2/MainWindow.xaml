@@ -1,0 +1,212 @@
+﻿<fluent:RibbonWindow x:Class="ejercicio2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:fluent="urn:fluent-ribbon"
+        xmlns:material="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Ejercicio 2 - Inventario Matisse" Height="600" Width="1000"
+        Icon="/Recursos/matisse.png"
+        WindowStartupLocation="CenterScreen">
+
+    <!-- Estilo a nivel de ventana: todos los PackIcon medirán 32x32.
+         BasedOn mantiene la plantilla original del PackIcon -->
+    <fluent:RibbonWindow.Resources>
+        <Style TargetType="material:PackIcon" BasedOn="{StaticResource {x:Type material:PackIcon}}">
+            <Setter Property="Width" Value="32" />
+            <Setter Property="Height" Value="32" />
+        </Style>
+        <SolidColorBrush x:Key="Fluent.Ribbon.Brushes.RibbonWindow.TitleBackground" Color="#2B7DE1" />
+        <SolidColorBrush x:Key="Fluent.Ribbon.Brushes.RibbonWindow.TitleForeground" Color="White" />
+    </fluent:RibbonWindow.Resources>
+
+    <!-- Grid de 2 filas: la cinta arriba (Auto) y el contenido de la aplicación debajo (*) -->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <fluent:Ribbon Grid.Row="0">
+
+            <!-- ============ PESTAÑA "ARCHIVO" (Backstage = el "Application Menu") ============ -->
+            <fluent:Ribbon.Menu>
+                <fluent:Backstage Header="Archivo">
+                    <fluent:BackstageTabControl>
+                        <fluent:BackstageTabItem Header="Opciones">
+                            <TextBlock Text="Opciones de la aplicación" Margin="20" FontSize="20" />
+                        </fluent:BackstageTabItem>
+                        <!-- Botón que cierra el programa -->
+                        <fluent:Button Header="Salir" Click="Salir_Click">
+                            <fluent:Button.Icon>
+                                <material:PackIcon Kind="ExitToApp" Width="16" Height="16" />
+                            </fluent:Button.Icon>
+                        </fluent:Button>
+                    </fluent:BackstageTabControl>
+                </fluent:Backstage>
+            </fluent:Ribbon.Menu>
+
+            <!-- ============================ PRESTAMOS ============================ -->
+            <fluent:RibbonTabItem Header="PRESTAMOS">
+                <fluent:RibbonGroupBox Header="Operaciones">
+                    <fluent:Button Header="Salida" ToolTip="Registrar una salida de material">
+                        <fluent:Button.LargeIcon>
+                            <material:PackIcon Kind="Logout" Foreground="#E53935" />
+                        </fluent:Button.LargeIcon>
+                    </fluent:Button>
+                    <fluent:Button Header="Devolución" ToolTip="Registrar la devolución de material">
+                        <fluent:Button.LargeIcon>
+                            <material:PackIcon Kind="Login" Foreground="#37474F" />
+                        </fluent:Button.LargeIcon>
+                    </fluent:Button>
+                </fluent:RibbonGroupBox>
+
+                <fluent:RibbonGroupBox Header="Búsquedas">
+                    <!-- Los controles de Fluent también pueden ser cajas de texto -->
+                    <fluent:TextBox Header="Por número de serie" Width="220" />
+                </fluent:RibbonGroupBox>
+
+                <fluent:RibbonGroupBox Header="Listados">
+                    <fluent:Button Header="Pendientes" ToolTip="Ver los préstamos pendientes">
+                        <fluent:Button.LargeIcon>
+                            <material:PackIcon Kind="ClipboardText" Foreground="#E53935" />
+                        </fluent:Button.LargeIcon>
+                    </fluent:Button>
+                </fluent:RibbonGroupBox>
+            </fluent:RibbonTabItem>
+
+            <!-- ============================ ARTÍCULOS ============================ -->
+            <fluent:RibbonTabItem Header="ARTÍCULOS">
+                <fluent:RibbonGroupBox Header="Artículos">
+                    <fluent:Button Header="Nuevo">
+                        <fluent:Button.LargeIcon>
+                            <material:PackIcon Kind="FilePlus" Foreground="#37474F" />
+                        </fluent:Button.LargeIcon>
+                    </fluent:Button>
+                    <fluent:Button Header="Editar">
+                        <fluent:Button.LargeIcon>
+                            <material:PackIcon Kind="Pencil" Foreground="#8E24AA" />
+                        </fluent:Button.LargeIcon>
+                    </fluent:Button>
+                    <fluent:Button Header="Listado">
+                        <fluent:Button.LargeIcon>
+                            <material:PackIcon Kind="ViewList" Foreground="#37474F" />
+                        </fluent:Button.LargeIcon>
+                    </fluent:Button>
+                </fluent:RibbonGroupBox>
+
+                <fluent:RibbonGroupBox Header="Modelo Artículo">
+                    <fluent:Button Header="Nuevo">
+                        <fluent:Button.LargeIcon>
+                            <material:PackIcon Kind="PlusCircleOutline" Foreground="#1E88E5" />
+                        </fluent:Button.LargeIcon>
+                    </fluent:Button>
+                    <fluent:Button Header="Editar">
+                        <fluent:Button.LargeIcon>
+                            <material:PackIcon Kind="CubeOutline" Foreground="#37474F" />
+                        </fluent:Button.LargeIcon>
+                    </fluent:Button>
+                    <fluent:Button Header="Listado">
+                        <fluent:Button.LargeIcon>
+                            <material:PackIcon Kind="FormatListBulleted" Foreground="#FB8C00" />
+                        </fluent:Button.LargeIcon>
+                    </fluent:Button>
+                </fluent:RibbonGroupBox>
+            </fluent:RibbonTabItem>
+
+            <!-- ========================== ADMINISTRACIÓN ========================== -->
+            <fluent:RibbonTabItem Header="ADMINISTRACIÓN">
+                <fluent:RibbonGroupBox Header="Gestión Usuarios">
+                    <fluent:Button Header="Nuevo">
+                        <fluent:Button.LargeIcon>
+                            <material:PackIcon Kind="AccountPlus" Foreground="#37474F" />
+                        </fluent:Button.LargeIcon>
+                    </fluent:Button>
+                    <fluent:Button Header="Editar">
+                        <fluent:Button.LargeIcon>
+                            <material:PackIcon Kind="AccountEdit" Foreground="#43A047" />
+                        </fluent:Button.LargeIcon>
+                    </fluent:Button>
+                    <fluent:Button Header="Contraseñas">
+                        <fluent:Button.LargeIcon>
+                            <material:PackIcon Kind="Key" Foreground="#E53935" />
+                        </fluent:Button.LargeIcon>
+                    </fluent:Button>
+                    <fluent:Button Header="Listado">
+                        <fluent:Button.LargeIcon>
+                            <material:PackIcon Kind="AccountMultiple" Foreground="#78909C" />
+                        </fluent:Button.LargeIcon>
+                    </fluent:Button>
+                </fluent:RibbonGroupBox>
+
+                <fluent:RibbonGroupBox Header="Mantenimiento">
+                    <fluent:Button Header="Artículo">
+                        <fluent:Button.LargeIcon>
+                            <material:PackIcon Kind="Delete" Foreground="#B71C1C" />
+                        </fluent:Button.LargeIcon>
+                    </fluent:Button>
+                    <fluent:Button Header="Modelo">
+                        <fluent:Button.LargeIcon>
+                            <material:PackIcon Kind="DeleteForever" Foreground="#E53935" />
+                        </fluent:Button.LargeIcon>
+                    </fluent:Button>
+                    <fluent:Button Header="Usuario">
+                        <fluent:Button.LargeIcon>
+                            <material:PackIcon Kind="AccountRemove" Foreground="#E53935" />
+                        </fluent:Button.LargeIcon>
+                    </fluent:Button>
+                </fluent:RibbonGroupBox>
+
+                <fluent:RibbonGroupBox Header="STOCK">
+                    <fluent:Button Header="Stock">
+                        <fluent:Button.LargeIcon>
+                            <material:PackIcon Kind="PackageVariant" Foreground="#FB8C00" />
+                        </fluent:Button.LargeIcon>
+                    </fluent:Button>
+                </fluent:RibbonGroupBox>
+            </fluent:RibbonTabItem>
+
+            <!-- ============================= INVENTARIO ============================= -->
+            <fluent:RibbonTabItem Header="INVENTARIO">
+                <fluent:RibbonGroupBox Header="Espacios">
+                    <fluent:Button Header="Espacios">
+                        <fluent:Button.LargeIcon>
+                            <material:PackIcon Kind="OfficeBuilding" Foreground="#37474F" />
+                        </fluent:Button.LargeIcon>
+                    </fluent:Button>
+                    <fluent:Button Header="Chequeo">
+                        <fluent:Button.LargeIcon>
+                            <material:PackIcon Kind="CheckAll" Foreground="#37474F" />
+                        </fluent:Button.LargeIcon>
+                    </fluent:Button>
+                    <fluent:Button Header="Inventario">
+                        <fluent:Button.LargeIcon>
+                            <material:PackIcon Kind="CubeOutline" Foreground="#1E88E5" />
+                        </fluent:Button.LargeIcon>
+                    </fluent:Button>
+                </fluent:RibbonGroupBox>
+            </fluent:RibbonTabItem>
+
+            <!-- ============================ INFORMACIÓN ============================ -->
+            <fluent:RibbonTabItem Header="INFORMACIÓN">
+                <fluent:RibbonGroupBox Header="Informes">
+                    <fluent:Button Header="Informe">
+                        <fluent:Button.LargeIcon>
+                            <material:PackIcon Kind="FileChart" Foreground="#43A047" />
+                        </fluent:Button.LargeIcon>
+                    </fluent:Button>
+                </fluent:RibbonGroupBox>
+                <fluent:RibbonGroupBox Header="Gráficos">
+                    <fluent:Button Header="Charts">
+                        <fluent:Button.LargeIcon>
+                            <material:PackIcon Kind="ChartBar" Foreground="#1E88E5" />
+                        </fluent:Button.LargeIcon>
+                    </fluent:Button>
+                </fluent:RibbonGroupBox>
+            </fluent:RibbonTabItem>
+
+        </fluent:Ribbon>
+
+        <!-- Zona central de la aplicación -->
+        <Grid x:Name="gridCentral" Grid.Row="1" />
+    </Grid>
+</fluent:RibbonWindow>
+
