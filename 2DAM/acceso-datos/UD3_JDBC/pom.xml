@@ -3,10 +3,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>AD</groupId>
-	<artifactId>UD3_JDBC</artifactId>
+	<artifactId>UD2_JDBC</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-
 	<dependencies>
+
 		<!-- Source: https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
 		<dependency>
 			<groupId>mysql</groupId>
@@ -15,12 +15,13 @@
 			<scope>compile</scope>
 		</dependency>
 
+		<!-- Source: https://mvnrepository.com/artifact/commons-dbcp/commons-dbcp -->
 		<dependency>
 			<groupId>commons-dbcp</groupId>
 			<artifactId>commons-dbcp</artifactId>
 			<version>1.4</version>
 			<scope>compile</scope>
 		</dependency>
-		
+
 	</dependencies>
 </project>

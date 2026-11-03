@@ -1,4 +1,4 @@
-package conectarbd;
+package conexiones;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
