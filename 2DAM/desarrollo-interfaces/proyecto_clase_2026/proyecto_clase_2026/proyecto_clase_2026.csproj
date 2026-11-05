@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Recursos\Imagenes\office.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Datos\Repositorios\" />
+    <Folder Include="Modelos\" />
+    <Folder Include="Recursos\Estilos\" />
+    <Folder Include="Recursos\Iconos\" />
+    <Folder Include="Servicios\Interfaces\" />
+    <Folder Include="ViewModel\" />
+    <Folder Include="Vista\UserControl\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MaterialDesignThemes.MahApps" Version="5.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Recursos\Imagenes\office.jpg" />
+  </ItemGroup>
+
+</Project>

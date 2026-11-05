@@ -1,0 +1,183 @@
+﻿<Window x:Class="proyecto_clase_2026.Vista.Dialogos.Login"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:proyecto_clase_2026.Vista.Dialogos"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:mat="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Title="Login"
+        Height="650" Width="950"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Borde general redondeado que da forma a toda la ventana -->
+        <Border Grid.ColumnSpan="2"
+                Background="White"
+                BorderBrush="White"
+                BorderThickness="1"
+                CornerRadius="50" />
+
+        <!-- ================= PARTE IZQUIERDA ================= -->
+        <Grid Grid.Column="0">
+            <Grid.OpacityMask>
+                <VisualBrush Visual="{Binding ElementName=Mask}" />
+            </Grid.OpacityMask>
+
+            <!-- Máscara de bordes redondeados (solo lado izquierdo) -->
+            <Border x:Name="Mask"
+                    Background="White"
+                    BorderBrush="White"
+                    CornerRadius="50,0,0,50" />
+
+            <!-- Imagen de fondo (office.jpg como Recurso en Recursos/Iconos) -->
+            <Image Source="/Recursos/Imagenes/office.jpg"
+                   Stretch="UniformToFill" />
+
+            <!-- Título superpuesto -->
+            <TextBlock Text="Inventario Matisse"
+                       Width="320"
+                       Margin="30,0,0,0"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Center"
+                       TextWrapping="WrapWithOverflow"
+                       Foreground="White"
+                       FontSize="64"
+                       FontWeight="Bold" />
+        </Grid>
+
+        <!-- ================= PARTE DERECHA ================= -->
+        <Grid Grid.Column="1" Margin="60">
+            <StackPanel VerticalAlignment="Center">
+
+                <!-- Cabecera -->
+                <TextBlock Text="LOGIN"
+                           FontSize="28"
+                           FontWeight="Bold"
+                           Foreground="Black" />
+                <TextBlock Text="Inicia sesión en la aplicación"
+                           Margin="0,10,0,0"
+                           FontSize="15"
+                           Foreground="Gray" />
+
+                <!-- Usuario -->
+                <TextBox x:Name="txtUsuario"
+                         Margin="0,40,0,0"
+                         mat:HintAssist.Hint="Nombre de Usuario"
+                         FontSize="16"
+                         FontWeight="Bold"
+                         Foreground="Gray"
+                         BorderBrush="Gray" />
+
+                <!-- Password -->
+                <PasswordBox x:Name="txtPassword"
+                             Margin="0,30,0,0"
+                             mat:HintAssist.Hint="Password"
+                             FontSize="16"
+                             FontWeight="Bold"
+                             Foreground="Gray"
+                             BorderBrush="Gray" />
+
+                <!-- Política de privacidad -->
+                <CheckBox Content="Acepto los términos de la Política de Privacidad"
+                          Margin="0,25,0,0"
+                          IsChecked="True"
+                          FontSize="12"
+                          Foreground="#333333"
+                          Style="{StaticResource MahApps.Styles.CheckBox}"
+                          Checked="CheckBox_Checked" />
+
+                <!-- Botón LOGIN -->
+                <Button x:Name="btnLogin"
+                        Content="LOGIN"
+                        Width="150"
+                        Height="38"
+                        Margin="0,30,0,0"
+                        HorizontalAlignment="Right"
+                        Background="#CC292B"
+                        BorderBrush="#CC292B"
+                        Foreground="White"
+                        FontSize="14"
+                        FontWeight="SemiBold"
+                        mat:ButtonAssist.CornerRadius="19"
+                        Click="Button_Click"
+                        Style="{StaticResource MaterialDesignRaisedButton}" />
+
+                <!-- Redes sociales -->
+                <TextBlock Text="Login con redes sociales"
+                           Margin="0,35,0,25"
+                           FontSize="13"
+                           Foreground="Gray" />
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Facebook -->
+                    <Button Grid.Column="0"
+                            Width="105" Height="34"
+                            Padding="8,0"
+                            HorizontalAlignment="Left"
+                            Background="#254C8E"
+                            BorderBrush="#254C8E"
+                            Foreground="White"
+                            mat:ButtonAssist.CornerRadius="17"
+                            Style="{StaticResource MaterialDesignRaisedButton}">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <mat:PackIcon Kind="Facebook" Width="16" Height="16"
+                                          Margin="0,0,4,0" VerticalAlignment="Center" />
+                            <TextBlock Text="Facebook" FontSize="12" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+
+                    <!-- Twitter -->
+                    <Button Grid.Column="1"
+                            Width="105" Height="34"
+                            Padding="8,0"
+                            HorizontalAlignment="Center"
+                            Background="#1DA1F2"
+                            BorderBrush="#1DA1F2"
+                            Foreground="White"
+                            mat:ButtonAssist.CornerRadius="17"
+                            Style="{StaticResource MaterialDesignRaisedButton}">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <mat:PackIcon Kind="Twitter" Width="16" Height="16"
+                                          Margin="0,0,4,0" VerticalAlignment="Center" />
+                            <TextBlock Text="Twitter" FontSize="12" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+
+                    <!-- Google -->
+                    <Button Grid.Column="2"
+                            Width="105" Height="34"
+                            Padding="8,0"
+                            HorizontalAlignment="Right"
+                            Background="#D64132"
+                            BorderBrush="#D64132"
+                            Foreground="White"
+                            mat:ButtonAssist.CornerRadius="17"
+                            Style="{StaticResource MaterialDesignRaisedButton}">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <mat:PackIcon Kind="Google" Width="18" Height="18"
+                                          Margin="0,0,4,0" VerticalAlignment="Center" />
+                            <TextBlock Text="Google" FontSize="12" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+                </Grid>
+
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
