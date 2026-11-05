@@ -1,28 +1,29 @@
-package ejercicios;
+package ejemplos;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
 import java.util.Scanner;
 
 import javax.sql.DataSource;
-
 import org.apache.commons.dbcp.BasicDataSourceFactory;
 
-public class Ex1_PreparedStatement {
+public class Ex4_Select {
 
 	public static void main(String[] args) {
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		String sql;
-		Integer vid;
-		String vnombre, vnomeq;
-		
+		ResultSet rs = null;
+		String sql = null;
+		String vequipo;
+		Integer vcont;
+
 		try {
 			
 			Properties propiedades = new Properties();
@@ -32,36 +33,39 @@ public class Ex1_PreparedStatement {
 			con = ds.getConnection();
 
 			System.out.println("Conectado");
-			// Insertar un nuevo directorio con los valores que me dé el usuario
 
-			// Lectura de parámetros del usuario
-			Scanner tec = new Scanner(System.in);
+			// Obtener cuántos ciclistas tiene cada equipo y si tiene más de 10 ciclistas es grande, sino es pequeño
 
-			System.out.println("Nombre representante: ");
-			vnombre = tec.nextLine();
-			System.out.println("Nombre equipo: ");
-			vnomeq = tec.nextLine();
-			System.out.println("Código: ");
-			vid = tec.nextInt();
-			tec.nextLine();
+			// Operaciones BD DAO
+			sql = "SELECT COUNT(*), nomeq FROM ciclista GROUP BY nomeq";
 
-			sql = "INSERT INTO representante values (?,?,?)";
+			// Crear PreparedStatement
+			pstmt = con.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			rs = pstmt.executeQuery();
 
-			pstmt = con.prepareStatement(sql);
+			while (rs.next()) {
+				vcont = rs.getInt(1);
+				vequipo = rs.getString(2);
 
-			pstmt.setObject(1, vid);
-			pstmt.setString(2, vnombre);
-			pstmt.setString(3, vnomeq);
-			pstmt.executeUpdate();
-
+				// Si el equipo tiene más de 10 integrantes escribiremos el "nombre del equipo" es numeroso, sino es pequeño
+				if (vcont > 10)
+					System.out.println("El equipo " + vequipo + " tiene " + vcont + " ciclistas, es numeroso");
+				else
+					System.out.println("El equipo " + vequipo + " tiene " + vcont + " ciclistas, es pequeño");
+			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
+			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+			
 		} catch (IOException e) {
 			e.printStackTrace();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
+			
 		} finally {
 
 			// Cerramos la conexión
@@ -69,8 +73,10 @@ public class Ex1_PreparedStatement {
 				if (con != null && !con.isClosed()) {
 					con.close();
 				}
+				
 			} catch (SQLException e) {
 				e.printStackTrace();
+				
 			}
 		}
 	}
