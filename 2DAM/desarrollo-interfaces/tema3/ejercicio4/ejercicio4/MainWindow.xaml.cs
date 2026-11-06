@@ -19,5 +19,10 @@ namespace ejercicio4
         {
             InitializeComponent();
         }
+
+        private void HamburgerMenu_OptionsItemClick(object sender, ItemClickEventArgs args)
+        {
+
+        }
     }
 }

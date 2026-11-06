@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "UVePznL3m1E=",
+  "dgSpecHash": "kb/ZdA3faas=",
   "success": true,
   "projectFilePath": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\proyecto_clase_2026\\proyecto_clase_2026\\proyecto_clase_2026.csproj",
   "expectedPackageFiles": [
@@ -9,6 +9,8 @@
     "C:\\Users\\jorortvil2\\.nuget\\packages\\materialdesigncolors\\5.4.0\\materialdesigncolors.5.4.0.nupkg.sha512",
     "C:\\Users\\jorortvil2\\.nuget\\packages\\materialdesignthemes\\5.4.0\\materialdesignthemes.5.4.0.nupkg.sha512",
     "C:\\Users\\jorortvil2\\.nuget\\packages\\materialdesignthemes.mahapps\\5.4.0\\materialdesignthemes.mahapps.5.4.0.nupkg.sha512",
+    "C:\\Users\\jorortvil2\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\8.0.1\\microsoft.extensions.dependencyinjection.8.0.1.nupkg.sha512",
+    "C:\\Users\\jorortvil2\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.2\\microsoft.extensions.dependencyinjection.abstractions.8.0.2.nupkg.sha512",
     "C:\\Users\\jorortvil2\\.nuget\\packages\\microsoft.xaml.behaviors.wpf\\1.1.142\\microsoft.xaml.behaviors.wpf.1.1.142.nupkg.sha512",
     "C:\\Users\\jorortvil2\\.nuget\\packages\\system.text.json\\4.7.2\\system.text.json.4.7.2.nupkg.sha512"
   ],

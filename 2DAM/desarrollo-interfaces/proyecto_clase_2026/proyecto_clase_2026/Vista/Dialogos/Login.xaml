@@ -39,7 +39,7 @@
                     BorderBrush="White"
                     CornerRadius="50,0,0,50" />
 
-            <!-- Imagen de fondo (office.jpg como Recurso en Recursos/Iconos) -->
+            <!-- Imagen de fondo -->
             <Image Source="/Recursos/Imagenes/office.jpg"
                    Stretch="UniformToFill" />
 
@@ -79,7 +79,7 @@
                          BorderBrush="Gray" />
 
                 <!-- Password -->
-                <PasswordBox x:Name="txtPassword"
+                <PasswordBox x:Name="passClaveAcceso"
                              Margin="0,30,0,0"
                              mat:HintAssist.Hint="Password"
                              FontSize="16"
@@ -87,14 +87,50 @@
                              Foreground="Gray"
                              BorderBrush="Gray" />
 
-                <!-- Política de privacidad -->
-                <CheckBox Content="Acepto los términos de la Política de Privacidad"
-                          Margin="0,25,0,0"
+                <!-- Política de Privacidad -->
+                <CheckBox Margin="0,25,0,0"
                           IsChecked="True"
-                          FontSize="12"
-                          Foreground="#333333"
-                          Style="{StaticResource MahApps.Styles.CheckBox}"
-                          Checked="CheckBox_Checked" />
+                          Checked="CheckBox_Checked">
+                    <CheckBox.Template>
+                        <ControlTemplate TargetType="CheckBox">
+                            <StackPanel Orientation="Horizontal" Background="Transparent">
+
+                                <!-- Cuadrado -->
+                                <Border x:Name="Caja"
+                                        Width="18" Height="18"
+                                        Background="White"
+                                        BorderBrush="Gray"
+                                        BorderThickness="2"
+                                        CornerRadius="3"
+                                        VerticalAlignment="Center">
+                                    <!-- Tick -->
+                                    <Path x:Name="Tick"
+                                          Data="M 2,7 L 6,11 L 13,3"
+                                          Stroke="#CC292B"
+                                          StrokeThickness="2"
+                                          Visibility="Collapsed" />
+                                </Border>
+
+                                <!-- Texto -->
+                                <TextBlock Text="Acepto los términos de la Política de Privacidad"
+                                           Margin="10,0,0,0"
+                                           FontSize="12"
+                                           Foreground="Black"
+                                           VerticalAlignment="Center" />
+                            </StackPanel>
+
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter TargetName="Tick" Property="Visibility" Value="Visible" />
+                                    <Setter TargetName="Caja" Property="BorderBrush" Value="#CC292B" />
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="Caja" Property="BorderBrush" Value="#CC292B" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </CheckBox.Template>
+                </CheckBox>
 
                 <!-- Botón LOGIN -->
                 <Button x:Name="btnLogin"

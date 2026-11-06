@@ -31,9 +31,16 @@ namespace proyecto_clase_2026.Vista.Dialogos
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = new MainWindow();
-            mainWindow.Show();
-            this.Close();
+            if (string.IsNullOrEmpty(txtUsuario.Text) || 
+                string.IsNullOrEmpty(passClaveAcceso.Password))
+            {
+                MessageBox.Show("Por favor, ingrese un nombre de usuario y una contraseña.", 
+                    "Error de inicio de sesión", MessageBoxButton.OK, MessageBoxImage.Error);
+            } else {
+                MainWindow mainWindow = new MainWindow();
+                mainWindow.Show();
+                this.Close();
+            }
         }
     }
 }

@@ -5,14 +5,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{D3FC4089-C81D-4CF4-B884-82EE9441B1C1}|proyecto_clase_2026\\proyecto_clase_2026.csproj|c:\\users\\jorortvil2\\documents\\dam\\2dam\\desarrollo-interfaces\\proyecto_clase_2026\\proyecto_clase_2026\\vista\\dialogos\\login.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{D3FC4089-C81D-4CF4-B884-82EE9441B1C1}|proyecto_clase_2026\\proyecto_clase_2026.csproj|solutionrelative:proyecto_clase_2026\\vista\\dialogos\\login.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D3FC4089-C81D-4CF4-B884-82EE9441B1C1}|proyecto_clase_2026\\proyecto_clase_2026.csproj|c:\\users\\jorortvil2\\documents\\dam\\2dam\\desarrollo-interfaces\\proyecto_clase_2026\\proyecto_clase_2026\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{D3FC4089-C81D-4CF4-B884-82EE9441B1C1}|proyecto_clase_2026\\proyecto_clase_2026.csproj|solutionrelative:proyecto_clase_2026\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D3FC4089-C81D-4CF4-B884-82EE9441B1C1}|proyecto_clase_2026\\proyecto_clase_2026.csproj|c:\\users\\jorortvil2\\documents\\dam\\2dam\\desarrollo-interfaces\\proyecto_clase_2026\\proyecto_clase_2026\\vista\\dialogos\\login.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D3FC4089-C81D-4CF4-B884-82EE9441B1C1}|proyecto_clase_2026\\proyecto_clase_2026.csproj|solutionrelative:proyecto_clase_2026\\vista\\dialogos\\login.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,7 +14,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 12,
+          "SelectedChildIndex": 10,
           "Children": [
             {
               "$type": "Bookmark",
@@ -66,31 +58,6 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Login.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\proyecto_clase_2026\\proyecto_clase_2026\\Vista\\Dialogos\\Login.xaml.cs",
-              "RelativeDocumentMoniker": "proyecto_clase_2026\\Vista\\Dialogos\\Login.xaml.cs",
-              "ToolTip": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\proyecto_clase_2026\\proyecto_clase_2026\\Vista\\Dialogos\\Login.xaml.cs",
-              "RelativeToolTip": "proyecto_clase_2026\\Vista\\Dialogos\\Login.xaml.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAaAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-11-05T12:59:29.673Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "App.xaml",
-              "DocumentMoniker": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\proyecto_clase_2026\\proyecto_clase_2026\\App.xaml",
-              "RelativeDocumentMoniker": "proyecto_clase_2026\\App.xaml",
-              "ToolTip": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\proyecto_clase_2026\\proyecto_clase_2026\\App.xaml",
-              "RelativeToolTip": "proyecto_clase_2026\\App.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2026-11-05T12:59:20.532Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
               "Title": "Login.xaml",
               "DocumentMoniker": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\proyecto_clase_2026\\proyecto_clase_2026\\Vista\\Dialogos\\Login.xaml",
@@ -98,7 +65,7 @@
               "ToolTip": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\proyecto_clase_2026\\proyecto_clase_2026\\Vista\\Dialogos\\Login.xaml",
               "RelativeToolTip": "proyecto_clase_2026\\Vista\\Dialogos\\Login.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2026-11-05T12:39:14.473Z",
+              "WhenOpened": "2026-11-06T10:21:35.231Z",
               "EditorCaption": ""
             }
           ]

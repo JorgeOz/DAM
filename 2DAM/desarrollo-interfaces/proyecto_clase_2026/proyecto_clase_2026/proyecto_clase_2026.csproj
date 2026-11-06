@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Recursos\Iconos\matisse.png" />
     <None Remove="Recursos\Imagenes\office.jpg" />
   </ItemGroup>
 
@@ -16,17 +17,19 @@
     <Folder Include="Datos\Repositorios\" />
     <Folder Include="Modelos\" />
     <Folder Include="Recursos\Estilos\" />
-    <Folder Include="Recursos\Iconos\" />
     <Folder Include="Servicios\Interfaces\" />
     <Folder Include="ViewModel\" />
     <Folder Include="Vista\UserControl\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="MahApps.Metro" Version="2.4.11" />
     <PackageReference Include="MaterialDesignThemes.MahApps" Version="5.4.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Recursos\Iconos\matisse.png" />
     <Resource Include="Recursos\Imagenes\office.jpg" />
   </ItemGroup>
 

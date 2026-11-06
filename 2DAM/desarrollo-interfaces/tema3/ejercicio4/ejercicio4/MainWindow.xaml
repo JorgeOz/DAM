@@ -14,7 +14,8 @@
 
     <mah:HamburgerMenu DisplayMode="CompactInline" IsPaneOpen="False"
                        CompactPaneLength="50" OpenPaneLength="220"
-                       HamburgerWidth="50" HamburgerHeight="50">
+                       HamburgerWidth="50" HamburgerHeight="50" 
+                       OptionsItemClick="HamburgerMenu_OptionsItemClick">
 
         <mah:HamburgerMenu.ItemsSource>
             <mah:HamburgerMenuItemCollection>
@@ -60,7 +61,7 @@
         <!--  Elementos que se anclan abajo -->
         <mah:HamburgerMenu.OptionsItemsSource>
             <mah:HamburgerMenuItemCollection>
-                <mah:HamburgerMenuIconItem Label="Ayuda">
+                <mah:HamburgerMenuIconItem Label="Cerrar sesión">
                     <mah:HamburgerMenuIconItem.Icon>
                         <iconPacks:PackIconMaterial Kind="Help" Width="24" Height="24" />
                     </mah:HamburgerMenuIconItem.Icon>
