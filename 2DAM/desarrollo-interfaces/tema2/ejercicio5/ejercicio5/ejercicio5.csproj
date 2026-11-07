@@ -1,0 +1,89 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Recursos\Recursos\iconos\bluelock.png" />
+    <None Remove="Recursos\Recursos\iconos\eme.png" />
+    <None Remove="Recursos\Recursos\iconos\escudo.png" />
+    <None Remove="Recursos\Recursos\iconos\escudollave.jpg" />
+    <None Remove="Recursos\Recursos\iconos\escudologin5.png" />
+    <None Remove="Recursos\Recursos\iconos\escudotech.png" />
+    <None Remove="Recursos\Recursos\iconos\facebook.png" />
+    <None Remove="Recursos\Recursos\iconos\facebookblanco.png" />
+    <None Remove="Recursos\Recursos\iconos\flow.png" />
+    <None Remove="Recursos\Recursos\iconos\googleplus.png" />
+    <None Remove="Recursos\Recursos\iconos\infinity.png" />
+    <None Remove="Recursos\Recursos\iconos\infinityblanco.png" />
+    <None Remove="Recursos\Recursos\iconos\LineChart.png" />
+    <None Remove="Recursos\Recursos\iconos\Lock.png" />
+    <None Remove="Recursos\Recursos\iconos\LoginImagen.png" />
+    <None Remove="Recursos\Recursos\iconos\LogoUsuario.png" />
+    <None Remove="Recursos\Recursos\iconos\mano.png" />
+    <None Remove="Recursos\Recursos\iconos\matisse.png" />
+    <None Remove="Recursos\Recursos\iconos\Principal.png" />
+    <None Remove="Recursos\Recursos\iconos\Profile.png" />
+    <None Remove="Recursos\Recursos\iconos\Settings.png" />
+    <None Remove="Recursos\Recursos\iconos\Trash.png" />
+    <None Remove="Recursos\Recursos\iconos\TV.png" />
+    <None Remove="Recursos\Recursos\iconos\twitter.png" />
+    <None Remove="Recursos\Recursos\iconos\user.png" />
+    <None Remove="Recursos\Recursos\imagenes\circulos.gif" />
+    <None Remove="Recursos\Recursos\imagenes\ciudad.jpg" />
+    <None Remove="Recursos\Recursos\imagenes\Entrada.jpg" />
+    <None Remove="Recursos\Recursos\imagenes\lineas.png" />
+    <None Remove="Recursos\Recursos\imagenes\linechart.jpg" />
+    <None Remove="Recursos\Recursos\imagenes\linechart80.png" />
+    <None Remove="Recursos\Recursos\imagenes\office.jpg" />
+    <None Remove="Recursos\Recursos\imagenes\portatil.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MahApps.Metro" Version="2.4.11" />
+    <PackageReference Include="MaterialDesignThemes" Version="5.4.0" />
+    <PackageReference Include="MaterialDesignThemes.MahApps" Version="5.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Recursos\Recursos\iconos\bluelock.png" />
+    <Resource Include="Recursos\Recursos\iconos\eme.png" />
+    <Resource Include="Recursos\Recursos\iconos\escudo.png" />
+    <Resource Include="Recursos\Recursos\iconos\escudollave.jpg" />
+    <Resource Include="Recursos\Recursos\iconos\escudologin5.png" />
+    <Resource Include="Recursos\Recursos\iconos\escudotech.png" />
+    <Resource Include="Recursos\Recursos\iconos\facebook.png" />
+    <Resource Include="Recursos\Recursos\iconos\facebookblanco.png" />
+    <Resource Include="Recursos\Recursos\iconos\flow.png" />
+    <Resource Include="Recursos\Recursos\iconos\googleplus.png" />
+    <Resource Include="Recursos\Recursos\iconos\infinity.png" />
+    <Resource Include="Recursos\Recursos\iconos\infinityblanco.png" />
+    <Resource Include="Recursos\Recursos\iconos\LineChart.png" />
+    <Resource Include="Recursos\Recursos\iconos\Lock.png" />
+    <Resource Include="Recursos\Recursos\iconos\LoginImagen.png" />
+    <Resource Include="Recursos\Recursos\iconos\LogoUsuario.png" />
+    <Resource Include="Recursos\Recursos\iconos\mano.png" />
+    <Resource Include="Recursos\Recursos\iconos\matisse.png" />
+    <Resource Include="Recursos\Recursos\iconos\Principal.png" />
+    <Resource Include="Recursos\Recursos\iconos\Profile.png" />
+    <Resource Include="Recursos\Recursos\iconos\Settings.png" />
+    <Resource Include="Recursos\Recursos\iconos\Trash.png" />
+    <Resource Include="Recursos\Recursos\iconos\TV.png" />
+    <Resource Include="Recursos\Recursos\iconos\twitter.png" />
+    <Resource Include="Recursos\Recursos\iconos\user.png" />
+    <Resource Include="Recursos\Recursos\imagenes\circulos.gif" />
+    <Resource Include="Recursos\Recursos\imagenes\ciudad.jpg" />
+    <Resource Include="Recursos\Recursos\imagenes\Entrada.jpg" />
+    <Resource Include="Recursos\Recursos\imagenes\lineas.png" />
+    <Resource Include="Recursos\Recursos\imagenes\linechart.jpg" />
+    <Resource Include="Recursos\Recursos\imagenes\linechart80.png" />
+    <Resource Include="Recursos\Recursos\imagenes\office.jpg" />
+    <Resource Include="Recursos\Recursos\imagenes\portatil.jpg" />
+  </ItemGroup>
+
+</Project>

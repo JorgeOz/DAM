@@ -1,0 +1,72 @@
+﻿<!-- EJERCICIO 3: LOGIN CLARO. Todo en un StackPanel vertical, sin filas ni anchos fijos -->
+<mah:MetroWindow x:Class="ejercicio3.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:mat="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:ejercicio3"
+        mc:Ignorable="d"
+        Title="LOGIN" Height="520" Width="250">
+
+    <!-- Margin 25,0 da los laterales a todos los controles a la vez, VerticalAlignment Center centra el bloque -->
+    <StackPanel Margin="25,0" VerticalAlignment="Center">
+
+        <!-- Logo y titulo -->
+        <Image Source="/Recursos/Recursos/iconos/eme.png" Width="100" Margin="0,0,0,10"/>
+        <TextBlock Text="Sign in to your account" FontSize="16" FontWeight="Bold"
+                   TextAlignment="Center" TextWrapping="Wrap"/>
+
+        <!-- Campos con estilo de Material Design, el hint flota sobre la linea inferior -->
+        <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                 mat:HintAssist.Hint="Email" Margin="0,15,0,0"/>
+        <PasswordBox Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"
+                     mat:HintAssist.Hint="Password" Margin="0,10,0,0"/>
+
+        <!-- Fila de dos elementos: Remember me a la izquierda y Forgot Password a la derecha -->
+        <Grid Margin="0,15,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <CheckBox Grid.Column="0" Content="Remember me" IsChecked="True"
+                      FontSize="10" VerticalAlignment="Center"/>
+            <Button Grid.Column="1" Content="Forgot Password" FontSize="10" FontWeight="Bold"
+                    Background="Transparent" BorderBrush="Transparent"
+                    Foreground="#2196f3" Padding="0"/>
+        </Grid>
+
+        <!-- Boton principal, sin Width: se estira al ancho del panel -->
+        <Button Content="SIGN IN" Foreground="White" Background="#2196f3"
+                BorderBrush="Transparent" FontSize="12" Padding="0,6" Margin="0,15,0,0"/>
+
+        <TextBlock Text="OR" HorizontalAlignment="Center" Margin="0,10,0,0"/>
+
+        <!-- Botones con icono y texto: un solo hijo, un StackPanel horizontal -->
+        <Button Background="#3b5998" BorderBrush="Transparent" Padding="0,6" Margin="0,10,0,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Image Source="/Recursos/Recursos/iconos/facebookblanco.png" Width="15"/>
+                <TextBlock Text="SIGN IN WITH FACEBOOK" Foreground="White" FontSize="10"
+                           FontWeight="Bold" VerticalAlignment="Center" Margin="8,0,0,0"/>
+            </StackPanel>
+        </Button>
+
+        <Button Background="#e04932" BorderBrush="Transparent" Padding="0,6" Margin="0,10,0,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Image Source="/Recursos/Recursos/iconos/googleplus.png" Width="15"/>
+                <TextBlock Text="SIGN IN WITH GOOGLE +" Foreground="White" FontSize="10"
+                           FontWeight="Bold" VerticalAlignment="Center" Margin="8,0,0,0"/>
+            </StackPanel>
+        </Button>
+
+        <!-- Pie: el que se centra es el StackPanel horizontal, no el boton -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,15,0,0">
+            <TextBlock Text="Don't have an account?" FontSize="10" VerticalAlignment="Center"/>
+            <Button Content="Create an account" FontSize="10" FontWeight="Bold"
+                    Background="Transparent" BorderBrush="Transparent"
+                    Foreground="#2196f3" Padding="5,0"/>
+        </StackPanel>
+
+    </StackPanel>
+</mah:MetroWindow>

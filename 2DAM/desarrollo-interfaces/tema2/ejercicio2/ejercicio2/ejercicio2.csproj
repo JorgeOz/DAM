@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Recursos\escudologin5.png" />
+    <None Remove="Recursos\googleplus.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MahApps.Metro" Version="2.4.11" />
+    <PackageReference Include="MaterialDesignThemes.MahApps" Version="5.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Recursos\escudologin5.png" />
+    <Resource Include="Recursos\googleplus.png" />
+  </ItemGroup>
+
+</Project>
