@@ -519,11 +519,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Usuario\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\repaso\\ejercicio5\\ejercicio5\\ejercicio5.csproj",
+      "projectUniqueName": "C:\\Users\\Usuario\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema2\\ejercicio5\\ejercicio5\\ejercicio5.csproj",
       "projectName": "ejercicio5",
-      "projectPath": "C:\\Users\\Usuario\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\repaso\\ejercicio5\\ejercicio5\\ejercicio5.csproj",
+      "projectPath": "C:\\Users\\Usuario\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema2\\ejercicio5\\ejercicio5\\ejercicio5.csproj",
       "packagesPath": "C:\\Users\\Usuario\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Usuario\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\repaso\\ejercicio5\\ejercicio5\\obj\\",
+      "outputPath": "C:\\Users\\Usuario\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema2\\ejercicio5\\ejercicio5\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Usuario\\AppData\\Roaming\\NuGet\\NuGet.Config",
