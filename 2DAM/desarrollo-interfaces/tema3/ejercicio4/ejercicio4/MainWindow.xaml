@@ -1,0 +1,59 @@
+﻿<mah:MetroWindow x:Class="ejercicio4.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:mat="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:ejercicio4"
+        mc:Ignorable="d"
+        Title="INVENTARIO MATISSE" Height="450" Width="800"
+        WindowTitleBrush="#7F6FE6" NonActiveWindowTitleBrush="#7F6FE6">
+
+    <!-- Plantilla de cada opcion, declarada una sola vez y usada en las dos secciones -->
+    <Window.Resources>
+        <DataTemplate x:Key="PlantillaOpcion" DataType="{x:Type mah:HamburgerMenuIconItem}">
+            <Grid Height="48">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="48"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Columna 0: el icono, enlazado a la propiedad Icon de la opcion -->
+                <ContentControl Grid.Column="0" Content="{Binding Icon}" Width="20" Height="20"
+                                Foreground="White" Focusable="False"
+                                HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                <!-- Columna 1: el texto, enlazado a la propiedad Label -->
+                <TextBlock Grid.Column="1" Text="{Binding Label}"
+                           VerticalAlignment="Center" Foreground="White" FontSize="14"/>
+            </Grid>
+        </DataTemplate>
+    </Window.Resources>
+
+    <!-- Sin Width ni HorizontalAlignment: el control ocupa toda la ventana, panel a la izquierda y contenido a la derecha -->
+    <mah:HamburgerMenu DisplayMode="CompactInline" IsPaneOpen="True" OpenPaneLength="200"
+                       PaneBackground="#444444" PaneForeground="White"
+                       ItemTemplate="{StaticResource PlantillaOpcion}"
+                       OptionsItemTemplate="{StaticResource PlantillaOpcion}">
+
+        <!-- Opciones principales -->
+        <mah:HamburgerMenu.ItemsSource>
+            <mah:HamburgerMenuItemCollection>
+                <mah:HamburgerMenuIconItem Icon="{mat:PackIcon Kind=Recycle}" Label="Préstamos"/>
+                <mah:HamburgerMenuIconItem Icon="{mat:PackIcon Kind=Search}" Label="Búsquedas"/>
+                <mah:HamburgerMenuIconItem Icon="{mat:PackIcon Kind=Box}" Label="Artículos"/>
+                <mah:HamburgerMenuIconItem Icon="{mat:PackIcon Kind=Tools}" Label="Administración"/>
+                <mah:HamburgerMenuIconItem Icon="{mat:PackIcon Kind=InvoiceList}" Label="Inventario"/>
+                <mah:HamburgerMenuIconItem Icon="{mat:PackIcon Kind=ChartBar}" Label="Información"/>
+            </mah:HamburgerMenuItemCollection>
+        </mah:HamburgerMenu.ItemsSource>
+
+        <!-- Opciones auxiliares, ancladas abajo -->
+        <mah:HamburgerMenu.OptionsItemsSource>
+            <mah:HamburgerMenuItemCollection>
+                <mah:HamburgerMenuIconItem Icon="{mat:PackIcon Kind=Help}" Label="Ayuda"/>
+            </mah:HamburgerMenuItemCollection>
+        </mah:HamburgerMenu.OptionsItemsSource>
+    </mah:HamburgerMenu>
+</mah:MetroWindow>

@@ -1,74 +1,117 @@
-﻿<Fluent:RibbonWindow x:Class="ejercicio2.MainWindow"
+﻿<!-- La ventana hereda de Fluent:RibbonWindow (no de Window) para integrar el ribbon en la barra de título -->
+<Fluent:RibbonWindow x:Class="ejercicio2.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:Fluent="urn:fluent-ribbon"
-        xmlns:mat="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:ejercicio2"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800"
+        Title="INVENTARIO MATISSE" Height="450" Width="800"
         WindowStartupLocation="CenterScreen">
-        <!-- Atributos para ocultar la barra superior: ShowCloseButton="False" ShowMaxRestoreButton="False" ShowMinButton="False" ShowTitleBar="False" -->
+    <!-- Atributos para ocultar la barra superior: ShowCloseButton="False" ShowMaxRestoreButton="False" ShowMinButton="False" ShowTitleBar="False" -->
     <Grid>
-        <Fluent:Ribbon>
+        <!-- Fila 0: solo la altura del ribbon. Fila 1: espacio libre para el contenido de la aplicación -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Fluent:Ribbon Grid.Row="0">
+
+            <!-- Pestaña "Archivo" (backstage): aparece en azul a la izquierda de las demás pestañas -->
             <Fluent:Ribbon.Menu>
                 <Fluent:Backstage Header="Archivo">
                     <Fluent:BackstageTabControl>
                         <Fluent:BackstageTabItem Header="Opciones"/>
+                        <!-- Al pulsar Salir se ejecuta Salir_Click (definido en MainWindow.xaml.cs) -->
                         <Fluent:Button Header="Salir" Click="Salir_Click"/>
                     </Fluent:BackstageTabControl>
                 </Fluent:Backstage>
             </Fluent:Ribbon.Menu>
 
+            <!-- PESTAÑA PRÉSTAMOS -->
             <Fluent:RibbonTabItem Header="PRÉSTAMOS">
+                <!-- Grupo Operaciones: Icon es el icono pequeño y LargeIcon el grande (misma ruta en ambos) -->
                 <Fluent:RibbonGroupBox Header="Operaciones">
-                    <Fluent:Button Header="Salida" Icon="Iconos/salida.png"/>
-                    <Fluent:Button Header="Devolución" Icon="Iconos/devolucion.png"/>
+                    <Fluent:Button Header="Salida" Icon="Iconos/salida.png" LargeIcon="Iconos/salida.png"/>
+                    <Fluent:Button Header="Devolución" Icon="Iconos/devolucion.png" LargeIcon="Iconos/devolucion.png"/>
                 </Fluent:RibbonGroupBox>
 
+                <!-- Grupo Búsquedas: el StackPanel apila el texto en negrita encima del cuadro, como en la figura -->
                 <Fluent:RibbonGroupBox Header="Búsquedas">
-                    <TextBlock Text="Por número de serie" FontWeight="Bold"/>
-                    <Fluent:TextBox/>
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="Por número de serie" FontWeight="Bold" HorizontalAlignment="Center"/>
+                        <Fluent:TextBox Width="150"/>
+                    </StackPanel>
                 </Fluent:RibbonGroupBox>
 
+                <!-- Grupo Listados: botón con su Header "Pendientes" -->
                 <Fluent:RibbonGroupBox Header="Listados">
-                    <Fluent:Button Icon="Iconos/listamodelos.png"/>
+                    <Fluent:Button Header="Pendientes" Icon="Iconos/listamodelos.png" LargeIcon="Iconos/listamodelos.png"/>
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
 
+            <!-- PESTAÑA ARTÍCULOS -->
             <Fluent:RibbonTabItem Header="ARTÍCULOS">
+                <!-- Botones relacionados con los artículos -->
                 <Fluent:RibbonGroupBox Header="Artículos">
-                    <Fluent:Button Header="Nuevo" Icon="Iconos/addarticulo.png"/>
-                    <Fluent:Button Header="Editar" Icon="Iconos/gesarticulo.png"/>
-                    <Fluent:Button Header="Listado" Icon="Iconos/listaarticulos.png"/>
+                    <Fluent:Button Header="Nuevo" Icon="Iconos/addarticulo.png" LargeIcon="Iconos/addarticulo.png"/>
+                    <Fluent:Button Header="Editar" Icon="Iconos/gesarticulo.png" LargeIcon="Iconos/gesarticulo.png"/>
+                    <Fluent:Button Header="Listado" Icon="Iconos/listaarticulos.png" LargeIcon="Iconos/listaarticulos.png"/>
                 </Fluent:RibbonGroupBox>
 
+                <!-- Botones relacionados con los modelos de artículo -->
                 <Fluent:RibbonGroupBox Header="Modelo Artículo">
-                    <Fluent:Button Header="Nuevo" Icon="Iconos/iconmodelo.png"/>
-                    <Fluent:Button Header="Editar" Icon="Iconos/editar.png"/>
-                    <Fluent:Button Header="Listado" Icon="Iconos/listaarticulos.png"/>
+                    <Fluent:Button Header="Nuevo" Icon="Iconos/iconmodelo.png" LargeIcon="Iconos/iconmodelo.png"/>
+                    <Fluent:Button Header="Editar" Icon="Iconos/gesarticulo.png" LargeIcon="Iconos/gesarticulo.png"/>
+                    <Fluent:Button Header="Listado" Icon="Iconos/listaarticulos.png" LargeIcon="Iconos/listaarticulos.png"/>
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
 
+            <!-- PESTAÑA ADMINISTRACIÓN -->
             <Fluent:RibbonTabItem Header="ADMINISTRACIÓN">
+                <!-- Gestión de usuarios -->
                 <Fluent:RibbonGroupBox Header="Gestión Usuarios">
-                    <Fluent:Button Header="Nuevo" Icon="Iconos/addarticulo.png"/>
-                    <Fluent:Button Header="Editar" Icon="Iconos/gesarticulo.png"/>
-                    <Fluent:Button Header="Contraseñas" Icon="Iconos/listaarticulos.png"/>
-                    <Fluent:Button Header="Listado" Icon="Iconos/listaarticulos.png"/>
+                    <Fluent:Button Header="Nuevo" Icon="Iconos/adduser.png" LargeIcon="Iconos/adduser.png"/>
+                    <Fluent:Button Header="Editar" Icon="Iconos/gesusuario.png" LargeIcon="Iconos/gesusuario.png"/>
+                    <Fluent:Button Header="Contraseñas" Icon="Iconos/resetclave.png" LargeIcon="Iconos/resetclave.png"/>
+                    <Fluent:Button Header="Listado" Icon="Iconos/listausuarios.png" LargeIcon="Iconos/listausuarios.png"/>
                 </Fluent:RibbonGroupBox>
 
+                <!-- Mantenimiento: corregido "usuario" a "Usuario" -->
                 <Fluent:RibbonGroupBox Header="Mantenimiento">
-                    <Fluent:Button Header="NueArtículo" Icon="Iconos/iconmodelo.png"/>
-                    <Fluent:Button Header="Modelo" Icon="Iconos/editar.png"/>
-                    <Fluent:Button Header="usuario" Icon="Iconos/listaarticulos.png"/>
+                    <Fluent:Button Header="Artículo" Icon="Iconos/borrar.png" LargeIcon="Iconos/borrar.png"/>
+                    <Fluent:Button Header="Modelo" Icon="Iconos/borrar.png" LargeIcon="Iconos/borrar.png"/>
+                    <Fluent:Button Header="Usuario" Icon="Iconos/addusermvvm.png" LargeIcon="Iconos/addusermvvm.png"/>
                 </Fluent:RibbonGroupBox>
 
+                <!-- Stock: en la figura el botón solo lleva icono, sin texto -->
                 <Fluent:RibbonGroupBox Header="STOCK">
-                    <Fluent:Button Icon="Iconos/iconmodelo.png"/>
+                    <Fluent:Button Icon="Iconos/stock.png" LargeIcon="Iconos/stock.png"/>
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
+
+            <!-- PESTAÑA INVENTARIO -->
+            <Fluent:RibbonTabItem Header="INVENTARIO">
+                <Fluent:RibbonGroupBox Header="Espacios">
+                    <Fluent:Button Header="Espacios" Icon="Iconos/addmodelomvvm.png" LargeIcon="Iconos/addmodelomvvm.png"/>
+                    <Fluent:Button Header="Chequeo" Icon="Iconos/arbolmodelo.png" LargeIcon="Iconos/arbolmodelo.png"/>
+                    <Fluent:Button Header="Inventario" Icon="Iconos/espacios.png" LargeIcon="Iconos/espacios.png"/>
+                </Fluent:RibbonGroupBox>
+            </Fluent:RibbonTabItem>
+
+            <!-- PESTAÑA INFORMACIÓN -->
+            <Fluent:RibbonTabItem Header="INFORMACIÓN">
+                <Fluent:RibbonGroupBox Header="Informes">
+                    <Fluent:Button Header="Informe" Icon="Iconos/informe.png" LargeIcon="Iconos/informe.png"/>
+                </Fluent:RibbonGroupBox>
+
+                <Fluent:RibbonGroupBox Header="Gráficos">
+                    <Fluent:Button Header="Charts" Icon="Iconos/charts.png" LargeIcon="Iconos/charts.png"/>
+                </Fluent:RibbonGroupBox>
+            </Fluent:RibbonTabItem>
+
         </Fluent:Ribbon>
     </Grid>
 </Fluent:RibbonWindow>

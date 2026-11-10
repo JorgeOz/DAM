@@ -1,0 +1,216 @@
+﻿<Window x:Class="ejercicio3.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mat="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:ejercicio3"
+        mc:Ignorable="d"
+        Title="INVENTARIO MATISSE" Height="450" Width="800"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        Background="#252525"
+        StateChanged="Window_StateChanged">
+
+    <!-- WindowChrome: quita la barra de Windows pero mantiene arrastrar, redimensionar y doble clic para maximizar.
+         CaptionHeight = altura de la zona que sirve para arrastrar (la barra roja) -->
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="32" ResizeBorderThickness="6" GlassFrameThickness="0"
+                      CornerRadius="0" UseAeroCaptionButtons="False"/>
+    </WindowChrome.WindowChrome>
+
+    <Window.Resources>
+        <!-- Estilo común de las secciones: se basa en el de Material Design y solo cambia colores,
+             así no repetimos Foreground y Style en cada Expander -->
+        <Style x:Key="ExpanderMenu" TargetType="Expander"
+               BasedOn="{StaticResource MaterialDesignExpander}">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+    </Window.Resources>
+
+    <!-- RaizGrid tiene nombre para poder ajustarle el margen al maximizar (ver code-behind) -->
+    <Grid x:Name="RaizGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32"/>
+            <!-- Fila 0: barra de título roja -->
+            <RowDefinition Height="*"/>
+            <!-- Fila 1: menú lateral + contenido -->
+        </Grid.RowDefinitions>
+
+        <!-- ================= BARRA DE TÍTULO ================= -->
+        <Grid Grid.Row="0" Background="#C41E0E">
+            <DockPanel>
+
+                <!-- Botones de la derecha. IsHitTestVisibleInChrome=True es obligatorio: sin eso,
+                     WindowChrome trata la barra como zona de arrastre y los botones no reciben clics -->
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal"
+                            WindowChrome.IsHitTestVisibleInChrome="True">
+
+                    <!-- Menú de los tres puntos. Su icono por defecto ya es el de los tres puntos verticales -->
+                    <mat:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False"
+                                  Foreground="White" VerticalAlignment="Center" Margin="0,0,8,0">
+                        <StackPanel MinWidth="160">
+                            <!-- Cada opción: icono a la derecha (Dock Right primero) y texto ocupando el resto -->
+                            <Button>
+                                <DockPanel Width="140">
+                                    <mat:PackIcon Kind="Tools" DockPanel.Dock="Right"/>
+                                    <TextBlock Text="Ajustes"/>
+                                </DockPanel>
+                            </Button>
+                            <Button>
+                                <DockPanel Width="140">
+                                    <mat:PackIcon Kind="Account" DockPanel.Dock="Right"/>
+                                    <TextBlock Text="Cuenta"/>
+                                </DockPanel>
+                            </Button>
+                            <Button>
+                                <DockPanel Width="140">
+                                    <mat:PackIcon Kind="Help" DockPanel.Dock="Right"/>
+                                    <TextBlock Text="Ayuda"/>
+                                </DockPanel>
+                            </Button>
+                            <Separator/>
+                            <Button>
+                                <DockPanel Width="140">
+                                    <mat:PackIcon Kind="Power" DockPanel.Dock="Right"/>
+                                    <TextBlock Text="Desconectar"/>
+                                </DockPanel>
+                            </Button>
+                        </StackPanel>
+                    </mat:PopupBox>
+
+                    <!-- Minimizar / Maximizar-Restaurar / Cerrar -->
+                    <Button Style="{StaticResource MaterialDesignFlatButton}" Foreground="White"
+                            Width="40" Height="32" Padding="0" Click="Minimizar_Click">
+                        <mat:PackIcon Kind="WindowMinimize"/>
+                    </Button>
+                    <Button Style="{StaticResource MaterialDesignFlatButton}" Foreground="White"
+                            Width="40" Height="32" Padding="0" Click="Maximizar_Click">
+                        <mat:PackIcon x:Name="IconoMaximizar" Kind="WindowMaximize"/>
+                    </Button>
+                    <Button Style="{StaticResource MaterialDesignFlatButton}" Foreground="White"
+                            Width="40" Height="32" Padding="0" Click="Cerrar_Click">
+                        <mat:PackIcon Kind="WindowClose"/>
+                    </Button>
+                </StackPanel>
+
+                <!-- Título a la izquierda. Si tienes la imagen del logo, ponla antes del TextBlock:
+                     <Image Source="Iconos/logo.png" Height="20" Margin="0,0,8,0"/> -->
+                <StackPanel Orientation="Horizontal" Margin="12,0" VerticalAlignment="Center">
+                    <TextBlock Text="INVENTARIO MATISSE" Foreground="White" FontSize="13"
+                               VerticalAlignment="Center"/>
+                </StackPanel>
+            </DockPanel>
+        </Grid>
+
+        <!-- ================= CUERPO ================= -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="8*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Menú lateral. Expander.Expanded es un evento que "sube" por el árbol, así que un único
+                 manejador en el StackPanel sirve para los cinco Expander -->
+            <StackPanel x:Name="PanelMenu" Grid.Column="0" Background="#323232"
+                        Expander.Expanded="Expander_Expanded">
+
+                <!-- DAM MATISSE: no es desplegable, solo icono + texto en horizontal.
+                     Si el icono no queda alineado con los de abajo, ajusta el primer número del Margin -->
+                <StackPanel Orientation="Horizontal" Margin="24,12">
+                    <mat:PackIcon Kind="ViewDashboard" Foreground="White" VerticalAlignment="Center"/>
+                    <TextBlock Text="DAM MATISSE" Foreground="White" Margin="12,0,0,0"
+                               VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <!-- PRÉSTAMOS -->
+                <Expander Style="{StaticResource ExpanderMenu}">
+                    <Expander.Header>
+                        <!-- Orientation="Horizontal": icono y texto en la misma línea -->
+                        <StackPanel Orientation="Horizontal">
+                            <mat:PackIcon Kind="FileDocument" VerticalAlignment="Center"/>
+                            <TextBlock Text="Préstamos" Margin="12,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Expander.Header>
+                    <!-- Padding izquierdo de 60 para que los apartados queden bajo el texto, no bajo el icono -->
+                    <ListView Foreground="White" Style="{StaticResource MaterialDesignListView}"
+                              ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                        <ListViewItem Content="Salidas" Padding="60,5,0,5"/>
+                        <ListViewItem Content="Entradas" Padding="60,5,0,5"/>
+                        <ListViewItem Content="Búsqueda" Padding="60,5,0,5"/>
+                        <ListViewItem Content="Listado pendientes" Padding="60,5,0,5"/>
+                    </ListView>
+                </Expander>
+
+                <!-- ARTÍCULOS -->
+                <Expander Style="{StaticResource ExpanderMenu}">
+                    <Expander.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <mat:PackIcon Kind="Tablet" VerticalAlignment="Center"/>
+                            <TextBlock Text="Artículos" Margin="12,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Expander.Header>
+                    <ListView Foreground="White" Style="{StaticResource MaterialDesignListView}"
+                              ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                        <ListViewItem Content="Artículos" Padding="60,5,0,5"/>
+                        <ListViewItem Content="Modelo Artículo" Padding="60,5,0,5"/>
+                        <ListViewItem Content="Tipo de Artículos" Padding="60,5,0,5"/>
+                    </ListView>
+                </Expander>
+
+                <!-- ADMINISTRACIÓN -->
+                <Expander Style="{StaticResource ExpanderMenu}">
+                    <Expander.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <mat:PackIcon Kind="Cog" VerticalAlignment="Center"/>
+                            <TextBlock Text="Administración" Margin="12,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Expander.Header>
+                    <ListView Foreground="White" Style="{StaticResource MaterialDesignListView}"
+                              ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                        <ListViewItem Content="Gestión Usuarios" Padding="60,5,0,5"/>
+                        <ListViewItem Content="Contraseñas" Padding="60,5,0,5"/>
+                        <ListViewItem Content="Mantenimiento" Padding="60,5,0,5"/>
+                        <ListViewItem Content="Stock" Padding="60,5,0,5"/>
+                        <ListViewItem Content="Listados" Padding="60,5,0,5"/>
+                    </ListView>
+                </Expander>
+
+                <!-- INVENTARIO -->
+                <Expander Style="{StaticResource ExpanderMenu}">
+                    <Expander.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <mat:PackIcon Kind="ClipboardText" VerticalAlignment="Center"/>
+                            <TextBlock Text="Inventario" Margin="12,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Expander.Header>
+                    <ListView Foreground="White" Style="{StaticResource MaterialDesignListView}"
+                              ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                        <ListViewItem Content="Listado de Espacios" Padding="60,5,0,5"/>
+                        <ListViewItem Content="Chequear Inventario" Padding="60,5,0,5"/>
+                        <ListViewItem Content="Inventario Nuevo" Padding="60,5,0,5"/>
+                    </ListView>
+                </Expander>
+
+                <!-- INFORMACIÓN -->
+                <Expander Style="{StaticResource ExpanderMenu}">
+                    <Expander.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <mat:PackIcon Kind="Information" VerticalAlignment="Center"/>
+                            <TextBlock Text="Información" Margin="12,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Expander.Header>
+                    <ListView Foreground="White" Style="{StaticResource MaterialDesignListView}"
+                              ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                        <ListViewItem Content="Informes" Padding="60,5,0,5"/>
+                        <ListViewItem Content="Gráficos" Padding="60,5,0,5"/>
+                    </ListView>
+                </Expander>
+            </StackPanel>
+
+            <!-- Zona de contenido (vacía, como en la figura) -->
+            <Grid Grid.Column="1" Background="#252525"/>
+        </Grid>
+    </Grid>
+</Window>

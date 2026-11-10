@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema3\\ejercicio2\\ejercicio2\\ejercicio2.csproj": {}
+    "C:\\Users\\Usuario\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema3\\ejercicio2\\ejercicio2\\ejercicio2.csproj": {}
   },
   "projects": {
-    "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema3\\ejercicio2\\ejercicio2\\ejercicio2.csproj": {
+    "C:\\Users\\Usuario\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema3\\ejercicio2\\ejercicio2\\ejercicio2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema3\\ejercicio2\\ejercicio2\\ejercicio2.csproj",
+        "projectUniqueName": "C:\\Users\\Usuario\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema3\\ejercicio2\\ejercicio2\\ejercicio2.csproj",
         "projectName": "ejercicio2",
-        "projectPath": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema3\\ejercicio2\\ejercicio2\\ejercicio2.csproj",
-        "packagesPath": "C:\\Users\\jorortvil2\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema3\\ejercicio2\\ejercicio2\\obj\\",
+        "projectPath": "C:\\Users\\Usuario\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema3\\ejercicio2\\ejercicio2\\ejercicio2.csproj",
+        "packagesPath": "C:\\Users\\Usuario\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Usuario\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema3\\ejercicio2\\ejercicio2\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\jorortvil2\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Usuario\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -74,7 +74,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.315/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.318/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
