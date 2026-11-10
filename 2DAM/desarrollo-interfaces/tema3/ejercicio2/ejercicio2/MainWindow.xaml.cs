@@ -12,7 +12,6 @@ using Fluent;
 
 namespace ejercicio2
 {
-    // La clase hereda de RibbonWindow (de Fluent), igual que la etiqueta raíz del XAML
     public partial class MainWindow : RibbonWindow
     {
         public MainWindow()

@@ -1,4 +1,6 @@
 C:\Users\jorortvil2\Documents\DAM\2DAM\desarrollo-interfaces\tema3\ejercicio2\ejercicio2\obj\Debug\net8.0-windows\ejercicio2.csproj.AssemblyReference.cache
+C:\Users\jorortvil2\Documents\DAM\2DAM\desarrollo-interfaces\tema3\ejercicio2\ejercicio2\obj\Debug\net8.0-windows\App.baml
+C:\Users\jorortvil2\Documents\DAM\2DAM\desarrollo-interfaces\tema3\ejercicio2\ejercicio2\obj\Debug\net8.0-windows\MainWindow.g.cs
 C:\Users\jorortvil2\Documents\DAM\2DAM\desarrollo-interfaces\tema3\ejercicio2\ejercicio2\obj\Debug\net8.0-windows\App.g.cs
 C:\Users\jorortvil2\Documents\DAM\2DAM\desarrollo-interfaces\tema3\ejercicio2\ejercicio2\obj\Debug\net8.0-windows\ejercicio2_MarkupCompile.cache
 C:\Users\jorortvil2\Documents\DAM\2DAM\desarrollo-interfaces\tema3\ejercicio2\ejercicio2\obj\Debug\net8.0-windows\ejercicio2_MarkupCompile.lref
@@ -16,8 +18,6 @@ C:\Users\jorortvil2\Documents\DAM\2DAM\desarrollo-interfaces\tema3\ejercicio2\ej
 C:\Users\jorortvil2\Documents\DAM\2DAM\desarrollo-interfaces\tema3\ejercicio2\ejercicio2\bin\Debug\net8.0-windows\Microsoft.Xaml.Behaviors.dll
 C:\Users\jorortvil2\Documents\DAM\2DAM\desarrollo-interfaces\tema3\ejercicio2\ejercicio2\bin\Debug\net8.0-windows\de\MahApps.Metro.resources.dll
 C:\Users\jorortvil2\Documents\DAM\2DAM\desarrollo-interfaces\tema3\ejercicio2\ejercicio2\obj\Debug\net8.0-windows\MainWindow.baml
-C:\Users\jorortvil2\Documents\DAM\2DAM\desarrollo-interfaces\tema3\ejercicio2\ejercicio2\obj\Debug\net8.0-windows\MainWindow.g.cs
-C:\Users\jorortvil2\Documents\DAM\2DAM\desarrollo-interfaces\tema3\ejercicio2\ejercicio2\obj\Debug\net8.0-windows\App.baml
 C:\Users\jorortvil2\Documents\DAM\2DAM\desarrollo-interfaces\tema3\ejercicio2\ejercicio2\obj\Debug\net8.0-windows\ejercicio2.g.resources
 C:\Users\jorortvil2\Documents\DAM\2DAM\desarrollo-interfaces\tema3\ejercicio2\ejercicio2\obj\Debug\net8.0-windows\ejercicio2.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\jorortvil2\Documents\DAM\2DAM\desarrollo-interfaces\tema3\ejercicio2\ejercicio2\obj\Debug\net8.0-windows\ejercicio2.AssemblyInfoInputs.cache
