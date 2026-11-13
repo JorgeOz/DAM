@@ -495,19 +495,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Usuario\\.nuget\\packages\\": {}
+    "C:\\Users\\jorortvil2\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Usuario\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema3\\ejercicio2\\ejercicio2\\ejercicio2.csproj",
+      "projectUniqueName": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema3\\ejercicio2\\ejercicio2\\ejercicio2.csproj",
       "projectName": "ejercicio2",
-      "projectPath": "C:\\Users\\Usuario\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema3\\ejercicio2\\ejercicio2\\ejercicio2.csproj",
-      "packagesPath": "C:\\Users\\Usuario\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Usuario\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema3\\ejercicio2\\ejercicio2\\obj\\",
+      "projectPath": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema3\\ejercicio2\\ejercicio2\\ejercicio2.csproj",
+      "packagesPath": "C:\\Users\\jorortvil2\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema3\\ejercicio2\\ejercicio2\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Usuario\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\jorortvil2\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -567,7 +567,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.318/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.315/PortableRuntimeIdentifierGraph.json"
       }
     }
   },
@@ -576,7 +576,7 @@
       "code": "NU1608",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Se detectó una versión del paquete fuera de la restricción de dependencia: MahApps.Metro 2.4.11 requiere ControlzEx (>= 4.4.0 && < 6.0.0), pero la versión ControlzEx 7.0.3 ya se resolvió.",
+      "message": "Detected package version outside of dependency constraint: MahApps.Metro 2.4.11 requires ControlzEx (>= 4.4.0 && < 6.0.0) but version ControlzEx 7.0.3 was resolved.",
       "libraryId": "ControlzEx",
       "targetGraphs": [
         "net8.0-windows7.0"

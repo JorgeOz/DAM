@@ -29,3 +29,12 @@ C:\Users\Usuario\Documents\DAM\2DAM\desarrollo-interfaces\repaso\ejercicio4\ejer
 C:\Users\Usuario\Documents\DAM\2DAM\desarrollo-interfaces\repaso\ejercicio4\ejercicio4\obj\Debug\net8.0-windows\ejercicio4.pdb
 C:\Users\Usuario\Documents\DAM\2DAM\desarrollo-interfaces\repaso\ejercicio4\ejercicio4\obj\Debug\net8.0-windows\ejercicio4.genruntimeconfig.cache
 C:\Users\Usuario\Documents\DAM\2DAM\desarrollo-interfaces\repaso\ejercicio4\ejercicio4\obj\Debug\net8.0-windows\ref\ejercicio4.dll
+C:\Users\jorortvil2\Documents\DAM\2DAM\desarrollo-interfaces\tema2\ejercicio4\ejercicio4\obj\Debug\net8.0-windows\ejercicio4.csproj.AssemblyReference.cache
+C:\Users\jorortvil2\Documents\DAM\2DAM\desarrollo-interfaces\tema2\ejercicio4\ejercicio4\obj\Debug\net8.0-windows\MainWindow.g.cs
+C:\Users\jorortvil2\Documents\DAM\2DAM\desarrollo-interfaces\tema2\ejercicio4\ejercicio4\obj\Debug\net8.0-windows\Ventanas\Login.g.cs
+C:\Users\jorortvil2\Documents\DAM\2DAM\desarrollo-interfaces\tema2\ejercicio4\ejercicio4\obj\Debug\net8.0-windows\App.g.cs
+C:\Users\jorortvil2\Documents\DAM\2DAM\desarrollo-interfaces\tema2\ejercicio4\ejercicio4\obj\Debug\net8.0-windows\ejercicio4_MarkupCompile.cache
+C:\Users\jorortvil2\Documents\DAM\2DAM\desarrollo-interfaces\tema2\ejercicio4\ejercicio4\obj\Debug\net8.0-windows\ejercicio4_MarkupCompile.lref
+C:\Users\jorortvil2\Documents\DAM\2DAM\desarrollo-interfaces\tema2\ejercicio4\ejercicio4\obj\Debug\net8.0-windows\ejercicio4.dll
+C:\Users\jorortvil2\Documents\DAM\2DAM\desarrollo-interfaces\tema2\ejercicio4\ejercicio4\obj\Debug\net8.0-windows\refint\ejercicio4.dll
+C:\Users\jorortvil2\Documents\DAM\2DAM\desarrollo-interfaces\tema2\ejercicio4\ejercicio4\obj\Debug\net8.0-windows\ejercicio4.pdb

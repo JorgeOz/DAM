@@ -1,18 +1,30 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Usuario\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\repaso\\ejercicio4\\",
+  "WorkspaceRootPath": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema2\\ejercicio4\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{881B8A38-4382-4BB5-B685-20682CCAD71A}|ejercicio4\\ejercicio4.csproj|c:\\users\\usuario\\documents\\dam\\2dam\\desarrollo-interfaces\\repaso\\ejercicio4\\ejercicio4\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{881B8A38-4382-4BB5-B685-20682CCAD71A}|ejercicio4\\ejercicio4.csproj|solutionrelative:ejercicio4\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{881B8A38-4382-4BB5-B685-20682CCAD71A}|ejercicio4\\ejercicio4.csproj|c:\\users\\jorortvil2\\documents\\dam\\2dam\\desarrollo-interfaces\\tema2\\ejercicio4\\ejercicio4\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{881B8A38-4382-4BB5-B685-20682CCAD71A}|ejercicio4\\ejercicio4.csproj|solutionrelative:ejercicio4\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{881B8A38-4382-4BB5-B685-20682CCAD71A}|ejercicio4\\ejercicio4.csproj|c:\\users\\usuario\\documents\\dam\\2dam\\desarrollo-interfaces\\repaso\\ejercicio4\\ejercicio4\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "AbsoluteMoniker": "D:0:0:{881B8A38-4382-4BB5-B685-20682CCAD71A}|ejercicio4\\ejercicio4.csproj|c:\\users\\jorortvil2\\documents\\dam\\2dam\\desarrollo-interfaces\\tema2\\ejercicio4\\ejercicio4\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{881B8A38-4382-4BB5-B685-20682CCAD71A}|ejercicio4\\ejercicio4.csproj|solutionrelative:ejercicio4\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{881B8A38-4382-4BB5-B685-20682CCAD71A}|ejercicio4\\ejercicio4.csproj|c:\\users\\usuario\\documents\\dam\\2dam\\desarrollo-interfaces\\repaso\\ejercicio4\\ejercicio4\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{881B8A38-4382-4BB5-B685-20682CCAD71A}|ejercicio4\\ejercicio4.csproj|solutionrelative:ejercicio4\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{881B8A38-4382-4BB5-B685-20682CCAD71A}|ejercicio4\\ejercicio4.csproj|c:\\users\\jorortvil2\\documents\\dam\\2dam\\desarrollo-interfaces\\tema2\\ejercicio4\\ejercicio4\\ventanas\\login.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{881B8A38-4382-4BB5-B685-20682CCAD71A}|ejercicio4\\ejercicio4.csproj|solutionrelative:ejercicio4\\ventanas\\login.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{881B8A38-4382-4BB5-B685-20682CCAD71A}|ejercicio4\\ejercicio4.csproj|c:\\users\\jorortvil2\\documents\\dam\\2dam\\desarrollo-interfaces\\tema2\\ejercicio4\\ejercicio4\\ventanas\\login.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{881B8A38-4382-4BB5-B685-20682CCAD71A}|ejercicio4\\ejercicio4.csproj|solutionrelative:ejercicio4\\ventanas\\login.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{881B8A38-4382-4BB5-B685-20682CCAD71A}|ejercicio4\\ejercicio4.csproj|c:\\users\\jorortvil2\\documents\\dam\\2dam\\desarrollo-interfaces\\tema2\\ejercicio4\\ejercicio4\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{881B8A38-4382-4BB5-B685-20682CCAD71A}|ejercicio4\\ejercicio4.csproj|solutionrelative:ejercicio4\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{881B8A38-4382-4BB5-B685-20682CCAD71A}|ejercicio4\\ejercicio4.csproj|c:\\users\\jorortvil2\\documents\\dam\\2dam\\desarrollo-interfaces\\tema2\\ejercicio4\\ejercicio4\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{881B8A38-4382-4BB5-B685-20682CCAD71A}|ejercicio4\\ejercicio4.csproj|solutionrelative:ejercicio4\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,7 +34,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 11,
+          "SelectedChildIndex": 15,
           "Children": [
             {
               "$type": "Bookmark",
@@ -66,11 +78,49 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "App.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema2\\ejercicio4\\ejercicio4\\App.xaml.cs",
+              "RelativeDocumentMoniker": "ejercicio4\\App.xaml.cs",
+              "ToolTip": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema2\\ejercicio4\\ejercicio4\\App.xaml.cs",
+              "RelativeToolTip": "ejercicio4\\App.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-13T07:53:26.374Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Login.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema2\\ejercicio4\\ejercicio4\\Ventanas\\Login.xaml.cs",
+              "RelativeDocumentMoniker": "ejercicio4\\Ventanas\\Login.xaml.cs",
+              "ToolTip": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema2\\ejercicio4\\ejercicio4\\Ventanas\\Login.xaml.cs",
+              "RelativeToolTip": "ejercicio4\\Ventanas\\Login.xaml.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-13T07:46:47.143Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Login.xaml",
+              "DocumentMoniker": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema2\\ejercicio4\\ejercicio4\\Ventanas\\Login.xaml",
+              "RelativeDocumentMoniker": "ejercicio4\\Ventanas\\Login.xaml",
+              "ToolTip": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema2\\ejercicio4\\ejercicio4\\Ventanas\\Login.xaml",
+              "RelativeToolTip": "ejercicio4\\Ventanas\\Login.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2026-11-13T07:43:26.456Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
               "Title": "App.xaml",
-              "DocumentMoniker": "C:\\Users\\Usuario\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\repaso\\ejercicio4\\ejercicio4\\App.xaml",
+              "DocumentMoniker": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema2\\ejercicio4\\ejercicio4\\App.xaml",
               "RelativeDocumentMoniker": "ejercicio4\\App.xaml",
-              "ToolTip": "C:\\Users\\Usuario\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\repaso\\ejercicio4\\ejercicio4\\App.xaml",
+              "ToolTip": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema2\\ejercicio4\\ejercicio4\\App.xaml",
               "RelativeToolTip": "ejercicio4\\App.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2026-11-07T16:49:24.293Z",
@@ -78,11 +128,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 5,
               "Title": "MainWindow.xaml",
-              "DocumentMoniker": "C:\\Users\\Usuario\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\repaso\\ejercicio4\\ejercicio4\\MainWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema2\\ejercicio4\\ejercicio4\\MainWindow.xaml",
               "RelativeDocumentMoniker": "ejercicio4\\MainWindow.xaml",
-              "ToolTip": "C:\\Users\\Usuario\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\repaso\\ejercicio4\\ejercicio4\\MainWindow.xaml",
+              "ToolTip": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema2\\ejercicio4\\ejercicio4\\MainWindow.xaml",
               "RelativeToolTip": "ejercicio4\\MainWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2026-11-07T16:48:31.922Z",
@@ -90,13 +140,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "MainWindow.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\Usuario\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\repaso\\ejercicio4\\ejercicio4\\MainWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema2\\ejercicio4\\ejercicio4\\MainWindow.xaml.cs",
               "RelativeDocumentMoniker": "ejercicio4\\MainWindow.xaml.cs",
-              "ToolTip": "C:\\Users\\Usuario\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\repaso\\ejercicio4\\ejercicio4\\MainWindow.xaml.cs",
-              "RelativeToolTip": "ejercicio4\\MainWindow.xaml.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAgAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema2\\ejercicio4\\ejercicio4\\MainWindow.xaml.cs*",
+              "RelativeToolTip": "ejercicio4\\MainWindow.xaml.cs*",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAiwCsAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-11-07T16:48:29.022Z",
               "EditorCaption": ""

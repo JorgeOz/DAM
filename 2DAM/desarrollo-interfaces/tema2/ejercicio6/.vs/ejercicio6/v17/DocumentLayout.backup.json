@@ -1,10 +1,30 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Usuario\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\repaso\\ejercicio6\\",
+  "WorkspaceRootPath": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema2\\ejercicio6\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{003B6AA8-4C3E-4AF0-9E62-3CD3B2B0ACFA}|ejercicio6\\ejercicio6.csproj|c:\\users\\usuario\\documents\\dam\\2dam\\desarrollo-interfaces\\repaso\\ejercicio6\\ejercicio6\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{003B6AA8-4C3E-4AF0-9E62-3CD3B2B0ACFA}|ejercicio6\\ejercicio6.csproj|c:\\users\\jorortvil2\\documents\\dam\\2dam\\desarrollo-interfaces\\tema2\\ejercicio6\\ejercicio6\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{003B6AA8-4C3E-4AF0-9E62-3CD3B2B0ACFA}|ejercicio6\\ejercicio6.csproj|solutionrelative:ejercicio6\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{003B6AA8-4C3E-4AF0-9E62-3CD3B2B0ACFA}|ejercicio6\\ejercicio6.csproj|c:\\users\\jorortvil2\\documents\\dam\\2dam\\desarrollo-interfaces\\tema2\\ejercicio6\\ejercicio6\\ventanas\\login.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{003B6AA8-4C3E-4AF0-9E62-3CD3B2B0ACFA}|ejercicio6\\ejercicio6.csproj|solutionrelative:ejercicio6\\ventanas\\login.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{003B6AA8-4C3E-4AF0-9E62-3CD3B2B0ACFA}|ejercicio6\\ejercicio6.csproj|c:\\users\\jorortvil2\\documents\\dam\\2dam\\desarrollo-interfaces\\tema2\\ejercicio6\\ejercicio6\\ventanas\\login.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{003B6AA8-4C3E-4AF0-9E62-3CD3B2B0ACFA}|ejercicio6\\ejercicio6.csproj|solutionrelative:ejercicio6\\ventanas\\login.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{003B6AA8-4C3E-4AF0-9E62-3CD3B2B0ACFA}|ejercicio6\\ejercicio6.csproj|c:\\users\\jorortvil2\\documents\\dam\\2dam\\desarrollo-interfaces\\tema2\\ejercicio6\\ejercicio6\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{003B6AA8-4C3E-4AF0-9E62-3CD3B2B0ACFA}|ejercicio6\\ejercicio6.csproj|solutionrelative:ejercicio6\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{003B6AA8-4C3E-4AF0-9E62-3CD3B2B0ACFA}|ejercicio6\\ejercicio6.csproj|c:\\users\\jorortvil2\\documents\\dam\\2dam\\desarrollo-interfaces\\tema2\\ejercicio6\\ejercicio6\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{003B6AA8-4C3E-4AF0-9E62-3CD3B2B0ACFA}|ejercicio6\\ejercicio6.csproj|solutionrelative:ejercicio6\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{003B6AA8-4C3E-4AF0-9E62-3CD3B2B0ACFA}|ejercicio6\\ejercicio6.csproj|c:\\users\\jorortvil2\\documents\\dam\\2dam\\desarrollo-interfaces\\tema2\\ejercicio6\\ejercicio6\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{003B6AA8-4C3E-4AF0-9E62-3CD3B2B0ACFA}|ejercicio6\\ejercicio6.csproj|solutionrelative:ejercicio6\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     }
   ],
   "DocumentGroupContainers": [
@@ -59,10 +79,72 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "App.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema2\\ejercicio6\\ejercicio6\\App.xaml.cs",
+              "RelativeDocumentMoniker": "ejercicio6\\App.xaml.cs",
+              "ToolTip": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema2\\ejercicio6\\ejercicio6\\App.xaml.cs",
+              "RelativeToolTip": "ejercicio6\\App.xaml.cs",
+              "ViewState": "AgIAABQAAAAAAAAAAADwvyAAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-13T08:10:59.827Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Login.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema2\\ejercicio6\\ejercicio6\\Ventanas\\Login.xaml.cs",
+              "RelativeDocumentMoniker": "ejercicio6\\Ventanas\\Login.xaml.cs",
+              "ToolTip": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema2\\ejercicio6\\ejercicio6\\Ventanas\\Login.xaml.cs",
+              "RelativeToolTip": "ejercicio6\\Ventanas\\Login.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-13T08:09:49.035Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema2\\ejercicio6\\ejercicio6\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "ejercicio6\\MainWindow.xaml",
+              "ToolTip": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema2\\ejercicio6\\ejercicio6\\MainWindow.xaml",
+              "RelativeToolTip": "ejercicio6\\MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2026-11-13T08:04:12.043Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Login.xaml",
+              "DocumentMoniker": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema2\\ejercicio6\\ejercicio6\\Ventanas\\Login.xaml",
+              "RelativeDocumentMoniker": "ejercicio6\\Ventanas\\Login.xaml",
+              "ToolTip": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema2\\ejercicio6\\ejercicio6\\Ventanas\\Login.xaml",
+              "RelativeToolTip": "ejercicio6\\Ventanas\\Login.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2026-11-13T08:03:34.979Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "App.xaml",
+              "DocumentMoniker": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema2\\ejercicio6\\ejercicio6\\App.xaml",
+              "RelativeDocumentMoniker": "ejercicio6\\App.xaml",
+              "ToolTip": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema2\\ejercicio6\\ejercicio6\\App.xaml",
+              "RelativeToolTip": "ejercicio6\\App.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2026-11-08T10:39:53.413Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "MainWindow.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\Usuario\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\repaso\\ejercicio6\\ejercicio6\\MainWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema2\\ejercicio6\\ejercicio6\\MainWindow.xaml.cs",
               "RelativeDocumentMoniker": "ejercicio6\\MainWindow.xaml.cs",
-              "ToolTip": "C:\\Users\\Usuario\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\repaso\\ejercicio6\\ejercicio6\\MainWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\tema2\\ejercicio6\\ejercicio6\\MainWindow.xaml.cs",
               "RelativeToolTip": "ejercicio6\\MainWindow.xaml.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
