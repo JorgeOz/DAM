@@ -1,0 +1,1716 @@
+<title>Ruta Android PMDM</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: sidebar "ruta" de estaciones a la izquierda + cuaderno de trabajo central; en móvil la ruta se pliega arriba */
+:root{
+  --bg:#F4F7F4; --surface:#FFFFFF; --sunk:#EAF0EB; --ink:#17201B; --muted:#56655C; --line:#D5DED7;
+  --accent:#1D7348; --accent-ink:#FFFFFF; --accent-soft:#DDF0E5;
+  --kotlin:#6A4BD6; --kotlin-soft:#ECE8FC;
+  --warn:#A64A12; --warn-soft:#FBEADF; --bad:#B3261E; --bad-soft:#FBE4E2; --ok:#1D7348; --ok-soft:#DDF0E5;
+  --code-bg:#151A17; --code-fg:#E3EBE5; --code-dim:#7D8C83; --code-kw:#C6A6FF; --code-str:#9BE0A8; --code-num:#F2B676; --code-ann:#F28FB5; --code-type:#7FD3E6; --code-hl:#24332A;
+  --f-display:"Bricolage Grotesque", "Avenir Next", system-ui, sans-serif;
+  --f-body:"Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --f-code:"JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --r:10px; --shadow:0 1px 2px rgba(20,40,28,.06), 0 4px 14px rgba(20,40,28,.06);
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0F1411; --surface:#161D19; --sunk:#1B2420; --ink:#E2EBE5; --muted:#9AAAA0; --line:#2A362F;
+  --accent:#55CF8D; --accent-ink:#0B1A11; --accent-soft:#17301F;
+  --kotlin:#AE9BFF; --kotlin-soft:#231E3B;
+  --warn:#F2A774; --warn-soft:#352216; --bad:#FF8E85; --bad-soft:#3A1C1A; --ok:#55CF8D; --ok-soft:#17301F;
+  --code-bg:#0A0D0B; --code-hl:#1C2A21; --shadow:0 1px 2px rgba(0,0,0,.3);
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#0F1411; --surface:#161D19; --sunk:#1B2420; --ink:#E2EBE5; --muted:#9AAAA0; --line:#2A362F;
+  --accent:#55CF8D; --accent-ink:#0B1A11; --accent-soft:#17301F;
+  --kotlin:#AE9BFF; --kotlin-soft:#231E3B;
+  --warn:#F2A774; --warn-soft:#352216; --bad:#FF8E85; --bad-soft:#3A1C1A; --ok:#55CF8D; --ok-soft:#17301F;
+  --code-bg:#0A0D0B; --code-hl:#1C2A21; --shadow:0 1px 2px rgba(0,0,0,.3);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.6;}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+h1,h2,h3,h4{font-family:var(--f-display);line-height:1.15;text-wrap:balance;margin:0}
+h1{font-size:clamp(2rem,4.6vw,3rem);font-weight:800;letter-spacing:-.02em}
+h2{font-size:1.65rem;font-weight:700;letter-spacing:-.01em}
+h3{font-size:1.2rem;font-weight:700}
+p{margin:0}
+a{color:var(--accent)}
+code,kbd{overflow-wrap:anywhere;font-family:var(--f-code);font-size:.86em;background:var(--sunk);border:1px solid var(--line);padding:.05em .35em;border-radius:5px}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--kotlin);outline-offset:2px}
+.eyebrow{font-family:var(--f-code);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+.app{display:grid;grid-template-columns:280px minmax(0,1fr);min-height:100vh}
+.side{position:sticky;top:env(safe-area-inset-top,0px);height:100vh;overflow-y:auto;border-right:1px solid var(--line);background:var(--surface);padding:22px 16px 30px max(16px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:18px}
+.brand{display:flex;gap:10px;align-items:center}
+.brand .logo{width:38px;height:38px;border-radius:9px;background:var(--accent);display:grid;place-items:center;flex:none}
+.brand b{font-family:var(--f-display);font-size:1.05rem;line-height:1.1;display:block}
+.brand span{font-size:.78rem;color:var(--muted)}
+.route{display:flex;flex-direction:column;gap:2px;position:relative}
+.route-title{margin:6px 0 4px}
+.stop{display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:center;padding:7px 8px;border-radius:8px;text-decoration:none;color:var(--ink);border:1px solid transparent}
+.stop:hover{background:var(--sunk)}
+.stop.active{background:var(--accent-soft);border-color:color-mix(in srgb,var(--accent) 35%,transparent)}
+.stop .dot{width:30px;height:30px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-family:var(--f-code);font-size:.72rem;font-weight:600;background:var(--surface);position:relative}
+.stop .dot svg{position:absolute;inset:-2px;transform:rotate(-90deg)}
+.stop .lbl{font-size:.92rem;line-height:1.25}
+.stop .lbl small{display:block;color:var(--muted);font-size:.76rem}
+.stop.done .dot{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.side-foot{margin-top:auto;display:flex;flex-direction:column;gap:8px;font-size:.8rem;color:var(--muted)}
+.meter{height:8px;border-radius:99px;background:var(--sunk);overflow:hidden}
+.meter i{display:block;height:100%;background:var(--accent);width:0;transition:width .4s}
+
+.main{min-width:0;padding-block:28px 80px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.page{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:30px}
+.mobile-nav{display:none}
+
+.hero{display:flex;flex-direction:column;gap:14px;padding-top:6px}
+.hero .lead{font-size:1.12rem;color:var(--muted);max-width:62ch}
+.unit-head{display:flex;flex-direction:column;gap:10px;border-bottom:1px solid var(--line);padding-bottom:22px}
+.unit-meta{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:.8rem;padding:3px 10px;border-radius:99px;background:var(--sunk);border:1px solid var(--line);color:var(--muted)}
+.chip.k{background:var(--kotlin-soft);color:var(--kotlin);border-color:transparent}
+.chip.a{background:var(--accent-soft);color:var(--accent);border-color:transparent}
+
+.goals{display:grid;gap:8px;padding:0;margin:0;list-style:none}
+.goals li{display:grid;grid-template-columns:22px 1fr;gap:8px}
+.goals li::before{content:"→";color:var(--accent);font-weight:700}
+
+section.blk{display:flex;flex-direction:column;gap:14px;scroll-margin-top:20px}
+.blk-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.blk-head .tag{font-family:var(--f-code);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:5px;background:var(--sunk);color:var(--muted)}
+.tag.t-lee{background:var(--sunk)} .tag.t-mira{background:var(--kotlin-soft);color:var(--kotlin)} .tag.t-toca{background:var(--accent-soft);color:var(--accent)} .tag.t-comprueba{background:var(--warn-soft);color:var(--warn)}
+.prose{display:flex;flex-direction:column;gap:12px;max-width:68ch}
+.prose ul,.prose ol{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:4px}
+
+.analogy{display:grid;grid-template-columns:44px 1fr;gap:14px;padding:16px 18px;border-radius:var(--r);background:var(--kotlin-soft);color:var(--ink)}
+.analogy .ico{width:44px;height:44px;border-radius:50%;background:var(--surface);display:grid;place-items:center;color:var(--kotlin)}
+.analogy b.t{display:block;font-family:var(--f-display);color:var(--kotlin);margin-bottom:2px}
+
+.steps{counter-reset:s;display:flex;flex-direction:column;gap:0;margin:0;padding:0;list-style:none}
+.steps li{counter-increment:s;display:grid;grid-template-columns:34px 1fr;gap:12px;padding:10px 0;border-top:1px dashed var(--line)}
+.steps li:first-child{border-top:0}
+.steps li::before{content:counter(s);width:28px;height:28px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-family:var(--f-code);font-size:.8rem;font-weight:600}
+
+.mistakes{display:grid;gap:10px}
+.mistake{display:grid;grid-template-columns:1fr;gap:4px;padding:12px 14px;border-radius:var(--r);background:var(--warn-soft);border-left:0}
+.mistake b{color:var(--warn)}
+
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.92rem}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--f-display);font-size:.85rem;background:var(--sunk)}
+tr:last-child td{border-bottom:0}
+
+/* Código explicado */
+.codebox{border-radius:var(--r);overflow:hidden;background:var(--code-bg);color:var(--code-fg);box-shadow:var(--shadow)}
+.codebar{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 12px;font-family:var(--f-code);font-size:.76rem;color:var(--code-dim);border-bottom:1px solid #26302a;flex-wrap:wrap}
+.codebar .hint{color:var(--code-dim)}
+.codebar button{background:#26302a;border:0;color:var(--code-fg);padding:3px 9px;border-radius:5px;font-size:.74rem;font-family:var(--f-code)}
+.code{overflow-x:auto;padding:8px 0;font-family:var(--f-code);font-size:.84rem;line-height:1.65}
+.code .ln{display:grid;grid-template-columns:34px 1fr;padding-right:14px;white-space:pre;min-width:max-content}
+.code .ln .n{color:#4c5a51;text-align:right;padding-right:12px;user-select:none}
+.code .ln.x{cursor:pointer}
+.code .ln.x .n{color:var(--code-num)}
+.code .ln.x:hover{background:var(--code-hl)}
+.code .ln.sel{background:var(--code-hl);box-shadow:inset 3px 0 0 var(--code-num)}
+.k-kw{color:var(--code-kw)} .k-str{color:var(--code-str)} .k-num{color:var(--code-num)} .k-com{color:var(--code-dim);font-style:italic} .k-ann{color:var(--code-ann)} .k-type{color:var(--code-type)} .k-tag{color:var(--code-kw)}
+.explain{padding:12px 16px;border-top:1px solid #26302a;background:#1d2520;color:var(--code-fg);font-family:var(--f-body);font-size:.95rem;min-height:48px}
+.explain b{color:var(--code-num);font-family:var(--f-code);font-size:.8rem;margin-right:6px}
+
+/* Quiz */
+.quiz{display:flex;flex-direction:column;gap:14px}
+.q{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:10px}
+.q .qt{font-weight:700}
+.q .qt code{font-weight:400}
+.opts{display:grid;gap:8px}
+.opt{text-align:left;padding:10px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg);display:grid;grid-template-columns:24px 1fr;gap:8px;align-items:start}
+.opt:hover:not([disabled]){border-color:var(--accent)}
+.opt .l{font-family:var(--f-code);font-size:.8rem;color:var(--muted);padding-top:2px}
+.opt.right{background:var(--ok-soft);border-color:var(--ok)}
+.opt.wrong{background:var(--bad-soft);border-color:var(--bad)}
+.opt[disabled]{cursor:default}
+.why{padding:10px 12px;border-radius:8px;background:var(--sunk);font-size:.94rem}
+.why b.ok{color:var(--ok)} .why b.ko{color:var(--bad)}
+.score{font-family:var(--f-code);font-size:.85rem;color:var(--muted)}
+
+/* Práctica */
+.ex{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:10px}
+.ex .code{background:var(--code-bg);color:var(--code-fg);border-radius:8px}
+.gap{font-family:var(--f-code);font-size:.84rem;background:#26302a;color:#fff;border:1px dashed var(--code-num);border-radius:4px;padding:0 4px;min-width:3ch}
+.gap.ok{border:1px solid var(--code-str);background:#1f3a28}
+.gap.ko{border:1px solid #ff8e85;background:#3a1c1a}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.btn{text-decoration:none;display:inline-block;padding:8px 14px;border-radius:8px;border:1px solid var(--line);background:var(--surface);font-weight:700;font-size:.92rem}
+.btn:hover{border-color:var(--ink)}
+.btn.pri{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.sm{padding:5px 10px;font-size:.84rem}
+.btn[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.feedback{font-size:.92rem}
+.feedback.ok{color:var(--ok)} .feedback.ko{color:var(--bad)}
+
+/* Checklist */
+.check{display:flex;flex-direction:column;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px}
+.check label{display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:start;cursor:pointer;padding:4px 0}
+.check input{width:18px;height:18px;margin-top:4px;accent-color:var(--accent)}
+
+/* Labs */
+.lab{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:14px;box-shadow:var(--shadow)}
+.lab-title{display:flex;gap:10px;align-items:center}
+.lab-title .badge{font-family:var(--f-code);font-size:.7rem;background:var(--accent);color:var(--accent-ink);padding:2px 8px;border-radius:5px;letter-spacing:.05em}
+.lab-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+.ctrl{display:flex;flex-direction:column;gap:10px}
+.ctrl label.f{display:flex;flex-direction:column;gap:4px;font-size:.86rem;color:var(--muted)}
+select{width:100%}
+select,input[type=text],input[type=number]{font:inherit;font-size:.95rem;padding:7px 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);max-width:100%}
+input[type=range]{accent-color:var(--accent);width:100%}
+.phone{width:min(240px,100%);aspect-ratio:9/16;max-width:100%;margin:0 auto;border-radius:26px;border:8px solid var(--ink);background:var(--bg);position:relative;overflow:hidden}
+.phone .scr{position:absolute;inset:0;display:flex;padding:10px}
+.blkA,.blkB,.blkC{border-radius:6px;display:grid;place-items:center;font-family:var(--f-code);font-weight:600;color:#fff;font-size:.8rem}
+.blkA{background:#1D7348;width:62px;height:62px}.blkB{background:#6A4BD6;width:48px;height:48px}.blkC{background:#C2571A;width:34px;height:34px}
+.log{font-family:var(--f-code);font-size:.8rem;background:var(--code-bg);color:var(--code-fg);border-radius:8px;padding:10px 12px;height:210px;overflow-y:auto;display:flex;flex-direction:column;gap:2px}
+.log .e{color:#ff8e85}.log .w{color:#f2c46d}.log .i{color:#9be0a8}.log .d{color:#7fd3e6}.log .v{color:#b8c4bd}
+.log .cb{color:var(--code-num)} .log .sys{color:var(--code-dim)}
+.states{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.state{padding:5px 10px;border-radius:99px;border:1px solid var(--line);font-size:.8rem;font-family:var(--f-code);color:var(--muted);background:var(--bg);transition:all .2s}
+.state.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);transform:scale(1.06)}
+.arrow{color:var(--muted);font-size:.8rem}
+.stat{display:flex;flex-direction:column;gap:2px;padding:10px 12px;border-radius:8px;background:var(--sunk)}
+.stat b{font-family:var(--f-display);font-size:1.6rem;font-variant-numeric:tabular-nums;line-height:1.1}
+.stat span{font-size:.8rem;color:var(--muted)}
+.tree{font-family:var(--f-code);font-size:.84rem;display:flex;flex-direction:column}
+.tree button{text-align:left;background:none;border:0;padding:3px 6px;border-radius:5px;white-space:nowrap}
+.tree button:hover{background:var(--sunk)}
+.tree button.sel{background:var(--accent-soft);color:var(--accent)}
+.tree .dir{color:var(--muted);padding:3px 6px}
+.infobox{padding:14px;border-radius:10px;background:var(--sunk);font-size:.95rem;min-height:120px}
+.stack{display:flex;flex-direction:column-reverse;gap:6px;min-height:200px;justify-content:flex-start;padding:10px;border-radius:10px;background:var(--sunk)}
+.layer{padding:10px;border-radius:8px;text-align:center;font-weight:700;color:#fff}
+.flow{display:flex;flex-direction:column;gap:6px}
+.flow .fs{display:grid;grid-template-columns:26px 1fr;gap:8px;padding:8px 10px;border-radius:8px;border:1px solid var(--line);font-size:.9rem;transition:all .25s;background:var(--bg)}
+.flow .fs.on{background:var(--accent-soft);border-color:var(--accent)}
+.flow .fs i{font-style:normal;font-family:var(--f-code);font-size:.78rem;color:var(--muted)}
+.lazybox{height:260px;overflow-y:auto;border:1px solid var(--line);border-radius:8px;position:relative;background:var(--bg)}
+.lazyitem{position:absolute;left:0;right:0;height:40px;display:flex;align-items:center;gap:10px;padding:0 12px;border-bottom:1px solid var(--line);font-size:.88rem}
+.lazyitem .fl{width:26px;height:18px;border-radius:3px}
+.gridstage{overflow-x:auto;padding:8px;background:var(--sunk);border-radius:8px}
+.gridframe{border:6px solid var(--ink);border-radius:14px;padding:8px;background:var(--bg);display:grid;gap:6px;transition:width .2s}
+.gridframe div{aspect-ratio:1;border-radius:6px;background:var(--accent-soft);display:grid;place-items:center;font-family:var(--f-code);font-size:.75rem;color:var(--accent)}
+.modi{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.modi .card{display:flex;flex-direction:column;gap:8px}
+.padzone{background:repeating-linear-gradient(45deg,var(--sunk),var(--sunk) 6px,var(--surface) 6px,var(--surface) 12px);border:1px dashed var(--muted);border-radius:8px;position:relative;cursor:default}
+.padzone .inner{background:var(--accent-soft);border-radius:6px;padding:14px;text-align:center;font-weight:700;color:var(--accent)}
+.clickable{cursor:pointer;transition:box-shadow .15s}
+.clickable:hover{box-shadow:0 0 0 3px var(--kotlin) inset}
+.flash{animation:fl .5s}
+@keyframes fl{0%{background-color:var(--kotlin-soft)}100%{}}
+.verdict{display:flex;gap:8px}
+
+/* Inicio */
+.method{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:10px}
+.method div{padding:12px;border-radius:var(--r);background:var(--surface);border:1px solid var(--line);display:flex;flex-direction:column;gap:4px}
+.method b{font-family:var(--f-display)}
+.method span{font-size:.88rem;color:var(--muted)}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.ucard{display:flex;flex-direction:column;gap:8px;padding:16px;border-radius:12px;background:var(--surface);border:1px solid var(--line);text-decoration:none;color:var(--ink)}
+.ucard:hover{border-color:var(--accent)}
+.ucard .top{display:flex;justify-content:space-between;align-items:center}
+.ucard .num{font-family:var(--f-code);font-size:.78rem;color:var(--muted)}
+.ucard p{font-size:.9rem;color:var(--muted)}
+.plan{display:grid;gap:8px}
+.plan .wk{display:grid;grid-template-columns:110px 1fr;gap:12px;padding:12px 14px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+.plan .wk b{font-family:var(--f-display)}
+.plan .wk span{font-size:.92rem}
+
+/* Flashcards */
+.fc-wrap{display:flex;flex-direction:column;gap:14px;align-items:center}
+.fc{width:min(520px,100%);min-height:240px;perspective:1200px;cursor:pointer;border:0;background:none;padding:0}
+.fc-in{position:relative;width:100%;min-height:240px;transition:transform .5s;transform-style:preserve-3d}
+.fc.flip .fc-in{transform:rotateY(180deg)}
+.fc-f,.fc-b{position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;padding:24px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:10px;text-align:center;border:1px solid var(--line)}
+.fc-f{background:var(--surface)}
+.fc-f b{font-family:var(--f-display);font-size:1.7rem}
+.fc-b{background:var(--accent-soft);transform:rotateY(180deg);font-size:1.02rem}
+@media (prefers-reduced-motion:reduce){.fc-in{transition:none}*{animation:none!important;transition:none!important}}
+
+.toolbar select{width:auto;flex:1;min-width:0}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.result{padding:16px;border-radius:12px;background:var(--surface);border:1px solid var(--line);display:flex;flex-direction:column;gap:10px}
+.bars{display:grid;gap:6px}
+.bars .br{display:grid;grid-template-columns:130px 1fr 52px;gap:10px;align-items:center;font-size:.88rem}
+.bars .br .meter{height:10px}
+.bars .br em{font-style:normal;font-family:var(--f-code);font-size:.8rem;text-align:right;font-variant-numeric:tabular-nums}
+details.sol{border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
+details.sol summary{cursor:pointer;padding:10px 14px;font-weight:700}
+details.sol > div{padding:0 14px 14px}
+.cheat{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.cheat .cc{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.cheat .cc h3{font-size:1rem}
+.cheat pre{margin:0;font-family:var(--f-code);font-size:.78rem;background:var(--code-bg);color:var(--code-fg);padding:10px;border-radius:8px;overflow-x:auto;line-height:1.55}
+.nextprev{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:20px}
+.diagram{display:grid;gap:8px;max-width:520px}
+.diagram .box{padding:12px;border-radius:10px;text-align:center;font-weight:700;border:2px solid}
+.themebtn{background:var(--sunk);border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:.8rem}
+
+@media (max-width:900px){
+  .app{grid-template-columns:1fr}
+  .side{display:none}
+  .mobile-nav{display:flex;gap:8px;align-items:center;position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding:10px 0;border-bottom:1px solid var(--line);margin-bottom:6px}
+  .mobile-nav select{flex:1;min-width:0}
+  .lab-grid{grid-template-columns:minmax(0,1fr)}
+  .plan .wk{grid-template-columns:1fr;gap:2px}
+  .bars .br{grid-template-columns:90px 1fr 46px}
+}
+</style>
+<div class="app">
+  <aside class="side" aria-label="Ruta de aprendizaje">
+    <a class="brand" href="#inicio" style="text-decoration:none;color:inherit">
+      <span class="logo" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-ink)" stroke-width="2" stroke-linecap="round"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/><path d="M9.5 9.5l-1.5 1.5 1.5 1.5M14.5 9.5l1.5 1.5-1.5 1.5"/></svg></span>
+      <span><b>Ruta Android</b><span>PMDM · 2º DAM</span></span>
+    </a>
+    <div class="eyebrow route-title">Tu recorrido</div>
+    <nav class="route" id="route"></nav>
+    <div class="side-foot">
+      <div class="meter"><i id="gbar"></i></div>
+      <span id="gtxt">0 %</span>
+      <span>El progreso se guarda solo en este navegador.</span>
+      <button type="button" class="themebtn" id="reset">Borrar mi progreso</button>
+    </div>
+  </aside>
+  <main class="main">
+    <div class="mobile-nav"><span class="logo" aria-hidden="true" style="width:30px;height:30px;border-radius:7px;background:var(--accent);flex:none"></span><label for="mnav" class="eyebrow" style="position:absolute;left:-9999px">Ir a</label><select id="mnav"></select></div>
+    <div id="view"></div>
+  </main>
+</div>
+<script>
+/* ====== CONTENIDO DE LA GUÍA ====== */
+const UNITS = [
+/* ---------------------------------------------------------------- KOTLIN */
+{
+ id:'kotlin', num:'0', title:'Kotlin desde cero', short:'El idioma de Android', minutes:'6–8 h', color:'k',
+ intro:'Antes de hablar con Android necesitas su idioma. Kotlin es el lenguaje oficial de Android (junto con Java). Si ya sabes algo de Java, verás que Kotlin es lo mismo pero escribiendo menos.',
+ goals:['Declarar variables con <code>val</code> y <code>var</code> y saber cuándo usar cada una.','Escribir <code>if</code>, <code>when</code> y bucles <code>for</code> con rangos.','Crear funciones, con parámetros por defecto y lambdas.','Crear clases, <code>data class</code>, <code>enum</code> y <code>object</code>.','Usar listas, conjuntos y mapas.','Evitar errores con <code>null</code> usando <code>?</code>, <code>?.</code> y <code>?:</code>.'],
+ sections:[
+  {id:'k-var', tag:'lee', title:'1. Variables: val y var', blocks:[
+    {t:'analogy', title:'Piensa en cajas con etiqueta', html:'Una variable es una caja con un nombre. <b>val</b> es una caja <b>sellada</b>: guardas algo una vez y ya no puedes cambiarlo. <b>var</b> es una caja <b>abierta</b>: puedes sacar lo que hay y meter otra cosa. Regla práctica: usa <code>val</code> siempre, y cambia a <code>var</code> solo si el valor de verdad tiene que cambiar.'},
+    {t:'code', file:'Variables.kt', lines:[
+      ['val nombre = "Ana"','<b>val</b> = solo lectura. No escribimos el tipo: Kotlin ve las comillas y deduce que es <code>String</code>. Esto se llama <b>inferencia de tipo</b>.'],
+      ['var edad: Int = 17','<b>var</b> = mutable, puede cambiar. Aquí sí escribimos el tipo (<code>: Int</code>). Es opcional cuando Kotlin puede deducirlo.'],
+      ['edad = 18','Correcto: <code>edad</code> es <code>var</code>, así que podemos darle otro valor.'],
+      ['// nombre = "Luis"   ← ERROR: val no se puede reasignar','Si quitas las // esto no compila. Un <code>val</code> no admite un segundo valor.'],
+      ['println("Hola, $nombre. Tienes $edad años")','Plantillas de texto: <code>$variable</code> mete el valor dentro del String. También vale <code>"Hola, " + nombre</code>, pero <code>$</code> es más cómodo.'],
+      ['println("El año que viene: ${edad + 1}")','Si dentro hay una <b>operación</b>, usa llaves: <code>${...}</code>.']
+    ]},
+    {t:'table', head:['Tipo','Ejemplo','Para qué'], rows:[['Int','<code>val n = 5</code>','Números enteros'],['Double','<code>val p = 9.99</code>','Números con decimales'],['Float','<code>val a = 0.5f</code>','Decimales "cortos" (la f al final). Se usa en Compose, p. ej. <code>alpha = 0.5f</code>'],['Boolean','<code>val ok = true</code>','Sí / no'],['String','<code>val s = "Hola"</code>','Texto'],['Char','<code>val c = \'k\'</code>','Un solo carácter']]}
+  ]},
+  {id:'k-ctrl', tag:'lee', title:'2. Estructuras de control', blocks:[
+    {t:'p', html:'Son casi iguales que en Java, con tres diferencias que caen en examen: el <code>if</code> puede <b>devolver un valor</b>, el <code>switch</code> se llama <code>when</code>, y el <code>for</code> funciona como un <i>foreach</i> con rangos.'},
+    {t:'code', file:'Control.kt', lines:[
+      ['val nota = 7',''],
+      ['val resultado = if (nota >= 5) "Aprobado" else "Suspenso"','El <code>if</code> como <b>expresión</b>: su resultado se guarda directamente en una variable. En Java necesitarías el operador <code>? :</code>.'],
+      ['',''],
+      ['val texto = when (nota) {','<b>when</b> sustituye a <code>switch</code>. Compara <code>nota</code> con cada caso de arriba abajo.'],
+      ['    10 -> "Matrícula"','Si <code>nota</code> vale 10 → "Matrícula". La flecha <code>-></code> separa el caso del resultado.'],
+      ['    in 7..9 -> "Notable"','<code>in 7..9</code> significa "está entre 7 y 9, ambos incluidos".'],
+      ['    in 5..6 -> "Aprobado"',''],
+      ['    else -> "Suspenso"','Como el <code>when</code> <b>devuelve</b> un valor, el <code>else</code> es <b>obligatorio</b> (o cubrir todos los casos). Sin él, no compila.'],
+      ['}',''],
+      ['',''],
+      ['for (i in 3 downTo 1) println(i)      // 3 2 1','<code>downTo</code> cuenta hacia atrás.'],
+      ['for (i in 1..7 step 2) println(i)     // 1 3 5 7','<code>step 2</code> salta de dos en dos. Ojo: <code>1..7</code> <b>incluye</b> el 7. Si no lo quieres, usa <code>1 until 7</code>.'],
+      ['for (c in "kotlin") println(c)        // k o t l i n','Un String se puede recorrer letra a letra: <code>c</code> es cada <code>Char</code>.']
+    ]}
+  ]},
+  {id:'k-fun', tag:'lee', title:'3. Funciones', blocks:[
+    {t:'analogy', title:'Una función es una receta', html:'Le das ingredientes (<b>parámetros</b>), sigue unos pasos y te devuelve un plato (<b>valor de retorno</b>). En Kotlin se declara con <code>fun</code>. Si no devuelve nada, el tipo es <code>Unit</code> (el <code>void</code> de Java) y se puede omitir.'},
+    {t:'code', file:'Funciones.kt', lines:[
+      ['fun sumar(a: Int, b: Int): Int {','<code>fun</code> + nombre + (parámetros con su tipo) + <code>: TipoDeRetorno</code>.'],
+      ['    return a + b',''],
+      ['}',''],
+      ['fun doble(n: Int) = n * 2','Versión corta: si la función es una sola expresión, usa <code>=</code> y Kotlin deduce el tipo de retorno.'],
+      ['fun saludar(nombre: String = "amigo"): Unit {','<b>Parámetro por defecto</b>: si al llamar no pasas <code>nombre</code>, valdrá "amigo". <code>: Unit</code> = no devuelve nada (opcional escribirlo).'],
+      ['    println("Hola $nombre")',''],
+      ['}',''],
+      ['',''],
+      ['sumar(b = 2, a = 5)          // 7','<b>Argumentos con nombre</b>: al escribir <code>a =</code> y <code>b =</code> puedes cambiar el orden. Compose usa esto constantemente: <code>Text(text = ..., color = ...)</code>.'],
+      ['saludar()                    // Hola amigo','Sin argumento → usa el valor por defecto.'],
+      ['',''],
+      ['val hola = { println("Hola") }','<b>Lambda</b>: una función sin nombre guardada en una variable. Se llama como una función: <code>hola()</code>.'],
+      ['val triple: (Int) -> Int = { it * 3 }','Tipo de función: recibe un <code>Int</code> y devuelve un <code>Int</code>. Como solo hay <b>un</b> parámetro, lo llamamos <code>it</code> sin declararlo.'],
+      ['val ref = ::sumar','<b>Referencia a función</b> con <code>::</code>. Ahora <code>ref(1, 2)</code> es lo mismo que <code>sumar(1, 2)</code>.']
+    ]},
+    {t:'p', html:'¿Por qué importan tanto las lambdas? Porque en Android los botones funcionan así: <code>Button(onClick = { contador++ })</code>. Lo que va entre llaves es una lambda: "lo que pasa cuando pulsan".'}
+  ]},
+  {id:'k-class', tag:'lee', title:'4. Clases y objetos', blocks:[
+    {t:'analogy', title:'La clase es el molde, el objeto es la galleta', html:'Una <b>clase</b> describe cómo es algo (qué datos tiene y qué sabe hacer). Un <b>objeto</b> es una cosa concreta hecha con ese molde. En Kotlin las clases son públicas por defecto, heredan de <code>Any</code> y los objetos se crean <b>sin</b> <code>new</code>.'},
+    {t:'code', file:'Clases.kt', lines:[
+      ['open class Animal(val nombre: String) {','Entre paréntesis está el <b>constructor principal</b>. <code>val nombre</code> crea a la vez el parámetro y la propiedad. <code>open</code> = esta clase <b>se puede heredar</b> (por defecto no se puede).'],
+      ['    open fun sonido() = "..."','<code>open</code> en un método = las clases hijas lo pueden sobrescribir.'],
+      ['}',''],
+      ['class Perro(nombre: String) : Animal(nombre) {','Herencia con <b>dos puntos</b> <code>:</code>. Perro pasa <code>nombre</code> al constructor de Animal.'],
+      ['    override fun sonido() = "Guau"','<code>override</code> obligatorio al sobrescribir.'],
+      ['}',''],
+      ['',''],
+      ['class Cuenta {',''],
+      ['    var saldo: Int = 0','Kotlin crea el get y el set automáticamente; no los ves.'],
+      ['        set(value) { field = if (value < 0) 0 else value }','Set personalizado: <code>value</code> es lo que intentan asignar, <code>field</code> es la variable interna real (campo de respaldo). Si es negativo, guardamos 0.'],
+      ['}',''],
+      ['',''],
+      ['data class Pregunta(val texto: String, val respuesta: Boolean)','<b>data class</b>: solo guarda datos. Kotlin le regala <code>toString()</code>, <code>equals()</code> y <code>copy()</code>. La usarás muchísimo (Ud3 y Ud4).'],
+      ['enum class Dificultad { FACIL, MEDIA, DIFICIL }','<b>enum</b>: un tipo con un número cerrado de valores posibles.'],
+      ['object Ajustes { val version = 1 }','<b>object</b> = <b>singleton</b>: solo existe una instancia. Se usa como <code>Ajustes.version</code> (parecido a <code>static</code> en Java).'],
+      ['',''],
+      ['val toby = Perro("Toby")','Crear objeto: sin <code>new</code> y sin escribir el tipo.'],
+      ['println(toby.sonido())        // Guau','']
+    ]},
+    {t:'table', head:['Modificador','Misma clase','Subclase','Mismo módulo','Fuera del módulo'], rows:[['private','✔','✘','✘','✘'],['protected','✔','✔','✘','✘'],['internal','✔','✔','✔','✘'],['public (por defecto)','✔','✔','✔','✔']]},
+    {t:'p', html:'Otras dos ideas de las diapositivas: una clase implementa interfaces también con <code>:</code> separadas por comas (<code>class A : B(), Interfaz1, Interfaz2</code>), porque solo se puede heredar de <b>una</b> clase. Y la <b>delegación</b> con <code>by</code> permite que un objeto "preste" su implementación a otro sin heredar.'}
+  ]},
+  {id:'k-col', tag:'lee', title:'5. Colecciones', blocks:[
+    {t:'code', file:'Colecciones.kt', lines:[
+      ['val numeros = arrayOf(1, 2, 3)','<b>Array</b>: tamaño fijo. Se accede con <code>numeros[0]</code>.'],
+      ['val frutas = listOf("pera", "kiwi")','<b>List</b>: ordenada y de <b>solo lectura</b>. No tiene <code>add</code>.'],
+      ['val compra = mutableListOf("pan")','<b>MutableList</b>: se puede modificar.'],
+      ['compra.add("leche")','Añade al final → [pan, leche]'],
+      ['compra[0] = "agua"','Cambia la posición 0 → [agua, leche]'],
+      ['compra.remove("leche")','Quita ese elemento → [agua]. Fíjate: <code>compra</code> es <code>val</code> y aun así la lista cambia. <code>val</code> impide cambiar <b>la caja</b>, no lo que hay dentro del objeto.'],
+      ['println(compra.size)          // 1','<code>size</code> = tamaño. <code>indexOf("agua")</code> daría 0.'],
+      ['',''],
+      ['val colores = setOf("rojo", "rojo", "azul")','<b>Set</b> (conjunto): sin orden y <b>sin duplicados</b> → {rojo, azul}. No tiene índices.'],
+      ['println("rojo" in colores)     // true','Comprobar si está con <code>in</code> o <code>contains</code>.'],
+      ['',''],
+      ['val edades = mutableMapOf("Ana" to 17, "Luis" to 18)','<b>Map</b>: pares clave → valor. <code>to</code> crea cada par. Las claves no se repiten.'],
+      ['edades["Eva"] = 19','Añadir o cambiar con <code>[clave]</code> (o <code>put</code>).'],
+      ['println(edades["Ana"])         // 17','Leer por clave.']
+    ]}
+  ]},
+  {id:'k-null', tag:'lee', title:'6. Nulabilidad: el seguro anti-errores', blocks:[
+    {t:'analogy', title:'null = caja vacía', html:'El error más famoso de Java es <code>NullPointerException</code>: intentas usar algo que no existe. Kotlin te obliga a <b>avisar</b> cuando una variable puede estar vacía, poniendo <code>?</code> detrás del tipo. Si no lo pones, la variable nunca podrá ser <code>null</code>.'},
+    {t:'code', file:'Nulos.kt', lines:[
+      ['var nombre: String = "Ana"','Tipo <b>no anulable</b>: nunca puede ser null.'],
+      ['// nombre = null              ← ERROR de compilación','Kotlin no te deja.'],
+      ['var apodo: String? = null','Tipo <b>anulable</b>: el <code>?</code> dice "puede estar vacío".'],
+      ['println(apodo?.length)          // null','<b>Llamada segura</b> <code>?.</code>: si <code>apodo</code> es null, no peta, devuelve null.'],
+      ['println(apodo?.length ?: 0)     // 0','<b>Operador Elvis</b> <code>?:</code>: "si lo de la izquierda es null, usa esto otro". Lo verás en la Ud4: <code>toIntOrNull() ?: 0</code>.'],
+      ['println(apodo!!.length)         // 💥 NullPointerException','<b>!!</b> = "te juro que no es null". Si te equivocas, la app se cierra. Evítalo.']
+    ]}
+  ]},
+  {id:'k-lab', tag:'toca', title:'Laboratorio: ¿compila o no compila?', blocks:[{t:'lab', id:'compila'}]},
+  {id:'k-err', tag:'lee', title:'Errores típicos', blocks:[{t:'mistakes', items:[
+    ['Reasignar un val','Si necesitas cambiar el valor, declara la variable con <code>var</code>.'],
+    ['Olvidar el else en un when que devuelve valor','<code>val x = when(n) { 1 -> "uno" }</code> no compila. Añade <code>else -> ...</code>.'],
+    ['Escribir new','En Kotlin se crea así: <code>val p = Persona()</code>.'],
+    ['Heredar de una clase que no es open','Las clases son <i>final</i> por defecto. Añade <code>open</code> a la clase padre (y a los métodos que quieras sobrescribir).'],
+    ['add sobre listOf','<code>listOf</code> es de solo lectura. Usa <code>mutableListOf</code>.'],
+    ['Abusar de !!','Usa <code>?.</code> y <code>?:</code>. Cada <code>!!</code> es un posible cierre de la app.']
+  ]}]},
+  {id:'k-quiz', tag:'comprueba', title:'Comprueba lo que sabes', blocks:[{t:'quiz'}]},
+  {id:'k-prac', tag:'toca', title:'Practica: rellena los huecos', blocks:[{t:'practice'}]},
+  {id:'k-check', tag:'comprueba', title:'Ya sé…', blocks:[{t:'check'}]}
+ ],
+ quiz:[
+  {q:'¿Qué palabra usas para una variable cuyo valor <b>no</b> cambiará?', o:['var','val','const var','let'], a:1, w:'<code>val</code> = solo lectura. <code>var</code> = mutable.'},
+  {q:'¿Qué imprime <code>for (i in 1..7 step 2) print(i)</code>?', o:['1234567','1357','246','135'], a:1, w:'<code>1..7</code> incluye el 7 y <code>step 2</code> salta de dos en dos: 1, 3, 5, 7.'},
+  {q:'¿Qué sustituye en Kotlin al <code>switch</code> de Java?', o:['select','case','when','match'], a:2, w:'<code>when</code>, que además puede devolver un valor.'},
+  {q:'¿Cuál es el equivalente de <code>void</code> en Kotlin?', o:['Nothing','Null','Any','Unit'], a:3, w:'<code>Unit</code>. <code>Any</code> es la clase padre de todas (como <code>Object</code>).'},
+  {q:'En una lambda con un único parámetro, ¿cómo lo nombras sin declararlo?', o:['this','it','self','value'], a:1, w:'<code>it</code>, por ejemplo <code>{ it * 2 }</code>.'},
+  {q:'Para poder heredar de una clase, la clase padre debe ser…', o:['public','abstract obligatoriamente','open','data'], a:2, w:'Por defecto las clases no se pueden heredar. <code>open</code> lo permite.'},
+  {q:'¿Qué hace una <code>data class</code>?', o:['Guarda datos y genera automáticamente toString, equals y copy','Conecta con una base de datos','Solo puede tener funciones','Es un singleton'], a:0, w:'Es una clase pensada solo para datos. <code>copy()</code> será clave en la Ud4.'},
+  {q:'¿Qué palabra crea un <b>singleton</b>?', o:['static','single','object','companion'], a:2, w:'<code>object Nombre { ... }</code> crea una única instancia.'},
+  {q:'<code>val l = listOf(1, 2)</code>. ¿Qué pasa con <code>l.add(3)</code>?', o:['Añade el 3','No compila: List es de solo lectura','Lanza NullPointerException','Sustituye el 2'], a:1, w:'Para añadir hace falta <code>mutableListOf</code>.'},
+  {q:'<code>var a: String? = null</code>. ¿Qué devuelve <code>a?.length ?: 0</code>?', o:['null','Error de compilación','0','NullPointerException'], a:2, w:'<code>?.</code> devuelve null sin fallar y <code>?:</code> lo cambia por 0.'},
+  {q:'¿Qué colección <b>no</b> permite duplicados?', o:['List','Array','Set','MutableList'], a:2, w:'Set (conjunto): sin orden y sin repetidos.'}
+ ],
+ practice:[
+  {p:'Declara una constante con tu nombre que nunca va a cambiar.', code:'{{0}} nombre = "Ana"', a:[['val']], h:'Caja sellada.'},
+  {p:'Recorre los números impares del 1 al 9.', code:'for (i in 1..9 {{0}} 2) {\n    println(i)\n}', a:[['step']], h:'"paso" en inglés.'},
+  {p:'Completa la función para que devuelva un número entero.', code:'fun doble(n: Int): {{0}} {\n    {{1}} n * 2\n}', a:[['Int'],['return']], h:'Tipo entero + palabra para devolver.'},
+  {p:'Haz que <code>apodo</code> pueda ser null y muestra 0 si lo es.', code:'var apodo: String{{0}} = null\nprintln(apodo{{1}}length {{2}} 0)', a:[['?'],['?.'],['?:']], h:'Anulable, llamada segura, Elvis.'},
+  {p:'Gato hereda de Animal.', code:'{{0}} class Animal(val nombre: String)\nclass Gato(nombre: String) {{1}} Animal(nombre)', a:[['open'],[':']], h:'La clase padre tiene que permitirlo.'},
+  {p:'Crea una lista a la que se le pueda añadir elementos.', code:'val compra = {{0}}("pan")\ncompra.{{1}}("leche")', a:[['mutableListOf'],['add']], h:'mutable…'}
+ ],
+ check:['Sé cuándo usar val y cuándo var.','Sé escribir un when con else y un for con .., step y downTo.','Sé crear una función con parámetros por defecto y llamarla con nombres.','Entiendo qué es una lambda y qué significa it.','Sé crear una data class y un objeto sin new.','Distingo List, MutableList, Set y Map.','Sé usar ?, ?. y ?: y por qué evitar !!.']
+},
+/* ---------------------------------------------------------------- UD1 */
+{
+ id:'ud1', num:'1', title:'Introducción a Android', short:'Arquitectura y Android Studio', minutes:'4–6 h', color:'a',
+ intro:'En esta unidad conoces "la casa": cómo está organizado Android por dentro, qué piezas forman una app y cómo usar Android Studio para crear, ejecutar y depurar un proyecto.',
+ goals:['Explicar las 4 capas de la arquitectura de Android.','Nombrar los 4 componentes de una aplicación y qué es una Actividad.','Leer un AndroidManifest.xml y localizar la Actividad LAUNCHER.','Crear un proyecto con un nombre de paquete correcto.','Saber para qué sirve cada fichero del proyecto.','Ejecutar en emulador o móvil, importar desde GitHub, usar Gradle, el Debugger y Logcat.'],
+ sections:[
+  {id:'u1-arq', tag:'lee', title:'1. Arquitectura: un edificio por capas', blocks:[
+    {t:'analogy', title:'Como un edificio', html:'Abajo están los <b>cimientos</b> (el hardware: cámara, wifi, pantalla). Encima, las <b>instalaciones</b> (el sistema operativo). Luego, los <b>servicios comunes</b> del edificio (el Framework: clases ya hechas que puedes usar). Arriba del todo, <b>los pisos</b> donde vive la gente (las aplicaciones). Tú, como programador, trabajas en los pisos y usas los servicios del Framework sin tocar los cimientos.'},
+    {t:'p', html:'Cada capa resuelve una parte pequeña del problema. Las de abajo resuelven problemas pequeños y concretos; combinadas, dan la funcionalidad completa. Desde tu app nunca hablas con el hardware directamente: pides las cosas al Framework.'},
+    {t:'lab', id:'capas'}
+  ]},
+  {id:'u1-app', tag:'lee', title:'2. ¿De qué está hecha una aplicación?', blocks:[
+    {t:'p', html:'Una aplicación Android es una <b>colección de componentes</b> que trabajan juntos usando el Framework. Hay 4 tipos. En el curso nos centramos en el primero.'},
+    {t:'table', head:['Componente','Qué es','Ejemplo de la vida real'], rows:[['<b>Actividad</b> (Activity)','Una pantalla con la que el usuario interactúa','La pantalla para escribir un correo'],['Servicio (Service)','Trabajo en segundo plano, sin pantalla','La música que sigue sonando con el móvil bloqueado'],['Content Provider','Comparte datos con otras apps','Los contactos que WhatsApp puede leer'],['Broadcast Receiver','Escucha avisos del sistema','Reaccionar a "batería baja"']]},
+    {t:'p', html:'Una <b>Actividad</b> crea la ventana donde la app dibuja y recibe los eventos (toques, teclado…). Una app típica tiene varias actividades y una de ellas es la primera en abrirse al pulsar el icono: la <b>launcher</b>. ¿Cómo sabe Android cuál es? Por el <b>AndroidManifest.xml</b>, donde se registra cada componente.'}
+  ]},
+  {id:'u1-man', tag:'mira', title:'3. AndroidManifest.xml línea a línea', blocks:[
+    {t:'p', html:'Pulsa cualquier línea con número naranja para ver qué significa.'},
+    {t:'code', file:'AndroidManifest.xml', lang:'xml', lines:[
+      ['<manifest xmlns:android="http://schemas.android.com/apk/res/android">','La etiqueta raíz. Todo el fichero describe <b>tu app</b> ante el sistema.'],
+      ['    <application','Características generales de la aplicación.'],
+      ['        android:icon="@mipmap/ic_launcher"','El icono, guardado en la carpeta <code>res/mipmap</code>.'],
+      ['        android:label="@string/app_name"','El nombre de la app, tomado de <code>strings.xml</code> (no escrito a mano).'],
+      ['        android:theme="@style/Theme.MiApp">','El tema visual, definido en <code>themes.xml</code>.'],
+      ['        <activity','Aquí se registra <b>un componente Actividad</b>. Si una Actividad no está en el Manifest, Android no la conoce.'],
+      ['            android:name=".MainActivity"','La clase Kotlin de esta actividad. El punto inicial significa "dentro de mi paquete".'],
+      ['            android:exported="true">','Puede ser abierta desde fuera de la app (el lanzador del móvil la abre).'],
+      ['            <intent-filter>','Dice <b>cuándo</b> se puede abrir esta actividad.'],
+      ['                <action android:name="android.intent.action.MAIN" />','Es el <b>punto de entrada principal</b> de la app.'],
+      ['                <category android:name="android.intent.category.LAUNCHER" />','<b>La clave del examen</b>: LAUNCHER = aparece en el menú de apps y es la que se abre al pulsar el icono.'],
+      ['            </intent-filter>',''],
+      ['        </activity>',''],
+      ['    </application>',''],
+      ['</manifest>','']
+    ]},
+    {t:'p', html:'Resumen para memorizar: <b>application → activity → intent-filter → category LAUNCHER</b>.'}
+  ]},
+  {id:'u1-studio', tag:'lee', title:'4. Android Studio: crear un proyecto', blocks:[
+    {t:'p', html:'Android Studio es el IDE oficial (como Eclipse o IntelliJ, pero para Android). Trae editor, emulador, depurador y herramientas de prueba. Descarga: <a href="https://developer.android.com/studio" target="_blank" rel="noopener">developer.android.com/studio</a>.'},
+    {t:'steps', items:[
+      '<b>New Project</b>: desde la pantalla de bienvenida, o con un proyecto abierto en <i>File › New › New Project</i>.',
+      'Elige la plantilla <b>Empty Activity</b> (la de Jetpack Compose).',
+      '<b>Name</b>: el nombre visible de la app (puede tener espacios).',
+      '<b>Package name</b>: identificador único. Dominio al revés + nombre de la app sin espacios: <code>com.carlosc.apptest</code>. Debe ser único si la subes a Google Play.',
+      '<b>Save location</b>: la carpeta donde se guarda.',
+      '<b>Minimum SDK</b>: la versión de Android más antigua que soportará. Más baja = más móviles compatibles, pero menos funciones nuevas.',
+      '<b>Lenguaje / build</b>: Kotlin y Kotlin DSL (<code>build.gradle.kts</code>). Pulsa <b>Finish</b> y espera a que Gradle termine (barra de abajo).'
+    ]},
+    {t:'p', html:'Truco: desde la interfaz puedes cambiar el tema del IDE (claro / oscuro) en <i>Settings › Appearance</i>. No cae en examen, pero cansa menos la vista.'}
+  ]},
+  {id:'u1-files', tag:'toca', title:'5. Explora los ficheros del proyecto', blocks:[
+    {t:'p', html:'Este es el árbol que ves en la vista <b>Android</b> del panel Project. Pulsa cada fichero para saber qué contiene.'},
+    {t:'lab', id:'ficheros'}
+  ]},
+  {id:'u1-run', tag:'lee', title:'6. Ejecutar la app', blocks:[
+    {t:'p', html:'Dos formas, y en ambas pulsas el botón verde ▶ <b>Run</b>:'},
+    {t:'table', head:['En tu móvil','En el emulador (AVD)'], rows:[[
+      '<ol><li>Ajustes › Información del teléfono › pulsa <b>7 veces</b> en <i>Número de compilación</i>.</li><li>Entra en <b>Opciones del programador</b> y activa <b>Depuración por USB</b>.</li><li>Conecta el cable USB.</li><li>En Windows quizá necesites el driver USB del fabricante (ADB interface).</li></ol>',
+      '<ol><li><b>Device Manager</b> › <i>Add a new device › Create Virtual Device</i>.</li><li>Elige el dispositivo (p. ej. Pixel).</li><li>Descarga la imagen del sistema.</li><li><i>Next › Finish</i>.</li><li>Si va lento o no arranca: activa la <b>virtualización (VT-x)</b> en la BIOS y revisa el acelerador en <i>Tools › SDK Manager</i>.</li></ol>'
+    ]]},
+    {t:'p', html:'AVD = <i>Android Virtual Device</i>: un móvil simulado dentro de tu ordenador. Sirve para probar sin tener un móvil real, y también simula tablets, Wear OS y Android TV.'}
+  ]},
+  {id:'u1-git', tag:'lee', title:'7. Importar desde GitHub y Gradle', blocks:[
+    {t:'steps', items:['En GitHub: <b>Code › Download ZIP</b>.','Descomprime el ZIP.','En Android Studio: <b>File › Open</b> y selecciona la carpeta descomprimida (la que contiene <code>settings.gradle.kts</code>).']},
+    {t:'analogy', title:'Gradle es el jefe de obra', html:'Coge tu código, las librerías y los recursos y los "construye" en una app instalable (APK). Si al importar un proyecto aparecen errores de versión de SDK, se arreglan en dos ficheros: <code>libs.versions.toml</code> (el catálogo de versiones) y <code>build.gradle.kts (Module :app)</code> (qué usa tu app). Después pulsa <b>Sync Now</b>.'},
+    {t:'code', file:'build.gradle.kts (Module :app)', lines:[
+      ['android {',''],
+      ['    compileSdk = 35','Versión del SDK con la que se compila. Si el proyecto importado pide una que no tienes, súbela aquí.'],
+      ['    defaultConfig {',''],
+      ['        applicationId = "com.carlosc.apptest"','El nombre de paquete único de la app.'],
+      ['        minSdk = 24','La versión mínima de Android compatible.'],
+      ['        targetSdk = 35',''],
+      ['    }',''],
+      ['}',''],
+      ['dependencies {','Las librerías que usa la app.'],
+      ['    implementation(libs.androidx.core.ktx)','<code>libs.xxx</code> apunta a una entrada de <code>libs.versions.toml</code>. Así las versiones están en un único sitio.'],
+      ['}','']
+    ]}
+  ]},
+  {id:'u1-debug', tag:'toca', title:'8. Debugger y Logcat', blocks:[
+    {t:'p', html:'<b>Debugger</b>: haz clic junto al número de línea para poner un <b>punto de interrupción</b> (punto rojo). Ejecuta con el icono del <b>bicho</b> 🐞 (Debug) en lugar de ▶. La app se parará en esa línea y podrás ver el valor de cada variable en la consola de debug.'},
+    {t:'p', html:'<b>Logcat</b>: es la consola donde aparecen los mensajes que tu app escribe con la clase <code>Log</code>. Hay 5 niveles: <code>Log.e</code> (error), <code>Log.w</code> (warning), <code>Log.i</code> (info), <code>Log.d</code> (debug), <code>Log.v</code> (verbose). Truco para recordarlos: <b>E-W-I-D-V</b> de más grave a menos.'},
+    {t:'lab', id:'logcat'},
+    {t:'p', html:'Cuando el problema esté resuelto, <b>quita los Log</b>: la memoria que los guarda es limitada y, si hay demasiados, un mensaje importante puede desaparecer enseguida.'}
+  ]},
+  {id:'u1-err', tag:'lee', title:'Errores típicos', blocks:[{t:'mistakes', items:[
+    ['El emulador no arranca o va muy lento','Activa VT-x/virtualización en la BIOS y revisa el acelerador en SDK Manager.'],
+    ['El móvil no aparece en Android Studio','¿Activaste Depuración por USB? ¿Aceptaste el aviso "Permitir depuración" en el móvil? En Windows, revisa el driver.'],
+    ['Errores al importar un proyecto','Ajusta versiones en <code>libs.versions.toml</code> y <code>build.gradle.kts (Module :app)</code>, no en el de Project, y pulsa Sync.'],
+    ['Paquete con espacios o mayúsculas raras','Usa minúsculas y sin espacios: <code>com.tunombre.miapp</code>.'],
+    ['La app abre otra pantalla o ninguna','Mira qué actividad tiene <code>category.LAUNCHER</code> en el Manifest.']
+  ]}]},
+  {id:'u1-quiz', tag:'comprueba', title:'Comprueba lo que sabes', blocks:[{t:'quiz'}]},
+  {id:'u1-prac', tag:'toca', title:'Practica', blocks:[{t:'practice'}]},
+  {id:'u1-check', tag:'comprueba', title:'Ya sé…', blocks:[{t:'check'}]}
+ ],
+ quiz:[
+  {q:'Ordena de abajo arriba la arquitectura de Android. ¿Cuál es la capa <b>más baja</b>?', o:['Framework','Aplicaciones','Hardware del dispositivo','Sistema operativo'], a:2, w:'Hardware → Sistema operativo → Framework → Aplicaciones.'},
+  {q:'¿Cuál <b>no</b> es uno de los 4 componentes de una app Android?', o:['Activity','Service','Fragment','Broadcast Receiver'], a:2, w:'Los 4 son Actividades, Servicios, Content Providers y Broadcast Receivers.'},
+  {q:'¿Qué componente se encarga de casi toda la interacción con el usuario (una pantalla)?', o:['Service','Activity','Content Provider','Gradle'], a:1, w:'La Actividad crea la ventana y recibe los eventos.'},
+  {q:'¿Dónde se registran los componentes de la app?', o:['build.gradle.kts','strings.xml','AndroidManifest.xml','MainActivity.kt'], a:2, w:'Android conoce los componentes porque están en el Manifest.'},
+  {q:'¿Qué indica que una actividad es la que se abre al pulsar el icono?', o:['category LAUNCHER dentro de intent-filter','android:exported="false"','La etiqueta <service>','El nombre MainActivity'], a:0, w:'<code>&lt;category android:name="android.intent.category.LAUNCHER"/&gt;</code>.'},
+  {q:'¿Cuál es un nombre de paquete correcto?', o:['Mi App','com.carlosc.apptest','apptest.com','com carlosc apptest'], a:1, w:'Dominio invertido + nombre de la app sin espacios.'},
+  {q:'¿Para qué se pulsa 7 veces en "Número de compilación"?', o:['Para borrar la caché','Para activar las Opciones del programador','Para actualizar Android','Para instalar el driver'], a:1, w:'Después activas la Depuración por USB.'},
+  {q:'¿Qué es un AVD?', o:['Un tipo de Actividad','Un dispositivo virtual del emulador','Una librería de Gradle','Un fichero de recursos'], a:1, w:'Android Virtual Device.'},
+  {q:'¿En qué fichero están los textos de la app?', o:['colors.xml','themes.xml','strings.xml','AndroidManifest.xml'], a:2, w:'strings.xml, en res/values.'},
+  {q:'¿Qué hace Gradle?', o:['Diseña la interfaz','Construye (compila y empaqueta) la app y gestiona dependencias','Es el emulador','Es el depurador'], a:1, w:'Es el sistema automatizado de construcción.'},
+  {q:'¿Qué método de Log usarías para un <b>error</b>?', o:['Log.d','Log.i','Log.e','Log.v'], a:2, w:'e = error, w = warning, i = info, d = debug, v = verbose.'},
+  {q:'¿Por qué hay que quitar los Log al terminar?', o:['Porque ralentizan la compilación','Porque la pila que los guarda es limitada y se pierden mensajes importantes','Porque Google Play los prohíbe','Porque cambian el diseño'], a:1, w:'Exactamente lo que dicen las diapositivas.'}
+ ],
+ practice:[
+  {p:'Completa el Manifest para que esta actividad sea la que se abre al pulsar el icono.', code:'<intent-filter>\n    <action android:name="android.intent.action.{{0}}" />\n    <category android:name="android.intent.category.{{1}}" />\n</intent-filter>', a:[['MAIN'],['LAUNCHER']], h:'Principal y lanzador, en inglés y en mayúsculas.'},
+  {p:'Escribe un mensaje de depuración en Logcat con la etiqueta "MainActivity".', code:'Log.{{0}}("MainActivity", "Botón pulsado")', a:[['d']], h:'debug'},
+  {p:'Tu dominio es lauradev.es y la app se llama "notas". Escribe el paquete.', code:'package {{0}}', a:[['es.lauradev.notas']], h:'Dominio al revés + app.'}
+ ],
+ check:['Sé dibujar las 4 capas de la arquitectura.','Sé nombrar los 4 componentes y explicar qué es una Actividad.','Sé localizar la actividad LAUNCHER en el Manifest.','Sé crear un proyecto con un nombre de paquete correcto.','Sé para qué sirve strings.xml, colors.xml, themes.xml y la carpeta drawable.','He ejecutado una app en el emulador o en mi móvil.','Sé poner un punto de interrupción y escribir un Log.d.']
+},
+/* ---------------------------------------------------------------- UD2 */
+{
+ id:'ud2', num:'2', title:'Diseño de interfaces', short:'Jetpack Compose', minutes:'8–10 h', color:'a',
+ intro:'Ahora construyes pantallas. Con Jetpack Compose no "dibujas" botones con el ratón: escribes funciones Kotlin que <b>describen</b> lo que debe verse. Esta es la unidad más práctica y la que más pesa.',
+ goals:['Explicar qué es una función @Composable y sus reglas.','Entender el MainActivity que crea Android Studio.','Mostrar textos con estilo y sin escribirlos a mano (stringResource).','Pedir texto al usuario con TextField.','Mostrar imágenes y usar Scaffold.','Organizar elementos con Column, Row y Box y modificadores.','Crear botones, hacer un mockup y traducir la app.'],
+ sections:[
+  {id:'u2-comp', tag:'lee', title:'1. Jetpack Compose y @Composable', blocks:[
+    {t:'analogy', title:'Describes, no dibujas', html:'Imagina que encargas una pizza: no dices "mueve la mano, coge la masa…", dices "quiero una pizza con queso y champiñones". Compose funciona igual: tú describes <b>qué</b> quieres ver (un texto, debajo un botón) y Compose se encarga de dibujarlo, y de <b>redibujarlo</b> solo cuando cambian los datos.'},
+    {t:'p', html:'Las piezas de Compose son <b>funciones de componibilidad</b>. Reglas:'},
+    {t:'steps', items:['Llevan la anotación <code>@Composable</code> encima. (Una anotación es una "etiqueta" con <code>@</code> que da información extra al compilador, como <code>@Preview</code>.)','<b>No devuelven nada</b>: describen un trozo de interfaz.','Su nombre empieza por <b>mayúscula</b> y es un <b>sustantivo</b>: <code>PerfilUsuario</code> ✔, <code>DibujarPerfilUsuario</code> ✘ (verbo), <code>Brillante</code> ✘ (adjetivo), <code>Fuera</code> ✘ (adverbio).']}
+  ]},
+  {id:'u2-main', tag:'mira', title:'2. El MainActivity que genera Android Studio', blocks:[
+    {t:'p', html:'Es el primer código que verás en cada proyecto. Pulsa cada línea marcada.'},
+    {t:'code', file:'MainActivity.kt', lines:[
+      ['class MainActivity : ComponentActivity() {','Nuestra Actividad (la pantalla) hereda de <code>ComponentActivity</code>.'],
+      ['    override fun onCreate(savedInstanceState: Bundle?) {','<code>onCreate</code> se ejecuta cuando se crea la actividad. Lo verás a fondo en la Ud4 (ciclo de vida).'],
+      ['        super.onCreate(savedInstanceState)',''],
+      ['        enableEdgeToEdge()','La app ocupa toda la pantalla, también detrás de la barra de estado.'],
+      ['        setContent {','<b>setContent</b> define el diseño de la actividad. Aquí dentro se llaman las funciones composables.'],
+      ['            MyApplicationTheme {','Aplica el tema de la app (colores, tipografía, formas). Está en <code>ui.theme/Theme.kt</code>.'],
+      ['                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->','<b>Scaffold</b> = "andamio", un contenedor con huecos para barras y botón flotante. <code>fillMaxSize()</code> = ocupa toda la pantalla. <code>innerPadding</code> es el margen para no quedar debajo de las barras.'],
+      ['                    Greeting(','Llamamos a nuestra función composable…'],
+      ['                        name = "Android",','…pasándole el texto…'],
+      ['                        modifier = Modifier.padding(innerPadding)','…y un <b>modificador</b>: indica cómo debe aparecer o comportarse el elemento dentro del contenedor.'],
+      ['                    )',''],
+      ['                }',''],
+      ['            }',''],
+      ['        }',''],
+      ['    }',''],
+      ['}',''],
+      ['',''],
+      ['@Composable','Esta función describe interfaz.'],
+      ['fun Greeting(name: String, modifier: Modifier = Modifier) {','Recibe un String y un modificador con valor por defecto (¿te suena? parámetro por defecto de Kotlin).'],
+      ['    Text(text = "Hello $name!", modifier = modifier)','<code>Text</code> muestra un texto. Usa el String recibido y le aplica el modificador.'],
+      ['}',''],
+      ['',''],
+      ['@Preview(showBackground = true)','<b>Vista previa</b>: permite ver el diseño en el panel <i>Split/Design</i> sin ejecutar la app.'],
+      ['@Composable',''],
+      ['fun GreetingPreview() {',''],
+      ['    MyApplicationTheme { Greeting("Android") }','La preview también usa el tema de la app.'],
+      ['}','']
+    ]}
+  ]},
+  {id:'u2-text', tag:'mira', title:'3. Text: textos con estilo', blocks:[
+    {t:'p', html:'<code>Text("Hola")</code> funciona, pero <b>no es lo recomendable</b>: un texto escrito a mano no se puede traducir. Los textos van en <code>res/values/strings.xml</code> y se leen con <code>stringResource</code>. Atajo: pon el cursor sobre el texto, pulsa la bombilla 💡 › <b>Extract string resource</b>.'},
+    {t:'code', file:'strings.xml', lang:'xml', lines:[
+      ['<resources>',''],
+      ['    <string name="app_name">Saludos</string>',''],
+      ['    <string name="saludo">¡Hola, mundo!</string>','El <code>name</code> es el identificador; en Kotlin será <code>R.string.saludo</code>.'],
+      ['</resources>','']
+    ]},
+    {t:'code', file:'Saludo.kt', lines:[
+      ['@Composable',''],
+      ['fun Saludo(modifier: Modifier = Modifier) {',''],
+      ['    Text(',''],
+      ['        text = stringResource(R.string.saludo),','Lee el texto de strings.xml. <b>R</b> es una clase generada automáticamente con los ids de todos los recursos.'],
+      ['        color = MaterialTheme.colorScheme.primary,','<b>Color</b>. Opciones: <code>Color.Red</code>, <code>Color(0xFF1D7348)</code>, <code>colorResource(R.color.x)</code> de colors.xml, colores de <code>Color.kt</code>, o (recomendado) los del <b>tema</b> como aquí.'],
+      ['        fontSize = 24.sp,','<b>Tamaño</b> en <b>sp</b> (scalable pixels): respeta el tamaño de letra que el usuario elija en su móvil. <code>.sp</code> es una propiedad de extensión.'],
+      ['        fontStyle = FontStyle.Italic,','Cursiva.'],
+      ['        fontWeight = FontWeight.Bold,','Negrita.'],
+      ['        textAlign = TextAlign.Start,','<b>Alineación</b>. Usa <b>Start/End</b>, no Left/Right: Start es la izquierda en español pero la derecha en árabe. Se adapta al idioma.'],
+      ['        lineHeight = 32.sp,','Altura de la línea (también en sp; se puede usar <code>em</code>).'],
+      ['        modifier = modifier','Pasa siempre el modificador.'],
+      ['    )',''],
+      ['}','']
+    ]}
+  ]},
+  {id:'u2-tf', tag:'mira', title:'4. TextField: que el usuario escriba', blocks:[
+    {t:'analogy', title:'El TextField no tiene memoria propia', html:'Un TextField muestra lo que tú le digas en <code>value</code>. Cuando el usuario teclea, te avisa en <code>onValueChange</code> con el texto nuevo, y <b>tú</b> lo guardas. Si no lo guardas, parece que el teclado no funciona. Para guardarlo usamos <code>remember { mutableStateOf("") }</code>: una variable que Compose recuerda y que, al cambiar, redibuja la pantalla.'},
+    {t:'code', file:'Formulario.kt', lines:[
+      ['@Composable',''],
+      ['fun Formulario(modifier: Modifier = Modifier) {',''],
+      ['    var nombre by remember { mutableStateOf("") }','<b>Estado</b>: <code>nombre</code> empieza vacío. <code>remember</code> hace que no se pierda al redibujar.'],
+      ['    TextField(','Versión rellena (por defecto). Para la de contorno: <code>OutlinedTextField</code>, se usa igual.'],
+      ['        value = nombre,','<b>value</b>: lo que se muestra.'],
+      ['        onValueChange = { nombre = it },','<b>onValueChange</b>: lambda que recibe el texto nuevo (<code>it</code>) y lo guardamos.'],
+      ['        label = { Text(stringResource(R.string.tu_nombre)) },','<b>label</b>: texto de ayuda dentro del campo.'],
+      ['        singleLine = true,','Una sola línea (también existe <code>maxLines = 3</code>).'],
+      ['        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),','Qué teclado sale. Para números: <code>KeyboardType.Number</code>.'],
+      ['        modifier = modifier',''],
+      ['    )',''],
+      ['}','']
+    ]}
+  ]},
+  {id:'u2-img', tag:'mira', title:'5. Imágenes y Scaffold', blocks:[
+    {t:'steps', items:['Abre <b>Resource Manager</b> (pestaña bajo Project, o <i>View › Tool Windows › Resource Manager</i>).','<b>+ › Import Drawables</b> y elige la imagen.','En QUALIFIER TYPE elige <b>Density</b> y en VALUE <b>No Density</b>. Así Android no la escala (si no, puede verse borrosa o gastar mucha memoria). <i>Next › Import</i>.']},
+    {t:'code', file:'Fondo.kt', lines:[
+      ['Image(',''],
+      ['    painter = painterResource(R.drawable.img_fondo),','<b>painter</b>: la imagen a dibujar, sacada de <code>res/drawable</code> mediante la clase <b>R</b>.'],
+      ['    contentDescription = null,','Descripción para lectores de pantalla (accesibilidad). <code>null</code> solo si es decorativa; si informa de algo, pon un <code>stringResource</code>.'],
+      ['    contentScale = ContentScale.Crop,','Cómo se escala (Crop recorta para llenar, Fit cabe entera…).'],
+      ['    alpha = 0.5f','Opacidad de 0 (invisible) a 1 (opaca). Fíjate en la <b>f</b>: es Float.'],
+      [')','']
+    ]},
+    {t:'p', html:'<b>Scaffold</b> te da la estructura típica de una app de Material Design con tres huecos: <code>topBar</code> (barra superior), <code>bottomBar</code> (barra inferior) y <code>floatingActionButton</code> (botón redondo abajo a la derecha). El contenido recibe <code>innerPadding</code> para no quedar tapado.'}
+  ]},
+  {id:'u2-layout', tag:'toca', title:'6. Layouts: Column, Row y Box', blocks:[
+    {t:'p', html:'Si pones varios elementos sin organizar, Compose los <b>apila uno encima de otro</b>. Para ordenarlos: <b>Column</b> (vertical, uno debajo de otro), <b>Row</b> (horizontal, uno al lado del otro) y <b>Box</b> (uno encima de otro, en capas). Se pueden anidar sin problema. Juega con el laboratorio y fíjate en cómo cambia el código.'},
+    {t:'lab', id:'layout'},
+    {t:'table', head:['Layout','Eje principal (Arrangement)','Eje cruzado (Alignment)'], rows:[['Column','verticalArrangement','horizontalAlignment'],['Row','horizontalArrangement','verticalAlignment'],['Box','—','contentAlignment']]},
+    {t:'p', html:'Truco: <b>Arrangement</b> va en la misma dirección en la que se colocan los hijos; <b>Alignment</b> en la otra.'}
+  ]},
+  {id:'u2-mod', tag:'toca', title:'7. Modificadores: el orden importa', blocks:[
+    {t:'p', html:'Un <code>Modifier</code> decora un elemento: tamaño, márgenes, fondo, clics, etiquetas de accesibilidad… Se encadenan con puntos y <b>se aplican en orden</b>, de izquierda a derecha, como capas de una cebolla.'},
+    {t:'lab', id:'modifier'},
+    {t:'code', file:'Boton.kt', lines:[
+      ['var contador by remember { mutableStateOf(0) }','Estado que guarda las pulsaciones.'],
+      ['Button(onClick = { contador++ }) {','<b>Button</b>: <code>onClick</code> recibe una lambda con lo que pasa al pulsar.'],
+      ['    Text(stringResource(R.string.sumar))','El texto del botón es un <code>Text</code> <b>dentro</b> del botón.'],
+      ['}',''],
+      ['Text(text = "Pulsado $contador veces")','Cuando <code>contador</code> cambia, Compose redibuja este texto solo.']
+    ]}
+  ]},
+  {id:'u2-loc', tag:'lee', title:'8. Mockups y localización (idiomas)', blocks:[
+    {t:'p', html:'<b>Mockup</b>: antes de programar, dibuja un boceto de la pantalla (en papel o con <a href="https://moqups.com" target="_blank" rel="noopener">moqups.com</a> / <a href="https://www.mockflow.com" target="_blank" rel="noopener">mockflow.com</a>) indicando dónde va cada elemento. Te ahorra tiempo: decides Column/Row/Box mirando el dibujo.'},
+    {t:'p', html:'<b>Localizar</b> = adaptar la app a idiomas y países. Android elige automáticamente la carpeta de textos según el idioma del móvil:'},
+    {t:'table', head:['Carpeta','Idioma','¿Cuándo se usa?'], rows:[['res/values/strings.xml','Por defecto (normalmente inglés)','Si no existe carpeta para el idioma del móvil'],['res/values-es/strings.xml','Español','Móvil en español'],['res/values-fr/strings.xml','Francés','Móvil en francés']]},
+    {t:'p', html:'Los códigos (es, fr, en, ca…) siguen la norma <b>ISO 639-1</b>. Para traducir: clic derecho en <code>strings.xml</code> › <b>Open Translations Editor</b> › pulsa el <b>globo</b> 🌐 para añadir idioma. Puedes marcar textos como <b>Untranslatable</b>. Se crea un strings.xml por idioma.'}
+  ]},
+  {id:'u2-err', tag:'lee', title:'Errores típicos', blocks:[{t:'mistakes', items:[
+    ['Escribo en el TextField y no aparece nada','Te falta guardar el texto: <code>onValueChange = { texto = it }</code> con <code>var texto by remember { mutableStateOf("") }</code>.'],
+    ['Textos escritos a mano en Text("…")','Muévelos a strings.xml y usa <code>stringResource(R.string.x)</code>, si no, no se pueden traducir.'],
+    ['Usar dp para el texto','Texto en <b>sp</b>; tamaños y márgenes en <b>dp</b>.'],
+    ['TextAlign.Left / Right','Usa <b>Start / End</b> para respetar idiomas de derecha a izquierda.'],
+    ['Nombre de composable con verbo o en minúscula','<code>TarjetaProducto</code>, no <code>mostrarTarjeta</code>.'],
+    ['El padding no es clicable (o sí y no querías)','Revisa el orden del Modifier: <code>clickable</code> antes o después de <code>padding</code>.'],
+    ['Imagen borrosa o enorme','Importa con Density = No Density.']
+  ]}]},
+  {id:'u2-quiz', tag:'comprueba', title:'Comprueba lo que sabes', blocks:[{t:'quiz'}]},
+  {id:'u2-prac', tag:'toca', title:'Practica', blocks:[{t:'practice'}]},
+  {id:'u2-check', tag:'comprueba', title:'Ya sé…', blocks:[{t:'check'}]}
+ ],
+ quiz:[
+  {q:'¿Qué anotación lleva una función que describe interfaz en Compose?', o:['@Preview','@Composable','@Override','@UI'], a:1, w:'<code>@Composable</code>. <code>@Preview</code> es para la vista previa.'},
+  {q:'¿Qué nombre es <b>válido</b> para una función composable?', o:['DibujarPerfil','Brillante','TarjetaUsuario','mostrarTexto'], a:2, w:'Mayúscula inicial y sustantivo.'},
+  {q:'¿Qué devuelve una función composable?', o:['Un View','Un String','Nada','Un Modifier'], a:2, w:'No devuelve ningún valor, describe interfaz.'},
+  {q:'¿Dónde se definen las llamadas a composables dentro de la Actividad?', o:['En el Manifest','En el bloque setContent','En strings.xml','En build.gradle'], a:1, w:'<code>setContent { ... }</code> dentro de onCreate.'},
+  {q:'¿Por qué no se recomienda <code>Text("Hola")</code>?', o:['Porque no compila','Porque no se puede traducir la app','Porque es más lento','Porque no admite color'], a:1, w:'Los textos deben ir en strings.xml para poder localizar.'},
+  {q:'¿Qué unidad se usa para el tamaño del texto?', o:['dp','px','sp','pt'], a:2, w:'sp: escala con la preferencia de tamaño de letra del usuario.'},
+  {q:'¿Qué parámetro de TextField recoge lo que escribe el usuario?', o:['value','label','onValueChange','singleLine'], a:2, w:'<code>onValueChange</code> recibe el texto nuevo.'},
+  {q:'¿Qué hace <code>contentDescription</code> en Image?', o:['Define el tamaño','Describe la imagen para lectores de pantalla','Cambia la opacidad','Escala la imagen'], a:1, w:'Accesibilidad. <code>null</code> solo para imágenes decorativas.'},
+  {q:'¿Qué layout coloca los elementos <b>uno encima de otro</b> (superpuestos)?', o:['Column','Row','Box','Scaffold'], a:2, w:'Box. Column los pone uno debajo de otro.'},
+  {q:'En un Row, ¿qué parámetro reparte los hijos a lo ancho?', o:['verticalArrangement','horizontalArrangement','horizontalAlignment','contentAlignment'], a:1, w:'En Row el eje principal es horizontal → horizontalArrangement.'},
+  {q:'<code>Modifier.padding(16.dp).clickable{}</code>: ¿la zona del padding es clicable?', o:['Sí','No','Solo en Android 14','Depende del tema'], a:1, w:'El padding se aplica antes, fuera de la zona clicable.'},
+  {q:'Un móvil en francés sin carpeta values-fr. ¿Qué textos ve?', o:['Ninguno, la app falla','Los de values (por defecto)','Los de values-es','Los traduce Google'], a:1, w:'Si no existe la carpeta del idioma, usa la de por defecto.'},
+  {q:'¿Qué tres huecos principales ofrece Scaffold?', o:['header, body, footer','topBar, bottomBar, floatingActionButton','title, content, button','row, column, box'], a:1, w:'Más el contenido central que recibe innerPadding.'}
+ ],
+ practice:[
+  {p:'Lee el texto "bienvenida" de strings.xml.', code:'Text(text = {{0}}(R.string.{{1}}))', a:[['stringResource'],['bienvenida']], h:'string + Resource.'},
+  {p:'Texto de 20 sp en negrita.', code:'Text(\n    text = stringResource(R.string.titulo),\n    fontSize = 20.{{0}},\n    fontWeight = FontWeight.{{1}}\n)', a:[['sp'],['Bold']], h:'Unidad de texto y "negrita" en inglés.'},
+  {p:'Completa el TextField para que funcione.', code:'var email by remember { mutableStateOf("") }\nTextField(\n    value = {{0}},\n    onValueChange = { email = {{1}} }\n)', a:[['email'],['it']], h:'Se muestra la variable; el parámetro implícito de la lambda.'},
+  {p:'Centra los hijos de una Column en horizontal.', code:'Column(\n    horizontalAlignment = Alignment.{{0}}\n) { ... }', a:[['CenterHorizontally']], h:'Center + dirección.'},
+  {p:'Imagen decorativa al 50 % de opacidad.', code:'Image(\n    painter = {{0}}(R.drawable.fondo),\n    contentDescription = {{1}},\n    alpha = 0.5{{2}}\n)', a:[['painterResource'],['null'],['f']], h:'painter…, vacío, Float.'},
+  {p:'Un botón que suma 1 a contador.', code:'Button(onClick = { contador{{0}} }) {\n    Text(stringResource(R.string.sumar))\n}', a:[['++','+=1','= contador + 1']], h:'Incremento.'}
+ ],
+ check:['Sé las 3 reglas de una función @Composable.','Sé explicar cada parte del MainActivity generado.','Uso stringResource en vez de textos a mano.','Sé cambiar color, tamaño (sp), negrita, cursiva y alineación (Start/End).','Sé hacer un TextField que funcione con remember.','Sé importar una imagen (No Density) y mostrarla con Image.','Sé elegir entre Column, Row y Box y usar Arrangement/Alignment.','Entiendo por qué importa el orden de los modificadores.','Sé añadir un idioma con el Translations Editor.']
+},
+/* ---------------------------------------------------------------- UD3 */
+{
+ id:'ud3', num:'3', title:'Listas desplegables', short:'LazyColumn, grids y temas', minutes:'5–7 h', color:'a',
+ intro:'Casi todas las apps muestran listas: contactos, mensajes, productos. Aquí aprendes a mostrar listas largas de forma eficiente, en cuadrícula, y a personalizar el aspecto con temas.',
+ goals:['Explicar la diferencia entre Column y LazyColumn.','Construir una lista con data class + datos + LazyColumn + items.','Mostrar elementos en cuadrícula con LazyVerticalGrid (Fixed y Adaptive).','Cambiar colores, formas y tipografía del tema.'],
+ sections:[
+  {id:'u3-lazy', tag:'toca', title:'1. Column vs LazyColumn', blocks:[
+    {t:'analogy', title:'El camarero perezoso (lazy)', html:'Un camarero normal (Column) saca <b>todos</b> los platos de la carta a la vez, aunque solo puedas comer uno. Un camarero "perezoso" (LazyColumn) solo trae los platos que <b>estás mirando</b> y, cuando bajas, retira los de arriba. Con 10 elementos da igual; con 1.000 la diferencia es enorme.'},
+    {t:'p', html:'<b>Column/Row</b> son estáticos: cargan todos sus elementos a la vez y, para desplazarte, necesitas añadir scroll. <b>LazyColumn/LazyRow</b> crean los elementos según hacen falta y ya traen el desplazamiento incluido. Son la opción para listas largas. Añades un elemento con <code>item { }</code> o muchos con <code>items(lista) { }</code>.'},
+    {t:'lab', id:'lazy'}
+  ]},
+  {id:'u3-ej', tag:'mira', title:'2. Ejemplo completo paso a paso: lista de banderas', blocks:[
+    {t:'p', html:'Este es el ejemplo de clase. Sigue los 4 pasos en orden; es una receta que repetirás en cualquier lista.'},
+    {t:'h4', html:'Paso 1 · Paquete <code>modelo</code> → data class con lo que tiene cada elemento'},
+    {t:'code', file:'modelo/Bandera.kt', lines:[
+      ['package com.example.ud3_ejemplo1.modelo','Creamos un paquete <b>modelo</b> para los datos (clic derecho en el paquete › New › Package).'],
+      ['',''],
+      ['data class Bandera(','Una <b>data class</b> (Kotlin, apartado 4): solo datos.'],
+      ['    @StringRes val stringResourceId: Int,','El id del <b>nombre</b> del país en strings.xml. <code>@StringRes</code> indica que ese Int es un id de texto.'],
+      ['    @DrawableRes val imagenResourceId: Int','El id de la <b>imagen</b> en drawable. <code>@DrawableRes</code> = id de imagen.'],
+      [')','']
+    ]},
+    {t:'h4', html:'Paso 2 · Paquete <code>datos</code> → una clase que carga la lista'},
+    {t:'code', file:'datos/Datos.kt', lines:[
+      ['class Datos {',''],
+      ['    fun cargarBanderas(): List<Bandera> = listOf(','Devuelve una <code>List</code> de banderas (colecciones, apartado 5).'],
+      ['        Bandera(R.string.bandera1, R.drawable.bandera1),','Cada elemento: un id de texto y un id de imagen.'],
+      ['        Bandera(R.string.bandera2, R.drawable.bandera2),',''],
+      ['        Bandera(R.string.bandera3, R.drawable.bandera3)',''],
+      ['    )',''],
+      ['}','']
+    ]},
+    {t:'h4', html:'Paso 3 · Composable de la lista con LazyColumn'},
+    {t:'code', file:'MainActivity.kt', lines:[
+      ['@Composable',''],
+      ['fun Ud3EjemploApp(modifier: Modifier = Modifier) {','La función "app" que llamamos desde setContent.'],
+      ['    ListaBanderas(lista = Datos().cargarBanderas(), modifier = modifier)','Crea un objeto Datos (sin new), carga la lista y se la pasa a la función que la dibuja.'],
+      ['}',''],
+      ['',''],
+      ['@Composable',''],
+      ['fun ListaBanderas(lista: List<Bandera>, modifier: Modifier = Modifier) {',''],
+      ['    LazyColumn(modifier = modifier) {','Lista vertical perezosa con scroll incluido.'],
+      ['        items(lista) { bandera ->','<b>items</b> recorre la lista. Para cada elemento, <code>bandera</code> es el actual (como un for).'],
+      ['            TarjetaBandera(bandera = bandera, modifier = Modifier.padding(8.dp))','Por cada bandera, dibuja una tarjeta con 8 dp de margen.'],
+      ['        }',''],
+      ['    }',''],
+      ['}','']
+    ]},
+    {t:'h4', html:'Paso 4 · Composable de cada elemento (la tarjeta)'},
+    {t:'code', file:'MainActivity.kt', lines:[
+      ['@Composable',''],
+      ['fun TarjetaBandera(bandera: Bandera, modifier: Modifier = Modifier) {',''],
+      ['    Card(modifier = modifier) {','<b>Card</b>: tarjeta de Material con fondo y esquinas redondeadas.'],
+      ['        Row(','Imagen y texto uno al lado del otro.'],
+      ['            modifier = Modifier.fillMaxWidth(),','Ocupa todo el ancho.'],
+      ['            verticalAlignment = Alignment.CenterVertically','Centrados en vertical (eje cruzado de Row).'],
+      ['        ) {',''],
+      ['            Image(',''],
+      ['                painter = painterResource(bandera.imagenResourceId),','La imagen de <b>esta</b> bandera.'],
+      ['                contentDescription = stringResource(bandera.stringResourceId)','Aquí la imagen sí informa, así que la describimos con el nombre del país.'],
+      ['            )',''],
+      ['            Text(',''],
+      ['                text = stringResource(bandera.stringResourceId),',''],
+      ['                modifier = Modifier.padding(16.dp),',''],
+      ['                style = MaterialTheme.typography.headlineSmall','Estilo de texto del tema (tipografía, apartado 4).'],
+      ['            )',''],
+      ['        }',''],
+      ['    }',''],
+      ['}','']
+    ]}
+  ]},
+  {id:'u3-grid', tag:'toca', title:'3. Grids (cuadrículas)', blocks:[
+    {t:'p', html:'Igual que la lista, pero en cuadrícula: <b>LazyVerticalGrid</b> (scroll vertical, controlas las <code>columns</code>) o <b>LazyHorizontalGrid</b> (scroll horizontal, controlas las <code>rows</code>).'},
+    {t:'table', head:['Función','Cuándo','Ejemplo'], rows:[['GridCells.Fixed(n)','Sabes exactamente cuántas columnas quieres','<code>GridCells.Fixed(2)</code> → siempre 2'],['GridCells.Adaptive(minSize)','No lo sabes: que quepan las que quepan con un tamaño mínimo','<code>GridCells.Adaptive(minSize = 128.dp)</code> → más columnas en tablet']]},
+    {t:'lab', id:'grid'},
+    {t:'code', file:'GridBanderas.kt', lines:[
+      ['LazyVerticalGrid(',''],
+      ['    columns = GridCells.Adaptive(minSize = 128.dp),','Cambia a <code>GridCells.Fixed(2)</code> para fijar dos columnas.'],
+      ['    verticalArrangement = Arrangement.spacedBy(8.dp),','Separación de 8 dp entre filas.'],
+      ['    horizontalArrangement = Arrangement.spacedBy(8.dp),','Separación entre columnas.'],
+      ['    modifier = modifier',''],
+      [') {',''],
+      ['    items(lista) { bandera -> TarjetaBandera(bandera = bandera) }','Exactamente igual que en LazyColumn.'],
+      ['}','']
+    ]}
+  ]},
+  {id:'u3-tema', tag:'lee', title:'4. Temas: color, formas y tipografía', blocks:[
+    {t:'p', html:'Material Design permite cambiar el aspecto de toda la app desde un sitio: <code>ui.theme/Theme.kt</code>. Ahí se juntan tres cosas:'},
+    {t:'table', head:['Qué','Fichero','Ideas clave'], rows:[
+      ['<b>Color</b>','ui.theme/Color.kt','<b>primary</b>: lo importante (barras, botones). <b>secondary</b>: lo menos importante (FAB). <b>tertiary</b>: equilibrar o llamar la atención (un campo). Puedes generar la paleta con <b>Material Theme Builder</b> y exportar <i>Jetpack Compose (Theme.kt)</i>: te da Theme.kt y Color.kt para sustituir los tuyos.'],
+      ['<b>Shapes</b> (formas)','ui.theme/Shapes.kt (lo creas tú)','<code>RoundedCornerShape(16.dp)</code> redondea esquinas; o una a una con topStart, topEnd, bottomEnd, bottomStart. Ya hechas: <code>RectangleShape</code> y <code>CircleShape</code>.'],
+      ['<b>Tipografía</b>','res/font + ui.theme/Type.kt','Clic derecho en res › Android Resource Directory › nombre y tipo <b>font</b>. Arrastra la fuente (nombre en minúsculas y con _ ). Declárala en Type.kt y úsala en la escala que quieras.']
+    ]},
+    {t:'code', file:'ui.theme/Shapes.kt', lines:[
+      ['val Shapes = Shapes(','Una sola variable con los estilos de forma.'],
+      ['    small = RoundedCornerShape(50.dp),','Muy redondeado (pastilla).'],
+      ['    medium = RoundedCornerShape(bottomStart = 16.dp, topEnd = 16.dp)','Solo dos esquinas redondeadas.'],
+      [')','Recuerda pasarla al tema: <code>MaterialTheme(colorScheme = ..., shapes = Shapes, typography = Typography)</code>.']
+    ]},
+    {t:'code', file:'ui.theme/Type.kt', lines:[
+      ['val Montserrat = FontFamily(','Una familia con sus variantes, sacadas de <code>res/font</code>.'],
+      ['    Font(R.font.montserrat_regular),',''],
+      ['    Font(R.font.montserrat_bold, FontWeight.Bold)',''],
+      [')',''],
+      ['val Typography = Typography(',''],
+      ['    displayLarge = TextStyle(fontFamily = Montserrat, fontWeight = FontWeight.Bold, fontSize = 36.sp),','Asignamos la fuente a una escala. Luego: <code>style = MaterialTheme.typography.displayLarge</code>.'],
+      ['    bodyLarge = TextStyle(fontFamily = Montserrat, fontSize = 16.sp)',''],
+      [')','']
+    ]}
+  ]},
+  {id:'u3-err', tag:'lee', title:'Errores típicos', blocks:[{t:'mistakes', items:[
+    ['Usar Column para una lista larga','Va lento y no hace scroll solo. Usa LazyColumn con items.'],
+    ['Olvidar importar items','Si <code>items(lista)</code> sale en rojo, importa <code>androidx.compose.foundation.lazy.items</code> (Alt+Enter).'],
+    ['Confundir columns y rows','LazyVerticalGrid → <code>columns</code>; LazyHorizontalGrid → <code>rows</code>.'],
+    ['Nombre de fuente con mayúsculas o guiones','En res/font: solo minúsculas, números y _. <code>Montserrat-Bold.ttf</code> → <code>montserrat_bold.ttf</code>.'],
+    ['Cambiar Color.kt y no ver cambios','Los colores tienen que estar usados en el colorScheme de Theme.kt.']
+  ]}]},
+  {id:'u3-quiz', tag:'comprueba', title:'Comprueba lo que sabes', blocks:[{t:'quiz'}]},
+  {id:'u3-prac', tag:'toca', title:'Practica', blocks:[{t:'practice'}]},
+  {id:'u3-check', tag:'comprueba', title:'Ya sé…', blocks:[{t:'check'}]}
+ ],
+ quiz:[
+  {q:'¿Qué ventaja tiene LazyColumn frente a Column?', o:['Permite poner colores','Crea solo los elementos visibles y trae scroll incluido','Solo funciona con imágenes','Es más antiguo'], a:1, w:'Ideal para listas largas.'},
+  {q:'¿Qué función añade <b>varios</b> elementos a un LazyColumn a partir de una lista?', o:['item','items','forEach','addAll'], a:1, w:'<code>items(lista) { elemento -> ... }</code>. <code>item</code> añade uno solo.'},
+  {q:'¿Qué indica <code>@DrawableRes</code>?', o:['Que el Int es el id de una imagen','Que la imagen es vectorial','Que se puede dibujar encima','Que es un Composable'], a:0, w:'Igual que @StringRes indica id de texto.'},
+  {q:'¿Qué tipo de clase es <code>Bandera</code> en el ejemplo?', o:['enum class','object','data class','open class'], a:2, w:'Solo guarda datos.'},
+  {q:'Quieres siempre 3 columnas. ¿Qué usas?', o:['GridCells.Adaptive(3)','GridCells.Fixed(3)','columns = 3.dp','LazyRow(3)'], a:1, w:'Fixed para un número exacto.'},
+  {q:'Quieres que quepan las columnas que quepan, de al menos 120 dp. ¿Qué usas?', o:['GridCells.Fixed(120)','GridCells.Adaptive(minSize = 120.dp)','Arrangement.spacedBy(120.dp)','LazyHorizontalGrid'], a:1, w:'Adaptive con tamaño mínimo.'},
+  {q:'¿Qué parámetro controla las celdas en LazyHorizontalGrid?', o:['columns','rows','cells','span'], a:1, w:'Horizontal → rows.'},
+  {q:'¿Qué color del tema usan los componentes <b>más importantes</b> (barras, botones)?', o:['secondary','tertiary','primary','background'], a:2, w:'primary.'},
+  {q:'¿Qué clase redondea esquinas?', o:['CircleShape','RoundedCornerShape','CornerRadius','RectangleShape'], a:1, w:'Se le pasa la cantidad en dp.'},
+  {q:'¿Dónde se guardan las fuentes nuevas?', o:['res/drawable','res/values','res/font','assets/fonts obligatoriamente'], a:2, w:'Carpeta de recursos de tipo font, y se declaran en Type.kt.'}
+ ],
+ practice:[
+  {p:'Recorre la lista dentro de un LazyColumn.', code:'{{0}} {\n    {{1}}(lista) { producto ->\n        TarjetaProducto(producto)\n    }\n}', a:[['LazyColumn'],['items']], h:'Lazy + Column; muchos elementos.'},
+  {p:'Modelo de datos para un contacto con id de texto y de imagen.', code:'{{0}} class Contacto(\n    @{{1}} val nombreId: Int,\n    @DrawableRes val fotoId: Int\n)', a:[['data'],['StringRes']], h:'Clase solo de datos; id de texto.'},
+  {p:'Cuadrícula con exactamente 2 columnas.', code:'LazyVerticalGrid(\n    columns = GridCells.{{0}}(2)\n) { ... }', a:[['Fixed']], h:'Fijo.'},
+  {p:'Esquinas redondeadas de 12 dp.', code:'Card(shape = {{0}}(12.dp)) { ... }', a:[['RoundedCornerShape']], h:'Rounded + Corner + Shape.'}
+ ],
+ check:['Sé explicar por qué LazyColumn es mejor para listas largas.','Sé construir una lista en 4 pasos: data class → datos → LazyColumn/items → tarjeta.','Sé usar @StringRes y @DrawableRes.','Sé crear una cuadrícula con Fixed y con Adaptive.','Sé qué son primary, secondary y tertiary.','Sé crear Shapes y añadir una fuente en res/font y Type.kt.']
+},
+/* ---------------------------------------------------------------- UD4 */
+{
+ id:'ud4', num:'4', title:'Arquitectura', short:'Ciclo de vida y ViewModel', minutes:'8–10 h', color:'a',
+ intro:'Hasta ahora tu app vivía en un mundo perfecto. Pero el usuario sale, recibe llamadas, gira el móvil… En esta unidad aprendes qué le pasa a tu Actividad en cada momento y cómo organizar la app para no perder datos.',
+ goals:['Nombrar los estados y callbacks del ciclo de vida de una Actividad.','Predecir qué callbacks se ejecutan al salir, volver, girar o cerrar.','Explicar la separación en capas (IU, datos, dominio).','Explicar el flujo unidireccional IU ↔ ViewModel.','Programar un ViewModel con StateFlow, update y copy.'],
+ sections:[
+  {id:'u4-cv', tag:'lee', title:'1. Ciclo de vida de una Actividad', blocks:[
+    {t:'analogy', title:'Como una serie que estás viendo', html:'Le das al play (<b>creada → iniciada → reanudada</b>). Te llaman y dejas la serie en segundo plano (<b>pausada → detenida</b>). Vuelves y sigue donde estaba (<b>reiniciada → iniciada → reanudada</b>). Si cierras la app o el móvil necesita memoria, la serie se <b>destruye</b>. Android hace esto para que la app que estás usando tenga recursos de sobra y vaya fluida.'},
+    {t:'html', html:'<div class="states" aria-label="Estados"><span class="state">Created</span><span class="arrow">→</span><span class="state">Started</span><span class="arrow">→</span><span class="state on">Resumed</span><span class="arrow">→</span><span class="state">Paused</span><span class="arrow">→</span><span class="state">Stopped</span><span class="arrow">→</span><span class="state">Destroyed</span></div>'},
+    {t:'table', head:['Callback','Se ejecuta cuando…','Uso típico'], rows:[
+      ['<code>onCreate</code>','La actividad se crea (solo una vez por "vida")','Montar la interfaz con setContent'],
+      ['<code>onStart</code>','Pasa a ser visible',''],
+      ['<code>onResume</code>','El usuario ya puede interactuar','Arrancar animaciones, cámara'],
+      ['<code>onPause</code>','Pierde el foco (otra cosa pasa delante)','Parar animaciones'],
+      ['<code>onStop</code>','Deja de ser visible','Guardar datos, liberar recursos'],
+      ['<code>onRestart</code>','Vuelve de estar detenida',''],
+      ['<code>onDestroy</code>','Se destruye (cierre o giro de pantalla)','Limpiar']
+    ]},
+    {t:'p', html:'Cada cambio de estado tiene su <b>callback</b>: un método que Android llama para avisarte. Tú lo sobrescribes con <code>override</code> y metes tu código. Diagrama completo en la <a href="https://developer.android.com/guide/components/activities/activity-lifecycle" target="_blank" rel="noopener">documentación oficial</a>.'}
+  ]},
+  {id:'u4-sim', tag:'toca', title:'Simulador del ciclo de vida', blocks:[
+    {t:'p', html:'Pulsa los botones como si usaras el móvil y mira qué escribe Logcat. Suma al contador y luego <b>gira la pantalla</b>: compara qué le pasa al dato guardado con <code>remember</code> y al guardado en un <code>ViewModel</code>.'},
+    {t:'lab', id:'ciclo'},
+    {t:'code', file:'MainActivity.kt', lines:[
+      ['private const val TAG = "MainActivity"','Etiqueta para filtrar en Logcat.'],
+      ['class MainActivity : ComponentActivity() {',''],
+      ['    override fun onCreate(savedInstanceState: Bundle?) {',''],
+      ['        super.onCreate(savedInstanceState)','Siempre llama primero a <code>super</code>.'],
+      ['        Log.d(TAG, "onCreate")','Así se "ve" el ciclo de vida en Logcat.'],
+      ['        setContent { /* ... */ }',''],
+      ['    }',''],
+      ['    override fun onStart() { super.onStart(); Log.d(TAG, "onStart") }',''],
+      ['    override fun onResume() { super.onResume(); Log.d(TAG, "onResume") }',''],
+      ['    override fun onPause() { super.onPause(); Log.d(TAG, "onPause") }',''],
+      ['    override fun onStop() { super.onStop(); Log.d(TAG, "onStop") }',''],
+      ['    override fun onRestart() { super.onRestart(); Log.d(TAG, "onRestart") }',''],
+      ['    override fun onDestroy() { super.onDestroy(); Log.d(TAG, "onDestroy") }',''],
+      ['}','']
+    ]}
+  ]},
+  {id:'u4-arq', tag:'lee', title:'2. Arquitectura de la aplicación', blocks:[
+    {t:'analogy', title:'Un restaurante bien organizado', html:'El <b>comedor</b> (capa de IU) solo muestra los platos y toma nota de lo que pide el cliente. La <b>cocina</b> (capa de datos) guarda, prepara y entrega la comida. El <b>camarero</b> (ViewModel) lleva los pedidos del comedor a la cocina y trae los platos. Si se cambian las mesas de sitio (giras el móvil), la cocina y los pedidos no se pierden.'},
+    {t:'p', html:'Dos principios: <b>separación de problemas</b> (cada clase tiene una responsabilidad) y <b>controlar la IU a partir de un modelo</b> (los datos viven fuera de la pantalla y no dependen del ciclo de vida). Por eso, toda app tiene al menos:'},
+    {t:'html', html:'<div class="diagram"><div class="box" style="border-color:var(--accent);color:var(--accent)">Capa de IU · muestra los datos (Compose + ViewModel)</div><div class="box" style="border-color:var(--line);color:var(--muted);border-style:dashed">Capa de dominio (opcional) · reutiliza lógica entre IU y datos</div><div class="box" style="border-color:var(--kotlin);color:var(--kotlin)">Capa de datos · almacena, recupera y expone los datos</div></div>'},
+    {t:'p', html:'La capa de IU tiene dos partes: <b>elementos de la IU</b> (tus composables) y <b>contenedores de estado</b> como <b>ViewModel</b>, que guardan los datos, los exponen a la IU y contienen la lógica. ViewModel <b>sobrevive a los cambios de configuración</b> (como girar el móvil), así que los datos siguen ahí tras la recomposición.'}
+  ]},
+  {id:'u4-udf', tag:'toca', title:'3. El flujo IU ↔ ViewModel (calculadora)', blocks:[
+    {t:'p', html:'El estado <b>baja</b> del ViewModel a la IU; los eventos <b>suben</b> de la IU al ViewModel. Escribe números y observa cada paso del ciclo:'},
+    {t:'lab', id:'udf'}
+  ]},
+  {id:'u4-code', tag:'mira', title:'4. El ejemplo de clase, fichero a fichero', blocks:[
+    {t:'p', html:'Estructura: paquete <b>modelo</b> con <code>OperacionUIState</code>; paquete <b>ui</b> con <code>OperacionViewModel</code>; y <code>MainActivity.kt</code>.'},
+    {t:'h4', html:'Paso 1 · El estado de la IU'},
+    {t:'code', file:'modelo/OperacionUIState.kt', lines:[
+      ['data class OperacionUIState(','Una data class con <b>todo</b> lo que la pantalla necesita mostrar.'],
+      ['    val numero1: String = "",','Todos con valor por defecto, así <code>OperacionUIState()</code> crea un estado vacío.'],
+      ['    val numero2: String = "",',''],
+      ['    val resultado: String = ""',''],
+      [')','']
+    ]},
+    {t:'h4', html:'Paso 2 · Añadir la dependencia de ViewModel'},
+    {t:'code', file:'libs.versions.toml', lang:'xml', lines:[
+      ['[versions]',''],
+      ['viewmodel = "2.8.7"','Versión de la librería (usa la que indique tu profesor o la última estable).'],
+      ['[libraries]',''],
+      ['androidx-lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "viewmodel" }','Declaramos la librería en el catálogo.']
+    ]},
+    {t:'code', file:'build.gradle.kts (Module :app)', lines:[
+      ['dependencies {',''],
+      ['    implementation(libs.androidx.lifecycle.viewmodel.compose)','La usamos en la app. Pulsa <b>Sync Now</b>.'],
+      ['}','']
+    ]},
+    {t:'h4', html:'Paso 3 · El ViewModel'},
+    {t:'code', file:'ui/OperacionViewModel.kt', lines:[
+      ['class OperacionViewModel : ViewModel() {','Hereda de ViewModel: sobrevive a giros de pantalla.'],
+      ['    private val _operacionUIState = MutableStateFlow(OperacionUIState())','<b>MutableStateFlow</b>: el estado que <b>sí</b> se puede modificar. Es <code>private</code> y empieza con guion bajo: solo el ViewModel lo toca.'],
+      ['    val operacionUIState: StateFlow<OperacionUIState> = _operacionUIState.asStateFlow()','Versión <b>de solo lectura</b> para la IU (<code>asStateFlow</code>). StateFlow es un flujo observable: emite el estado actual y cada cambio. Su <code>value</code> es el estado actual.'],
+      ['',''],
+      ['    var respuestaNumero1 by mutableStateOf("")','Lo que el usuario escribe en el primer campo.'],
+      ['        private set','Se puede leer desde fuera, pero solo cambiar desde dentro.'],
+      ['    var respuestaNumero2 by mutableStateOf("")',''],
+      ['        private set',''],
+      ['',''],
+      ['    fun actualizarNumero1(num: String) {','La IU llama a esto (evento) cuando cambia el primer campo.'],
+      ['        respuestaNumero1 = num',''],
+      ['        _operacionUIState.update { estadoActual ->','<b>update</b> cambia el estado de forma segura. Recibe el estado actual…'],
+      ['            estadoActual.copy(numero1 = respuestaNumero1)','…y <b>copy</b> crea uno nuevo igual pero cambiando solo <code>numero1</code>. Nunca se modifica el objeto viejo.'],
+      ['        }',''],
+      ['        calcular()',''],
+      ['    }',''],
+      ['    fun actualizarNumero2(num: String) { /* igual que el anterior con numero2 */ }',''],
+      ['',''],
+      ['    private fun calcular() {','Lógica de la app: vive en el ViewModel, no en la pantalla.'],
+      ['        _operacionUIState.update { estadoActual ->',''],
+      ['            val num1 = estadoActual.numero1.toIntOrNull() ?: 0','<code>toIntOrNull()</code> convierte a número o da null si no puede; Elvis <code>?:</code> lo cambia por 0. (Nulabilidad, Kotlin 6.)'],
+      ['            val num2 = estadoActual.numero2.toIntOrNull() ?: 0',''],
+      ['            estadoActual.copy(resultado = (num1 + num2).toString())','Nuevo estado con el resultado.'],
+      ['        }',''],
+      ['    }',''],
+      ['}','']
+    ]},
+    {t:'h4', html:'Paso 4 · La pantalla consume el estado'},
+    {t:'code', file:'MainActivity.kt', lines:[
+      ['@Composable',''],
+      ['fun Calculadora(',''],
+      ['    modifier: Modifier = Modifier,',''],
+      ['    operacionViewModel: OperacionViewModel = viewModel()','<code>viewModel()</code> te da el ViewModel; si ya existía (p. ej. tras girar), te devuelve <b>el mismo</b>.'],
+      [') {',''],
+      ['    val uiState by operacionViewModel.operacionUIState.collectAsState()','<b>collectAsState</b>: escucha el StateFlow. Cada vez que cambia, Compose redibuja con el nuevo <code>uiState</code>.'],
+      ['    Column(verticalArrangement = Arrangement.spacedBy(16.dp), modifier = modifier) {',''],
+      ['        Row(verticalAlignment = Alignment.CenterVertically) {',''],
+      ['            TextField(',''],
+      ['                value = uiState.numero1,','El valor <b>baja</b> del estado.'],
+      ['                onValueChange = { operacionViewModel.actualizarNumero1(it) },','El evento <b>sube</b> al ViewModel.'],
+      ['                label = { Text(stringResource(R.string.numero1)) },',''],
+      ['                modifier = Modifier.weight(1f)','<code>weight(1f)</code>: reparte el ancho del Row a partes iguales.'],
+      ['            )',''],
+      ['            Text(text = "+")',''],
+      ['            TextField(value = uiState.numero2, onValueChange = { operacionViewModel.actualizarNumero2(it) }, modifier = Modifier.weight(1f))',''],
+      ['            Text(text = "= ${uiState.resultado}")','Muestra el resultado del estado.'],
+      ['        }',''],
+      ['    }',''],
+      ['}','']
+    ]}
+  ]},
+  {id:'u4-err', tag:'lee', title:'Errores típicos', blocks:[{t:'mistakes', items:[
+    ['Al girar el móvil se pierden los datos','El dato estaba en un <code>remember</code> dentro del composable. Pásalo al ViewModel.'],
+    ['viewModel() sale en rojo','Falta la dependencia <code>lifecycle-viewmodel-compose</code> o el Sync de Gradle.'],
+    ['La pantalla no se actualiza','¿Usaste <code>collectAsState()</code>? ¿Actualizas con <code>update { it.copy(...) }</code>?'],
+    ['Exponer el MutableStateFlow público','La IU podría cambiar el estado saltándose la lógica. Privado con _ y público con <code>asStateFlow()</code>.'],
+    ['Creer que onCreate solo se ejecuta una vez en toda la vida de la app','También se ejecuta tras girar la pantalla, porque la actividad se destruye y se vuelve a crear.']
+  ]}]},
+  {id:'u4-quiz', tag:'comprueba', title:'Comprueba lo que sabes', blocks:[{t:'quiz'}]},
+  {id:'u4-prac', tag:'toca', title:'Practica', blocks:[{t:'practice'}]},
+  {id:'u4-check', tag:'comprueba', title:'Ya sé…', blocks:[{t:'check'}]}
+ ],
+ quiz:[
+  {q:'¿En qué orden se ejecutan los callbacks al <b>abrir</b> la app?', o:['onStart, onCreate, onResume','onCreate, onStart, onResume','onResume, onStart, onCreate','onCreate, onResume, onStart'], a:1, w:'Created → Started → Resumed.'},
+  {q:'El usuario pulsa el botón Inicio. ¿Qué se ejecuta?', o:['onDestroy','onPause y onStop','onRestart','Nada'], a:1, w:'Pasa a segundo plano: pausada y detenida, pero no destruida.'},
+  {q:'Vuelve a la app desde recientes. ¿Qué se ejecuta?', o:['onCreate, onStart, onResume','onRestart, onStart, onResume','onResume solamente','onStart, onCreate'], a:1, w:'Al volver de stopped se llama a onRestart.'},
+  {q:'¿Qué ocurre al <b>girar</b> la pantalla?', o:['Solo onPause','La actividad se destruye y se vuelve a crear','Nada','Se cierra la app'], a:1, w:'onPause, onStop, onDestroy y otra vez onCreate, onStart, onResume.'},
+  {q:'¿Por qué Android destruye actividades que no usas?', o:['Para ahorrar batería de la pantalla','Para conservar memoria para la app actual','Por seguridad','Para actualizar la app'], a:1, w:'Conservación de memoria y fluidez.'},
+  {q:'¿Qué dos capas debe tener como mínimo una app?', o:['IU y datos','Dominio y datos','IU y dominio','Red y base de datos'], a:0, w:'La de dominio es opcional.'},
+  {q:'¿Qué ventaja clave tiene guardar el estado en un ViewModel?', o:['Es más bonito','Sobrevive a los cambios de configuración (girar)','Se guarda en la nube','No necesita dependencias'], a:1, w:'Por eso no se pierden los datos al girar.'},
+  {q:'En el flujo unidireccional, ¿qué envía la IU al ViewModel?', o:['El estado','Los eventos del usuario','El tema','El Manifest'], a:1, w:'Eventos suben, estado baja.'},
+  {q:'¿Para qué sirve <code>asStateFlow()</code>?', o:['Convierte un flujo mutable en uno de solo lectura','Guarda en disco','Crea un ViewModel','Convierte String a Int'], a:0, w:'La IU lee pero no modifica.'},
+  {q:'¿Qué hace <code>estado.copy(resultado = "7")</code>?', o:['Modifica el objeto original','Crea un objeto nuevo igual pero con resultado = "7"','Copia al portapapeles','Borra el estado'], a:1, w:'copy es de las data class.'},
+  {q:'¿Qué función conecta el StateFlow con Compose?', o:['remember','collectAsState','setContent','observe'], a:1, w:'Cada nuevo valor provoca recomposición.'},
+  {q:'<code>"abc".toIntOrNull() ?: 0</code> vale…', o:['null','Error','0','abc'], a:2, w:'"abc" no es número → null → Elvis lo cambia a 0.'}
+ ],
+ practice:[
+  {p:'Escribe el callback que se ejecuta cuando la actividad deja de ser visible.', code:'override fun {{0}}() {\n    super.{{0}}()\n    Log.d(TAG, "La actividad ya no se ve")\n}', a:[['onStop']], h:'Detener en inglés.'},
+  {p:'Declara el estado privado y la versión pública de solo lectura.', code:'private val _uiState = {{0}}(CompraUiState())\nval uiState: StateFlow<CompraUiState> = _uiState.{{1}}()', a:[['MutableStateFlow'],['asStateFlow']], h:'Mutable…; as…'},
+  {p:'Actualiza solo el campo total del estado.', code:'_uiState.{{0}} { actual ->\n    actual.{{1}}(total = nuevoTotal)\n}', a:[['update'],['copy']], h:'Actualizar; copiar.'},
+  {p:'En el composable, escucha el estado.', code:'val uiState by viewModel.uiState.{{0}}()', a:[['collectAsState']], h:'collect + As + State.'},
+  {p:'Convierte texto a número o 0 si no se puede.', code:'val n = texto.{{0}}() {{1}} 0', a:[['toIntOrNull'],['?:']], h:'toInt o null; Elvis.'}
+ ],
+ check:['Sé el orden de los callbacks al abrir, salir, volver, girar y cerrar.','Sé escribir un callback con override y Log.d.','Sé explicar las capas IU, dominio y datos.','Sé explicar el flujo: eventos suben, estado baja.','Sé crear un UIState como data class.','Sé añadir la dependencia de ViewModel.','Sé escribir un ViewModel con MutableStateFlow, asStateFlow, update y copy.','Sé usar viewModel() y collectAsState() en un composable.']
+}
+];
+
+/* ---------------------------------------------------------------- PROYECTO */
+const PROJECT = [
+ {u:'ud1', t:'Crea el proyecto', d:'Crea un proyecto <b>Empty Activity</b> llamado "Lista de la compra" con paquete <code>com.tunombre.listacompra</code>. Ejecútalo en el emulador. Añade <code>Log.d("MainActivity", "onCreate")</code> y búscalo en Logcat.', code:null},
+ {u:'kotlin', t:'Modela los datos', d:'Crea el paquete <code>modelo</code> y una data class para cada producto.', code:'package com.tunombre.listacompra.modelo\n\ndata class Producto(\n    val nombre: String,\n    val cantidad: Int = 1\n)'},
+ {u:'ud2', t:'Diseña la pantalla', d:'Dibuja un mockup: arriba un TextField y un botón "Añadir" en un Row; debajo, la lista. Pasa todos los textos a strings.xml y añade el idioma inglés (values-en) con el Translations Editor.', code:'@Composable\nfun PantallaCompra(modifier: Modifier = Modifier) {\n    var texto by remember { mutableStateOf("") }\n    Column(modifier = modifier.padding(16.dp)) {\n        Row(verticalAlignment = Alignment.CenterVertically) {\n            OutlinedTextField(\n                value = texto,\n                onValueChange = { texto = it },\n                label = { Text(stringResource(R.string.producto)) },\n                singleLine = true,\n                modifier = Modifier.weight(1f)\n            )\n            Button(onClick = { /* paso 5 */ }) {\n                Text(stringResource(R.string.anadir))\n            }\n        }\n    }\n}'},
+ {u:'ud3', t:'Muestra la lista', d:'Muestra los productos con LazyColumn + items y una Card por producto. Cambia el color primary del tema y redondea las Card con RoundedCornerShape.', code:'@Composable\nfun ListaProductos(lista: List<Producto>, modifier: Modifier = Modifier) {\n    LazyColumn(modifier = modifier) {\n        items(lista) { producto ->\n            Card(\n                shape = RoundedCornerShape(12.dp),\n                modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)\n            ) {\n                Text(\n                    text = "${producto.nombre} x${producto.cantidad}",\n                    modifier = Modifier.padding(16.dp)\n                )\n            }\n        }\n    }\n}'},
+ {u:'ud4', t:'Mueve el estado al ViewModel', d:'Crea <code>CompraUiState</code> y <code>CompraViewModel</code>. El botón llama a <code>anadir()</code>. Prueba a añadir 3 productos y <b>girar el emulador</b>: la lista debe seguir ahí.', code:'data class CompraUiState(val productos: List<Producto> = emptyList())\n\nclass CompraViewModel : ViewModel() {\n    private val _uiState = MutableStateFlow(CompraUiState())\n    val uiState: StateFlow<CompraUiState> = _uiState.asStateFlow()\n\n    fun anadir(nombre: String) {\n        if (nombre.isBlank()) return\n        _uiState.update { actual ->\n            actual.copy(productos = actual.productos + Producto(nombre))\n        }\n    }\n}\n\n// En PantallaCompra:\n// viewModel: CompraViewModel = viewModel()\n// val uiState by viewModel.uiState.collectAsState()\n// Button(onClick = { viewModel.anadir(texto); texto = "" })\n// ListaProductos(lista = uiState.productos)'}
+];
+
+/* ---------------------------------------------------------------- GLOSARIO / FLASHCARDS */
+const GLOSS = [
+ ['val','Variable de solo lectura: no se puede reasignar.','kotlin'],['var','Variable mutable: su valor puede cambiar.','kotlin'],['Inferencia de tipo','Kotlin deduce el tipo de una variable a partir de su valor.','kotlin'],['when','Sustituto de switch. Si devuelve valor, necesita else.','kotlin'],['Unit','Tipo de una función que no devuelve nada (void de Java).','kotlin'],['Lambda','Función sin nombre entre llaves que se puede guardar o pasar: { it * 2 }.','kotlin'],['it','Nombre implícito del único parámetro de una lambda.','kotlin'],['open','Permite heredar de una clase o sobrescribir un método.','kotlin'],['data class','Clase solo de datos; genera toString, equals y copy.','kotlin'],['object','Crea un singleton: una única instancia.','kotlin'],['MutableList','Lista que se puede modificar (add, remove, [i] =).','kotlin'],['Set','Colección sin orden ni duplicados.','kotlin'],['Map','Colección de pares clave → valor con claves únicas.','kotlin'],['?.','Llamada segura: si es null devuelve null sin fallar.','kotlin'],['?: (Elvis)','Valor alternativo si lo de la izquierda es null.','kotlin'],['!!','Aserción de no nulo. Si es null lanza NullPointerException.','kotlin'],
+ ['Framework','Capa con clases ya hechas para acceder a funciones del sistema y del hardware.','ud1'],['Actividad','Componente que muestra una pantalla y gestiona la interacción con el usuario.','ud1'],['AndroidManifest.xml','Fichero que registra los componentes de la app y lo que necesita.','ud1'],['LAUNCHER','Categoría del intent-filter que marca la actividad que abre el icono.','ud1'],['Package name','Identificador único: dominio invertido + app. com.empresa.app','ud1'],['AVD','Android Virtual Device: móvil simulado del emulador.','ud1'],['Gradle','Sistema que construye la app y gestiona dependencias.','ud1'],['libs.versions.toml','Catálogo de versiones de librerías del proyecto.','ud1'],['Breakpoint','Punto rojo donde el depurador detiene la ejecución.','ud1'],['Logcat','Consola donde aparecen los mensajes Log.e/w/i/d/v.','ud1'],
+ ['@Composable','Anotación de una función que describe interfaz en Compose.','ud2'],['setContent','Bloque de la actividad donde se llaman los composables.','ud2'],['Modifier','Decora un composable: tamaño, padding, clic… El orden importa.','ud2'],['stringResource','Lee un texto de strings.xml para poder traducir la app.','ud2'],['sp','Unidad para tamaño de texto; respeta la preferencia del usuario.','ud2'],['dp','Unidad para tamaños y márgenes independiente de la densidad.','ud2'],['TextField','Campo de texto: value, onValueChange, label.','ud2'],['remember + mutableStateOf','Estado que Compose recuerda y que provoca redibujado al cambiar.','ud2'],['Scaffold','Estructura con topBar, bottomBar y floatingActionButton.','ud2'],['Column / Row / Box','Vertical / horizontal / superpuestos.','ud2'],['Localización','Adaptar la app a idiomas: values-es, values-fr…','ud2'],
+ ['LazyColumn','Lista vertical que crea solo los elementos visibles.','ud3'],['items','Función que añade un elemento por cada objeto de una lista.','ud3'],['@StringRes / @DrawableRes','Indican que un Int es id de texto / de imagen.','ud3'],['GridCells.Fixed','Número exacto de columnas o filas.','ud3'],['GridCells.Adaptive','Tantas columnas como quepan con un tamaño mínimo.','ud3'],['primary','Color del tema para los componentes más importantes.','ud3'],['RoundedCornerShape','Forma con esquinas redondeadas en dp.','ud3'],
+ ['Ciclo de vida','Estados por los que pasa una actividad: created, started, resumed, paused, stopped, destroyed.','ud4'],['Callback','Método que Android llama para avisar de un cambio (onStart, onStop…).','ud4'],['ViewModel','Contenedor de estado que sobrevive a cambios de configuración.','ud4'],['UIState','data class con todo lo que muestra una pantalla.','ud4'],['StateFlow','Flujo observable que emite el estado actual y sus cambios.','ud4'],['MutableStateFlow','Versión modificable del StateFlow (privada en el ViewModel).','ud4'],['update + copy','Forma segura de crear un nuevo estado cambiando solo algunos campos.','ud4'],['collectAsState','Convierte un StateFlow en estado de Compose para redibujar.','ud4'],['Flujo unidireccional','Estado baja del ViewModel a la IU; eventos suben de la IU al ViewModel.','ud4']
+];
+
+/* ---------------------------------------------------------------- ¿COMPILA? */
+const COMPILA = [
+ {c:'val x = 5\nx = 6', ok:false, w:'x es val: no se puede reasignar.'},
+ {c:'var nombre: String = null', ok:false, w:'String no admite null. Haría falta String?'},
+ {c:'var nombre: String? = null', ok:true, w:'Con ? el tipo es anulable.'},
+ {c:'val p = new Persona()', ok:false, w:'En Kotlin no existe new.'},
+ {c:'val t = when (n) {\n    1 -> "uno"\n}', ok:false, w:'Un when que devuelve valor necesita else.'},
+ {c:'val compra = mutableListOf("pan")\ncompra.add("leche")', ok:true, w:'val impide reasignar la variable, pero la lista mutable sí cambia.'},
+ {c:'val l = listOf(1, 2)\nl.add(3)', ok:false, w:'listOf es de solo lectura: no tiene add.'},
+ {c:'class Animal\nclass Perro : Animal()', ok:false, w:'Animal no es open: no se puede heredar.'},
+ {c:'fun hola() {\n    println("Hola")\n}', ok:true, w:'Devuelve Unit; no hace falta indicarlo.'},
+ {c:'val doble: (Int) -> Int = { it * 2 }', ok:true, w:'Lambda con un parámetro implícito it.'},
+ {c:'val s = setOf("a", "b")\nprintln(s[0])', ok:false, w:'Los Set no tienen índices.'},
+ {c:'val edad: Int = "17"', ok:false, w:'"17" es String, no Int. Sería "17".toInt().'}
+];
+
+/* ====== MOTOR DE LA GUÍA ====== */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* ---------- Progreso (solo en este navegador) ---------- */
+const KEY = 'pmdm-ruta-v1';
+let P = {};
+try { P = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { P = {}; }
+function save() { try { localStorage.setItem(KEY, JSON.stringify(P)); } catch (e) {} updateProgress(); }
+function getU(id) { P[id] = P[id] || { check: {}, quiz: {}, prac: {} }; return P[id]; }
+
+function unitPct(u) {
+  const s = getU(u.id);
+  const total = u.check.length + u.quiz.length + u.practice.length;
+  const done = Object.values(s.check).filter(Boolean).length
+    + Object.values(s.quiz).filter(v => v === true).length
+    + Object.values(s.prac).filter(Boolean).length;
+  return total ? Math.round(done / total * 100) : 0;
+}
+
+/* ---------- Resaltado de código ---------- */
+const KW = new Set('val var fun class data object open override private public protected internal return if else when for in while is as null true false this super import package by interface enum set get field value it step downTo until const'.split(' '));
+function hl(line, lang) {
+  if (lang === 'xml') {
+    return esc(line)
+      .replace(/(&quot;[^&]*?&quot;)/g, '<span class="k-str">$1</span>')
+      .replace(/(&lt;\/?[\w.:-]+|\/?&gt;)/g, '<span class="k-tag">$1</span>')
+      .replace(/^(\s*)(\[[\w]+\])$/, '$1<span class="k-kw">$2</span>');
+  }
+  const re = /(\/\/.*$)|("(?:[^"\\]|\\.)*")|(@\w+)|(\b\d+(?:\.\d+)?(?:f|L)?\b)|(\b[A-Za-z_]\w*\b)/g;
+  let out = '', last = 0, m;
+  while ((m = re.exec(line))) {
+    out += esc(line.slice(last, m.index));
+    const t = m[0];
+    if (m[1]) out += `<span class="k-com">${esc(t)}</span>`;
+    else if (m[2]) out += `<span class="k-str">${esc(t)}</span>`;
+    else if (m[3]) out += `<span class="k-ann">${esc(t)}</span>`;
+    else if (m[4]) out += `<span class="k-num">${esc(t)}</span>`;
+    else if (KW.has(t)) out += `<span class="k-kw">${t}</span>`;
+    else if (/^[A-Z]/.test(t)) out += `<span class="k-type">${t}</span>`;
+    else out += t;
+    last = m.index + t.length;
+  }
+  return out + esc(line.slice(last));
+}
+
+/* ---------- Bloques ---------- */
+let uid = 0;
+function codeBox(b) {
+  const id = 'cb' + (uid++);
+  const hasEx = b.lines.some(l => l[1]);
+  const lines = b.lines.map((l, i) =>
+    `<div class="ln${l[1] ? ' x' : ''}" data-i="${i}" ${l[1] ? 'tabindex="0" role="button"' : ''}><span class="n">${i + 1}</span><span>${hl(l[0], b.lang) || ' '}</span></div>`).join('');
+  setTimeout(() => {
+    const box = document.getElementById(id); if (!box) return;
+    const ex = $('.explain', box);
+    const show = el => {
+      $$('.ln.sel', box).forEach(x => x.classList.remove('sel'));
+      el.classList.add('sel');
+      const i = +el.dataset.i;
+      ex.innerHTML = `<b>Línea ${i + 1}</b>${b.lines[i][1]}`;
+    };
+    $$('.ln.x', box).forEach(el => {
+      el.addEventListener('click', () => show(el));
+      el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); show(el); } });
+    });
+    const btn = $('.walk', box);
+    if (btn) btn.addEventListener('click', () => {
+      const xs = $$('.ln.x', box); const cur = xs.findIndex(x => x.classList.contains('sel'));
+      const nx = xs[(cur + 1) % xs.length]; show(nx); nx.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    });
+  });
+  return `<div class="codebox" id="${id}"><div class="codebar"><span>${esc(b.file || '')}</span>${hasEx ? '<span class="row"><span class="hint">Pulsa una línea con número naranja</span><button class="walk" type="button">Siguiente línea ▸</button></span>' : ''}</div><div class="code">${lines}</div>${hasEx ? '<div class="explain">Elige una línea para ver su explicación, o pulsa <b>Siguiente línea</b> para recorrerlas en orden.</div>' : ''}</div>`;
+}
+
+function quizHTML(u) {
+  const s = getU(u.id);
+  const qs = u.quiz.map((q, i) => {
+    const st = s.quiz[i];
+    return `<div class="q" data-i="${i}"><div class="qt">${i + 1}. ${q.q}</div><div class="opts">${q.o.map((o, j) =>
+      `<button type="button" class="opt" data-j="${j}"><span class="l">${'ABCD'[j]}</span><span>${o}</span></button>`).join('')}</div><div class="why" ${st === undefined ? 'hidden' : ''}></div></div>`;
+  }).join('');
+  return `<div class="quiz" data-u="${u.id}"><div class="row"><span class="score"></span><button type="button" class="btn sm reset-quiz">Repetir test</button></div>${qs}</div>`;
+}
+function bindQuiz(root, u) {
+  const s = getU(u.id);
+  const box = $('.quiz', root); if (!box) return;
+  const score = () => {
+    const ans = Object.keys(s.quiz).filter(k => k[0] !== 'a').length, ok = Object.values(s.quiz).filter(v => v === true).length;
+    $('.score', box).textContent = `${ok} de ${u.quiz.length} correctas · ${ans} respondidas`;
+  };
+  const paint = (qEl, i, j) => {
+    const q = u.quiz[i];
+    $$('.opt', qEl).forEach((b, k) => { b.disabled = true; if (k === q.a) b.classList.add('right'); if (k === j && j !== q.a) b.classList.add('wrong'); });
+    const w = $('.why', qEl); w.hidden = false;
+    w.innerHTML = (j === q.a ? '<b class="ok">¡Correcto!</b> ' : '<b class="ko">No es esa.</b> ') + q.w;
+  };
+  $$('.q', box).forEach(qEl => {
+    const i = +qEl.dataset.i;
+    if (s.quiz[i] !== undefined) paint(qEl, i, s.quiz['a' + i]);
+    $$('.opt', qEl).forEach(b => b.addEventListener('click', () => {
+      const j = +b.dataset.j; s.quiz[i] = j === u.quiz[i].a; s.quiz['a' + i] = j; save(); paint(qEl, i, j); score();
+    }));
+  });
+  $('.reset-quiz', box).addEventListener('click', () => { s.quiz = {}; save(); render(); setTimeout(() => $('[id$="-quiz"]')?.scrollIntoView(), 30); });
+  score();
+}
+// claves 'aN' guardan la opción elegida; no cuentan como acierto (no son true)
+
+const norm = s => String(s).replace(/\s+/g, '').toLowerCase();
+function practiceHTML(u) {
+  return u.practice.map((ex, i) => {
+    let n = 0;
+    const lines = esc(ex.code).split('\n').map((l, k) =>
+      `<div class="ln"><span class="n">${k + 1}</span><span>${l.replace(/\{\{(\d+)\}\}/g, (_, g) => `<input class="gap" data-g="${g}" size="${Math.max(3, Math.max(...ex.a[g].map(x => x.length)) + 1)}" aria-label="hueco ${+g + 1}" autocomplete="off" autocapitalize="off" spellcheck="false">`)}</span></div>`).join('');
+    return `<div class="ex" data-i="${i}"><div><b>Ejercicio ${i + 1}.</b> ${ex.p}</div><div class="code">${lines}</div><div class="row"><button type="button" class="btn pri sm chk">Comprobar</button><button type="button" class="btn sm hint">Pista</button><button type="button" class="btn sm sol">Ver solución</button><span class="feedback" aria-live="polite"></span></div></div>`;
+  }).join('');
+}
+function bindPractice(root, u) {
+  const s = getU(u.id);
+  $$('.ex', root).forEach(el => {
+    const i = +el.dataset.i, ex = u.practice[i], fb = $('.feedback', el);
+    const check = () => {
+      let all = true;
+      $$('.gap', el).forEach(g => {
+        const ok = ex.a[g.dataset.g].some(a => norm(a) === norm(g.value));
+        g.classList.toggle('ok', ok); g.classList.toggle('ko', !ok); if (!ok) all = false;
+      });
+      fb.className = 'feedback ' + (all ? 'ok' : 'ko');
+      fb.textContent = all ? '¡Perfecto! Ejercicio superado.' : 'Hay huecos en rojo. Revisa y vuelve a intentarlo.';
+      if (all) { s.prac[i] = true; save(); }
+    };
+    $('.chk', el).addEventListener('click', check);
+    $$('.gap', el).forEach(g => g.addEventListener('keydown', e => { if (e.key === 'Enter') check(); }));
+    $('.hint', el).addEventListener('click', () => { fb.className = 'feedback'; fb.textContent = 'Pista: ' + ex.h; });
+    $('.sol', el).addEventListener('click', () => { $$('.gap', el).forEach(g => { g.value = ex.a[g.dataset.g][0]; g.classList.remove('ko'); }); fb.className = 'feedback'; fb.textContent = 'Solución mostrada. Bórrala mañana e inténtalo de memoria.'; });
+    if (s.prac[i]) { $$('.gap', el).forEach(g => { g.value = ex.a[g.dataset.g][0]; g.classList.add('ok'); }); fb.className = 'feedback ok'; fb.textContent = 'Ya superado.'; }
+  });
+}
+
+function checkHTML(u) {
+  const s = getU(u.id);
+  return `<div class="check">${u.check.map((c, i) => `<label><input type="checkbox" id="chk-${u.id}-${i}" data-i="${i}" ${s.check[i] ? 'checked' : ''}><span>${c}</span></label>`).join('')}</div>`;
+}
+function bindCheck(root, u) {
+  const s = getU(u.id);
+  $$('.check input', root).forEach(c => c.addEventListener('change', () => { s.check[c.dataset.i] = c.checked; save(); }));
+}
+
+function block(b, u) {
+  switch (b.t) {
+    case 'p': return `<p>${b.html}</p>`;
+    case 'h4': return `<h3 style="margin-top:6px">${b.html}</h3>`;
+    case 'html': return b.html;
+    case 'analogy': return `<div class="analogy"><div class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z"/></svg></div><div><b class="t">${b.title}</b>${b.html}</div></div>`;
+    case 'steps': return `<ol class="steps">${b.items.map(i => `<li><span>${i}</span></li>`).join('')}</ol>`;
+    case 'code': return codeBox(b);
+    case 'table': return `<div class="table-wrap"><table><thead><tr>${b.head.map(h => `<th>${h}</th>`).join('')}</tr></thead><tbody>${b.rows.map(r => `<tr>${r.map(c => `<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+    case 'mistakes': return `<div class="mistakes">${b.items.map(m => `<div class="mistake"><b>✗ ${m[0]}</b><span>✓ ${m[1]}</span></div>`).join('')}</div>`;
+    case 'lab': return `<div class="lab" data-lab="${b.id}"></div>`;
+    case 'quiz': return quizHTML(u);
+    case 'practice': return practiceHTML(u);
+    case 'check': return checkHTML(u);
+  }
+  return '';
+}
+const TAGNAME = { lee: 'Lee', mira: 'Mira el código', toca: 'Toca y prueba', comprueba: 'Comprueba' };
+
+function renderUnit(u) {
+  const i = UNITS.indexOf(u);
+  const prev = i > 0 ? UNITS[i - 1] : null, next = UNITS[i + 1];
+  const toc = u.sections.map(s => `<a href="#${u.id}" data-sec="${s.id}">${s.title}</a>`).join(' · ');
+  return `<div class="page">
+  <header class="unit-head">
+    <span class="eyebrow">${u.id === 'kotlin' ? 'Base previa' : 'Unidad ' + u.num} · ${u.short}</span>
+    <h1>${u.title}</h1>
+    <p class="lead" style="color:var(--muted);font-size:1.08rem;max-width:64ch">${u.intro}</p>
+    <div class="unit-meta"><span class="chip">⏱ ${u.minutes} de estudio</span><span class="chip a">${unitPct(u)} % completado</span><span class="chip">${u.quiz.length} preguntas · ${u.practice.length} ejercicios</span></div>
+  </header>
+  <section class="blk"><div class="blk-head"><h2>Al terminar sabrás</h2></div><ul class="goals">${u.goals.map(g => `<li><span>${g}</span></li>`).join('')}</ul>
+  <details class="sol"><summary>Índice de la unidad</summary><div class="prose" style="font-size:.95rem">${toc}</div></details></section>
+  ${u.sections.map(s => `<section class="blk" id="${s.id}"><div class="blk-head"><span class="tag t-${s.tag}">${TAGNAME[s.tag]}</span><h2>${s.title}</h2></div>${s.blocks.map(b => block(b, u)).join('')}</section>`).join('')}
+  <nav class="nextprev">${prev ? `<a class="btn" href="#${prev.id}">← ${prev.title}</a>` : '<a class="btn" href="#inicio">← Inicio</a>'}${next ? `<a class="btn pri" href="#${next.id}">${next.title} →</a>` : '<a class="btn pri" href="#proyecto">Proyecto final →</a>'}</nav>
+  </div>`;
+}
+
+/* ---------- Laboratorios ---------- */
+const LABS = {
+ compila(el) {
+  let i = 0, ok = 0, done = 0;
+  el.innerHTML = `<div class="lab-title"><span class="badge">LAB</span><h3>¿Compila o no compila?</h3></div><p>Lee el código y decide. Así entrenas el ojo para los errores que más se repiten en examen.</p><div class="codebox"><div class="code" id="cmp-code"></div></div><div class="row verdict"><button type="button" class="btn pri" data-v="1">✓ Compila</button><button type="button" class="btn" data-v="0">✗ No compila</button><span class="score" id="cmp-score"></span></div><div class="why" id="cmp-why" hidden></div><div class="row"><button type="button" class="btn sm" id="cmp-next" hidden>Siguiente ▸</button></div>`;
+  const show = () => {
+    const c = COMPILA[i];
+    $('#cmp-code', el).innerHTML = c.c.split('\n').map((l, k) => `<div class="ln"><span class="n">${k + 1}</span><span>${hl(l)}</span></div>`).join('');
+    $('#cmp-why', el).hidden = true; $('#cmp-next', el).hidden = true;
+    $$('[data-v]', el).forEach(b => b.disabled = false);
+    $('#cmp-score', el).textContent = `${i + 1} / ${COMPILA.length} · aciertos: ${ok}`;
+  };
+  $$('[data-v]', el).forEach(b => b.addEventListener('click', () => {
+    const c = COMPILA[i], right = (b.dataset.v === '1') === c.ok; if (right) ok++; done++;
+    const w = $('#cmp-why', el); w.hidden = false;
+    w.innerHTML = (right ? '<b class="ok">¡Bien!</b> ' : '<b class="ko">Fallo.</b> ') + (c.ok ? 'Sí compila. ' : 'No compila. ') + c.w;
+    $$('[data-v]', el).forEach(x => x.disabled = true);
+    $('#cmp-score', el).textContent = `${i + 1} / ${COMPILA.length} · aciertos: ${ok}`;
+    const n = $('#cmp-next', el); n.hidden = false; n.textContent = i === COMPILA.length - 1 ? 'Empezar de nuevo ↺' : 'Siguiente ▸';
+  }));
+  $('#cmp-next', el).addEventListener('click', () => { i++; if (i >= COMPILA.length) { i = 0; ok = 0; } show(); });
+  show();
+ },
+ capas(el) {
+  const L = [['Hardware del dispositivo', '#6B5B4B'], ['Sistema Operativo Android', '#1D7348'], ['Framework', '#6A4BD6'], ['Aplicaciones', '#C2571A']];
+  el.innerHTML = `<div class="lab-title"><span class="badge">LAB</span><h3>Construye el edificio</h3></div><p>Pulsa las capas en orden, <b>empezando por los cimientos</b> (la de más abajo).</p><div class="lab-grid"><div class="ctrl" id="cp-btns"></div><div class="stack" id="cp-stack" aria-live="polite"></div></div><div class="row"><span class="feedback" id="cp-fb"></span><button type="button" class="btn sm" id="cp-re">Reiniciar</button></div>`;
+  let step = 0;
+  const init = () => {
+    step = 0; $('#cp-stack', el).innerHTML = ''; $('#cp-fb', el).textContent = '';
+    const order = [2, 0, 3, 1];
+    $('#cp-btns', el).innerHTML = order.map(k => `<button type="button" class="btn" data-k="${k}">${L[k][0]}</button>`).join('');
+    $$('#cp-btns button', el).forEach(b => b.addEventListener('click', () => {
+      const k = +b.dataset.k, fb = $('#cp-fb', el);
+      if (k === step) {
+        $('#cp-stack', el).insertAdjacentHTML('beforeend', `<div class="layer" style="background:${L[k][1]}">${L[k][0]}</div>`);
+        b.disabled = true; step++;
+        fb.className = 'feedback ok';
+        fb.textContent = step === 4 ? '¡Edificio completo! Tu app (arriba) usa el Framework, que habla con el sistema, que controla el hardware.' : 'Correcto. ¿Qué va encima?';
+      } else { fb.className = 'feedback ko'; fb.textContent = `"${L[k][0]}" no va ahí todavía. Piensa: ¿qué necesita existir antes?`; }
+    }));
+  };
+  $('#cp-re', el).addEventListener('click', init); init();
+ },
+ ficheros(el) {
+  const F = [
+   ['d', 'app'],
+   ['d', '  manifests'], ['f', '    AndroidManifest.xml', 'Información esencial del proyecto: sus <b>componentes</b> (actividades…), permisos y librerías que necesita.'],
+   ['d', '  kotlin+java / com.ejemplo.miapp'], ['f', '    MainActivity.kt', 'La <b>actividad principal</b>. Cada actividad define cómo se comporta la app con el usuario. Aquí está <code>onCreate</code> y <code>setContent</code>.'],
+   ['f', '    ui.theme / Color.kt', 'Los colores de la app en Kotlin (Ud3).'], ['f', '    ui.theme / Theme.kt', 'El <b>tema</b>: une colores, tipografía y formas. Lo usa <code>MyApplicationTheme { }</code>.'], ['f', '    ui.theme / Type.kt', 'La tipografía (Ud3).'],
+   ['d', '  res'], ['f', '    drawable', 'Las <b>imágenes</b> que usa la app. Se usan con <code>R.drawable.nombre</code>.'], ['f', '    mipmap', 'Los <b>iconos</b> de la app en varias resoluciones.'],
+   ['f', '    values / colors.xml', 'Colores en XML. Se usan con <code>colorResource(R.color.x)</code>.'], ['f', '    values / strings.xml', 'Todos los <b>textos</b>: nombre de la app, botones, etiquetas… Imprescindible para traducir.'], ['f', '    values / themes.xml', 'Temas y estilos en XML (el tema base de la actividad).'], ['f', '    xml', 'Configuración extra: reglas de <b>copias de seguridad</b>, preferencias…'],
+   ['d', 'Gradle Scripts'], ['f', '  build.gradle.kts (Project)', 'Configuración general de todo el proyecto. Casi nunca lo tocarás.'], ['f', '  build.gradle.kts (Module :app)', 'Configuración de <b>tu app</b>: compileSdk, minSdk, applicationId y <b>dependencies</b>. Aquí se añaden librerías.'], ['f', '  libs.versions.toml', 'El <b>catálogo de versiones</b>: nombres y versiones de las librerías en un solo sitio.']
+  ];
+  el.innerHTML = `<div class="lab-title"><span class="badge">LAB</span><h3>Explorador del proyecto</h3></div><div class="lab-grid"><div class="tree">${F.map((f, i) => f[0] === 'd' ? `<div class="dir">▾ ${f[1].trim()}</div>`.replace('<div class="dir">', `<div class="dir" style="padding-left:${6 + (f[1].length - f[1].trimStart().length) * 6}px">`) : `<button type="button" data-i="${i}" style="padding-left:${6 + (f[1].length - f[1].trimStart().length) * 6}px">${esc(f[1].trim())}</button>`).join('')}</div><div class="infobox" id="fx-info" aria-live="polite">Pulsa un fichero de la izquierda.</div></div>`;
+  $$('.tree button', el).forEach(b => b.addEventListener('click', () => {
+    $$('.tree button', el).forEach(x => x.classList.remove('sel')); b.classList.add('sel');
+    const f = F[+b.dataset.i]; $('#fx-info', el).innerHTML = `<b style="font-family:var(--f-code)">${esc(f[1].trim())}</b><br>${f[2]}`;
+  }));
+ },
+ logcat(el) {
+  const LV = ['v', 'd', 'i', 'w', 'e'], NAME = { v: 'Verbose', d: 'Debug', i: 'Info', w: 'Warn', e: 'Error' };
+  let logs = [];
+  el.innerHTML = `<div class="lab-title"><span class="badge">LAB</span><h3>Simulador de Logcat</h3></div>
+  <div class="lab-grid"><div class="ctrl">
+   <label class="f" for="lg-tag">Etiqueta (TAG)<input type="text" id="lg-tag" value="MainActivity"></label>
+   <label class="f" for="lg-msg">Mensaje<input type="text" id="lg-msg" value="Botón pulsado"></label>
+   <div class="row">${LV.slice().reverse().map(l => `<button type="button" class="btn sm" data-l="${l}">Log.${l}</button>`).join('')}</div>
+   <label class="f" for="lg-filter">Filtrar desde el nivel<select id="lg-filter">${LV.map(l => `<option value="${l}">${NAME[l]} y superiores</option>`).join('')}</select></label>
+   <div class="codebox"><div class="code" id="lg-code"></div></div>
+  </div><div class="log" id="lg-out" aria-live="polite"></div></div>`;
+  const draw = () => {
+    const min = LV.indexOf($('#lg-filter', el).value);
+    const out = $('#lg-out', el);
+    out.innerHTML = logs.filter(x => LV.indexOf(x.l) >= min).map(x => `<div class="${x.l}">${x.t}  ${x.l.toUpperCase()}  ${esc(x.tag)}: ${esc(x.m)}</div>`).join('') || '<div class="sys">Pulsa un botón Log.x para escribir en la consola.</div>';
+    out.scrollTop = out.scrollHeight;
+  };
+  const t0 = Date.now();
+  $$('[data-l]', el).forEach(b => b.addEventListener('click', () => {
+    const l = b.dataset.l, tag = $('#lg-tag', el).value || 'TAG', m = $('#lg-msg', el).value || '';
+    const s = ((Date.now() - t0) / 1000 + 12.3).toFixed(3);
+    logs.push({ l, tag, m, t: '10:42:' + s.padStart(6, '0') });
+    $('#lg-code', el).innerHTML = `<div class="ln"><span class="n">1</span><span>${hl(`Log.${l}("${tag}", "${m}")`)}</span></div>`;
+    draw();
+  }));
+  $('#lg-filter', el).addEventListener('change', draw);
+  logs = [{ l: 'd', tag: 'MainActivity', m: 'onCreate', t: '10:42:10.101' }, { l: 'i', tag: 'MainActivity', m: 'Usuario: Ana', t: '10:42:10.240' }, { l: 'w', tag: 'Red', m: 'Conexión lenta', t: '10:42:11.002' }, { l: 'e', tag: 'MainActivity', m: 'No se pudo cargar la imagen', t: '10:42:11.530' }];
+  $('#lg-code', el).innerHTML = `<div class="ln"><span class="n">1</span><span>${hl('Log.d("MainActivity", "onCreate")')}</span></div>`;
+  draw();
+ },
+ layout(el) {
+  const OPT = {
+   Column: { arr: ['Top', 'Center', 'Bottom', 'SpaceBetween', 'SpaceAround', 'SpaceEvenly'], ali: ['Start', 'CenterHorizontally', 'End'], an: 'verticalArrangement', al: 'horizontalAlignment' },
+   Row: { arr: ['Start', 'Center', 'End', 'SpaceBetween', 'SpaceAround', 'SpaceEvenly'], ali: ['Top', 'CenterVertically', 'Bottom'], an: 'horizontalArrangement', al: 'verticalAlignment' },
+   Box: { arr: [], ali: ['TopStart', 'TopCenter', 'TopEnd', 'CenterStart', 'Center', 'CenterEnd', 'BottomStart', 'BottomCenter', 'BottomEnd'], an: '', al: 'contentAlignment' }
+  };
+  el.innerHTML = `<div class="lab-title"><span class="badge">LAB</span><h3>Taller de layouts</h3></div><div class="lab-grid"><div class="ctrl">
+   <div class="row" role="group" aria-label="Contenedor">${Object.keys(OPT).map(k => `<button type="button" class="btn sm" data-k="${k}" aria-pressed="${k === 'Column'}">${k}</button>`).join('')}</div>
+   <label class="f" for="ly-arr" id="ly-arr-l">Arrangement<select id="ly-arr"></select></label>
+   <label class="f" for="ly-ali">Alignment<select id="ly-ali"></select></label>
+   <div class="codebox"><div class="code" id="ly-code"></div></div>
+   <p class="feedback" id="ly-tip" style="color:var(--muted)"></p>
+  </div><div><div class="phone"><div class="scr" id="ly-scr"></div></div></div></div>`;
+  let K = 'Column';
+  const J = { Top: 'flex-start', Start: 'flex-start', Center: 'center', Bottom: 'flex-end', End: 'flex-end', SpaceBetween: 'space-between', SpaceAround: 'space-around', SpaceEvenly: 'space-evenly', CenterHorizontally: 'center', CenterVertically: 'center' };
+  const fill = () => {
+    const o = OPT[K];
+    $('#ly-arr', el).innerHTML = o.arr.map(a => `<option>${a}</option>`).join('');
+    $('#ly-arr-l', el).hidden = !o.arr.length;
+    $('#ly-ali', el).innerHTML = o.ali.map(a => `<option>${a}</option>`).join('');
+    if (K === 'Box') $('#ly-ali', el).value = 'Center';
+    draw();
+  };
+  const draw = () => {
+    const o = OPT[K], a = $('#ly-arr', el).value, b = $('#ly-ali', el).value, scr = $('#ly-scr', el);
+    scr.style.display = 'flex'; scr.style.flexDirection = K === 'Row' ? 'row' : 'column'; scr.style.gap = K === 'Box' ? '0' : '6px';
+    if (K === 'Box') {
+      const v = b.startsWith('Top') ? 'flex-start' : b.startsWith('Bottom') ? 'flex-end' : 'center';
+      const h = /Start$/.test(b) ? 'flex-start' : /End$/.test(b) ? 'flex-end' : 'center';
+      scr.style.justifyContent = 'flex-start'; scr.style.alignItems = 'stretch';
+      scr.innerHTML = `<div style="position:relative;flex:1;display:grid">${['A', 'B', 'C'].map(x => `<div style="grid-area:1/1;display:flex;justify-content:${h};align-items:${v}"><div class="blk${x}">${x}</div></div>`).join('')}</div>`;
+    } else {
+      scr.style.justifyContent = J[a]; scr.style.alignItems = J[b];
+      scr.innerHTML = '<div class="blkA">A</div><div class="blkB">B</div><div class="blkC">C</div>';
+    }
+    const pre = K === 'Box' ? 'Alignment' : 'Arrangement';
+    const lines = K === 'Box'
+      ? [`Box(`, `    contentAlignment = Alignment.${b},`, `    modifier = Modifier.fillMaxSize()`, `) {`, `    CuadroA()  // el más grande, debajo`, `    CuadroB()`, `    CuadroC()  // el último, encima`, `}`]
+      : [`${K}(`, `    ${o.an} = Arrangement.${a},`, `    ${o.al} = Alignment.${b},`, `    modifier = Modifier.fillMaxSize()`, `) {`, `    CuadroA()`, `    CuadroB()`, `    CuadroC()`, `}`];
+    $('#ly-code', el).innerHTML = lines.map((l, i) => `<div class="ln"><span class="n">${i + 1}</span><span>${hl(l)}</span></div>`).join('');
+    $('#ly-tip', el).textContent = K === 'Column' ? 'Column: los hijos van uno debajo de otro. Arrangement mueve en vertical, Alignment en horizontal.' : K === 'Row' ? 'Row: los hijos van uno al lado del otro. Arrangement mueve en horizontal, Alignment en vertical.' : 'Box: los hijos se superponen; el último que escribes queda encima.';
+  };
+  $$('[data-k]', el).forEach(b => b.addEventListener('click', () => { K = b.dataset.k; $$('[data-k]', el).forEach(x => x.setAttribute('aria-pressed', x === b)); fill(); }));
+  $('#ly-arr', el).addEventListener('change', draw); $('#ly-ali', el).addEventListener('change', draw);
+  fill();
+ },
+ modifier(el) {
+  el.innerHTML = `<div class="lab-title"><span class="badge">LAB</span><h3>El orden de los modificadores</h3></div>
+  <p>La zona rayada es el <b>padding</b>. Pulsa en ella y en el centro de cada tarjeta.</p>
+  <div class="modi">
+   <div class="card"><div class="codebox"><div class="code"><div class="ln"><span class="n">1</span><span>${hl('Modifier')}</span></div><div class="ln"><span class="n">2</span><span>${hl('  .clickable { }')}</span></div><div class="ln"><span class="n">3</span><span>${hl('  .padding(24.dp)')}</span></div></div></div>
+    <div class="padzone clickable" data-z="a" style="padding:24px"><div class="inner">Texto</div></div><span class="feedback" id="md-a">Primero clic, luego padding: <b>todo</b> es clicable.</span></div>
+   <div class="card"><div class="codebox"><div class="code"><div class="ln"><span class="n">1</span><span>${hl('Modifier')}</span></div><div class="ln"><span class="n">2</span><span>${hl('  .padding(24.dp)')}</span></div><div class="ln"><span class="n">3</span><span>${hl('  .clickable { }')}</span></div></div></div>
+    <div class="padzone" data-z="b" style="padding:24px"><div class="inner clickable">Texto</div></div><span class="feedback" id="md-b">Primero padding, luego clic: el padding <b>no</b> es clicable.</span></div>
+  </div>
+  <p>Otro ejemplo: <code>Modifier.background(verde).padding(16.dp)</code> pinta el fondo <b>incluyendo</b> el margen; <code>Modifier.padding(16.dp).background(verde)</code> deja el margen sin pintar.</p>`;
+  const flash = (n, txt, ok) => { const f = $('#md-' + n, el); f.className = 'feedback ' + (ok ? 'ok' : 'ko'); f.innerHTML = txt; };
+  $('[data-z="a"]', el).addEventListener('click', e => { e.currentTarget.classList.remove('flash'); void e.currentTarget.offsetWidth; e.currentTarget.classList.add('flash'); flash('a', e.target.classList.contains('inner') ? '¡Clic! (centro)' : '¡Clic! También en el padding.', true); });
+  $('[data-z="b"]', el).addEventListener('click', e => {
+    if (e.target.classList.contains('inner')) { e.target.classList.remove('flash'); void e.target.offsetWidth; e.target.classList.add('flash'); flash('b', '¡Clic! (centro)', true); }
+    else flash('b', 'Nada: esta zona de padding está fuera del clickable.', false);
+  });
+ },
+ lazy(el) {
+  const N = 1000, H = 40, COLS = ['#1D7348', '#6A4BD6', '#C2571A', '#2A6FB0', '#B3261E', '#8A7A1F'];
+  const PA = ['Albania', 'Bélgica', 'Chile', 'Dinamarca', 'Egipto', 'Francia', 'Grecia', 'Hungría', 'India', 'Japón', 'Kenia', 'Lituania', 'México', 'Noruega', 'Omán', 'Perú'];
+  let mode = 'lazy', created = 0;
+  el.innerHTML = `<div class="lab-title"><span class="badge">LAB</span><h3>1.000 banderas: Column vs LazyColumn</h3></div>
+  <div class="row" role="group" aria-label="Modo"><button type="button" class="btn sm" data-m="col" aria-pressed="false">Column</button><button type="button" class="btn sm" data-m="lazy" aria-pressed="true">LazyColumn</button></div>
+  <div class="lab-grid"><div class="lazybox" id="lz-box"><div id="lz-in" style="position:relative"></div></div>
+  <div class="ctrl"><div class="stat"><b id="lz-now">0</b><span>elementos en memoria ahora</span></div><div class="stat"><b id="lz-tot">0</b><span>elementos creados en total</span></div><p class="feedback" id="lz-tip" style="color:var(--muted)"></p></div></div>`;
+  const box = $('#lz-box', el), inner = $('#lz-in', el);
+  const item = i => `<div class="lazyitem" style="top:${i * H}px"><span class="fl" style="background:${COLS[i % 6]}"></span>${PA[i % PA.length]} #${i + 1}</div>`;
+  const draw = () => {
+    inner.style.height = N * H + 'px';
+    if (mode === 'col') {
+      if (!inner.dataset.all) { inner.innerHTML = Array.from({ length: N }, (_, i) => item(i)).join(''); inner.dataset.all = 1; created += N; }
+      $('#lz-now', el).textContent = N;
+    } else {
+      delete inner.dataset.all;
+      const a = Math.max(0, Math.floor(box.scrollTop / H) - 2), b = Math.min(N, Math.ceil((box.scrollTop + box.clientHeight) / H) + 2);
+      const prev = +(inner.dataset.a ?? -1), prevB = +(inner.dataset.b ?? -1);
+      if (a !== prev || b !== prevB) {
+        for (let i = a; i < b; i++) if (i < prev || i >= prevB) created++;
+        inner.dataset.a = a; inner.dataset.b = b;
+        inner.innerHTML = Array.from({ length: b - a }, (_, k) => item(a + k)).join('');
+      }
+      $('#lz-now', el).textContent = b - a;
+    }
+    $('#lz-tot', el).textContent = created.toLocaleString('es-ES');
+    $('#lz-tip', el).textContent = mode === 'col' ? 'Column ha creado las 1.000 tarjetas de golpe, aunque solo ves 6 o 7. Con imágenes reales, la app se volvería lenta.' : 'LazyColumn solo mantiene las visibles (más un par de margen). Haz scroll: crea las nuevas y descarta las que salen.';
+  };
+  box.addEventListener('scroll', () => { if (mode === 'lazy') draw(); }, { passive: true });
+  $$('[data-m]', el).forEach(b => b.addEventListener('click', () => { mode = b.dataset.m; created = 0; inner.dataset.a = -1; inner.dataset.b = -1; delete inner.dataset.all; $$('[data-m]', el).forEach(x => x.setAttribute('aria-pressed', x === b)); draw(); }));
+  draw();
+ },
+ grid(el) {
+  el.innerHTML = `<div class="lab-title"><span class="badge">LAB</span><h3>Fixed vs Adaptive</h3></div>
+  <div class="lab-grid"><div class="ctrl">
+   <div class="row" role="group" aria-label="Tipo"><button type="button" class="btn sm" data-g="fixed" aria-pressed="true">GridCells.Fixed</button><button type="button" class="btn sm" data-g="adapt" aria-pressed="false">GridCells.Adaptive</button></div>
+   <label class="f" for="gr-w">Ancho de pantalla: <b id="gr-wv"></b><input type="range" id="gr-w" min="200" max="620" value="300"></label>
+   <label class="f" for="gr-n" id="gr-nl">Número de columnas: <b id="gr-nv"></b><input type="range" id="gr-n" min="1" max="5" value="2"></label>
+   <label class="f" for="gr-m" id="gr-ml" hidden>Tamaño mínimo: <b id="gr-mv"></b><input type="range" id="gr-m" min="60" max="200" step="10" value="100"></label>
+   <div class="codebox"><div class="code" id="gr-code"></div></div>
+   <p class="feedback" id="gr-tip" style="color:var(--muted)"></p>
+  </div><div class="gridstage"><div class="gridframe" id="gr-f"></div></div></div>`;
+  let g = 'fixed';
+  const draw = () => {
+    const w = +$('#gr-w', el).value, n = +$('#gr-n', el).value, m = +$('#gr-m', el).value;
+    $('#gr-wv', el).textContent = w + ' dp' + (w < 360 ? ' (móvil)' : w < 520 ? ' (móvil grande)' : ' (tablet)');
+    $('#gr-nv', el).textContent = n; $('#gr-mv', el).textContent = m + ' dp';
+    $('#gr-nl', el).hidden = g !== 'fixed'; $('#gr-ml', el).hidden = g === 'fixed';
+    const cols = g === 'fixed' ? n : Math.max(1, Math.floor((w - 16 + 6) / (m + 6)));
+    const f = $('#gr-f', el); f.style.width = (w * 0.6) + 'px'; f.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+    f.innerHTML = Array.from({ length: 12 }, (_, i) => `<div>${i + 1}</div>`).join('');
+    const arg = g === 'fixed' ? `GridCells.Fixed(${n})` : `GridCells.Adaptive(minSize = ${m}.dp)`;
+    $('#gr-code', el).innerHTML = ['LazyVerticalGrid(', `    columns = ${arg}`, ') { items(lista) { ... } }'].map((l, i) => `<div class="ln"><span class="n">${i + 1}</span><span>${hl(l)}</span></div>`).join('');
+    $('#gr-tip', el).textContent = g === 'fixed' ? `Siempre ${n} columna(s), da igual el ancho. Mueve el ancho y compruébalo.` : `Caben ${cols} columna(s) de al menos ${m} dp. Ensancha la pantalla: aparecen más columnas solas.`;
+  };
+  $$('[data-g]', el).forEach(b => b.addEventListener('click', () => { g = b.dataset.g; $$('[data-g]', el).forEach(x => x.setAttribute('aria-pressed', x === b)); draw(); }));
+  $$('input', el).forEach(i => i.addEventListener('input', draw));
+  draw();
+ },
+ ciclo(el) {
+  const ST = ['Created', 'Started', 'Resumed', 'Paused', 'Stopped', 'Destroyed'];
+  let st = 'none', rem = 0, vm = 0, busy = false;
+  el.innerHTML = `<div class="lab-title"><span class="badge">LAB</span><h3>Simulador del ciclo de vida</h3></div>
+  <div class="states" id="cv-st">${ST.map(s => `<span class="state" data-s="${s}">${s}</span>`).join('<span class="arrow">→</span>')}</div>
+  <div class="lab-grid"><div class="ctrl">
+   <div class="row"><button type="button" class="btn sm pri" data-a="open">▶ Abrir app</button><button type="button" class="btn sm" data-a="home">○ Botón Inicio</button><button type="button" class="btn sm" data-a="back">↩ Volver a la app</button></div>
+   <div class="row"><button type="button" class="btn sm" data-a="rot">⟳ Girar pantalla</button><button type="button" class="btn sm" data-a="close">◁ Atrás (cerrar)</button></div>
+   <div class="row" style="align-items:stretch"><div class="stat" style="flex:1"><b id="cv-rem">0</b><span>contador con <code>remember</code></span></div><div class="stat" style="flex:1"><b id="cv-vm">0</b><span>contador en <code>ViewModel</code></span></div></div>
+   <button type="button" class="btn" data-a="plus">+1 a los dos contadores</button>
+   <p class="feedback" id="cv-tip" style="color:var(--muted)">Empieza abriendo la app.</p>
+  </div><div class="log" id="cv-log" aria-live="polite"><div class="sys">Logcat · filtro: MainActivity</div></div></div>`;
+  const log = $('#cv-log', el);
+  const setSt = s => { st = s; $$('.state', el).forEach(x => x.classList.toggle('on', x.dataset.s === s)); };
+  const btns = () => {
+    const can = { open: st === 'none' || st === 'Destroyed', home: st === 'Resumed', back: st === 'Stopped', rot: st === 'Resumed', close: st === 'Resumed', plus: st === 'Resumed' };
+    $$('[data-a]', el).forEach(b => b.disabled = busy || !can[b.dataset.a]);
+    $('#cv-rem', el).textContent = rem; $('#cv-vm', el).textContent = vm;
+  };
+  const MAP = { onCreate: 'Created', onStart: 'Started', onRestart: 'Stopped', onResume: 'Resumed', onPause: 'Paused', onStop: 'Stopped', onDestroy: 'Destroyed' };
+  const run = (seq, tip, after) => {
+    busy = true; btns();
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let k = 0;
+    const step = () => {
+      if (k >= seq.length) { busy = false; if (after) after(); $('#cv-tip', el).innerHTML = tip; btns(); return; }
+      const c = seq[k++];
+      if (c.startsWith('#')) log.insertAdjacentHTML('beforeend', `<div class="sys">${c.slice(1)}</div>`);
+      else { log.insertAdjacentHTML('beforeend', `<div class="cb">D  MainActivity: ${c}</div>`); setSt(MAP[c]); }
+      log.scrollTop = log.scrollHeight;
+      setTimeout(step, reduce ? 0 : 380);
+    };
+    step();
+  };
+  const A = {
+    open: () => run(['# — el usuario abre la app —', 'onCreate', 'onStart', 'onResume'], 'La actividad está <b>Resumed</b>: el usuario puede usarla. Suma al contador y prueba a girar.', () => { if (st === 'Resumed') { } }),
+    home: () => run(['# — pulsa Inicio —', 'onPause', 'onStop'], 'Detenida en segundo plano, <b>no destruida</b>. Los dos contadores se conservan.'),
+    back: () => run(['# — vuelve desde recientes —', 'onRestart', 'onStart', 'onResume'], 'Ha vuelto con <b>onRestart</b>. No se llama a onCreate.'),
+    rot: () => { run(['# — gira la pantalla —', 'onPause', 'onStop', 'onDestroy', 'onCreate', 'onStart', 'onResume'], 'Se ha <b>destruido y recreado</b>. El contador con <code>remember</code> se perdió; el del <b>ViewModel</b> sigue igual. Por eso usamos ViewModel.', () => { rem = 0; }); },
+    close: () => run(['# — pulsa Atrás y cierra —', 'onPause', 'onStop', 'onDestroy'], 'Cerrada del todo. Ahora sí se pierde también el ViewModel.', () => { rem = 0; vm = 0; }),
+    plus: () => { rem++; vm++; btns(); }
+  };
+  $$('[data-a]', el).forEach(b => b.addEventListener('click', () => A[b.dataset.a]()));
+  btns();
+ },
+ udf(el) {
+  el.innerHTML = `<div class="lab-title"><span class="badge">LAB</span><h3>Calculadora con ViewModel</h3></div>
+  <div class="lab-grid"><div class="ctrl">
+   <div class="row"><input type="text" id="uf-a" inputmode="numeric" placeholder="Número 1" style="width:7em" aria-label="Número 1"><b>+</b><input type="text" id="uf-b" inputmode="numeric" placeholder="Número 2" style="width:7em" aria-label="Número 2"><b>=</b><b id="uf-r" style="font-family:var(--f-display);font-size:1.4rem">0</b></div>
+   <div class="codebox"><div class="code" id="uf-state"></div></div>
+   <p style="font-size:.88rem;color:var(--muted)">Prueba a escribir letras: <code>toIntOrNull() ?: 0</code> las convierte en 0.</p>
+  </div><div class="flow" id="uf-flow">
+   <div class="fs"><i>1</i><span><b>Evento</b>: la IU llama a <code>actualizarNumero1(it)</code> desde <code>onValueChange</code></span></div>
+   <div class="fs"><i>2</i><span><b>ViewModel</b>: <code>_operacionUIState.update { it.copy(numero1 = …) }</code></span></div>
+   <div class="fs"><i>3</i><span><b>Lógica</b>: <code>calcular()</code> suma y hace <code>copy(resultado = …)</code></span></div>
+   <div class="fs"><i>4</i><span><b>StateFlow</b> emite el nuevo <code>OperacionUIState</code></span></div>
+   <div class="fs"><i>5</i><span><b>IU</b>: <code>collectAsState()</code> lo recibe y Compose <b>redibuja</b></span></div>
+  </div></div>`;
+  let st = { numero1: '', numero2: '', resultado: '' }, tm = [];
+  const paint = () => {
+    $('#uf-state', el).innerHTML = ['OperacionUIState(', `    numero1 = "${st.numero1}",`, `    numero2 = "${st.numero2}",`, `    resultado = "${st.resultado}"`, ')'].map((l, i) => `<div class="ln"><span class="n">${i + 1}</span><span>${hl(l)}</span></div>`).join('');
+    $('#uf-r', el).textContent = st.resultado || '0';
+  };
+  const go = (k, v) => {
+    tm.forEach(clearTimeout); tm = [];
+    const fs = $$('.fs', el); fs.forEach(f => f.classList.remove('on'));
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches, d = reduce ? 0 : 260;
+    const n1 = k === 'numero1' ? v : st.numero1, n2 = k === 'numero2' ? v : st.numero2;
+    const toI = s => { const n = /^-?\d+$/.test(s.trim()) ? parseInt(s, 10) : null; return n ?? 0; };
+    tm.push(setTimeout(() => fs[0].classList.add('on'), 0));
+    tm.push(setTimeout(() => { fs[1].classList.add('on'); st = { ...st, [k]: v }; paint(); }, d));
+    tm.push(setTimeout(() => { fs[2].classList.add('on'); st = { ...st, resultado: String(toI(n1) + toI(n2)) }; }, d * 2));
+    tm.push(setTimeout(() => fs[3].classList.add('on'), d * 3));
+    tm.push(setTimeout(() => { fs[4].classList.add('on'); paint(); }, d * 4));
+  };
+  $('#uf-a', el).addEventListener('input', e => go('numero1', e.target.value));
+  $('#uf-b', el).addEventListener('input', e => go('numero2', e.target.value));
+  $('#uf-a', el).value = '3'; $('#uf-b', el).value = '4'; st = { numero1: '3', numero2: '4', resultado: '7' }; paint();
+ }
+};
+
+/* ---------- Páginas especiales ---------- */
+function renderHome() {
+  const all = UNITS.reduce((a, u) => a + unitPct(u), 0) / UNITS.length;
+  const next = UNITS.find(u => unitPct(u) < 80) || UNITS[UNITS.length - 1];
+  return `<div class="page">
+  <header class="hero">
+   <span class="eyebrow">Programación Multimedia y de Dispositivos Móviles · 2º DAM</span>
+   <h1>De cero a tu primera app Android</h1>
+   <p class="lead">Una ruta paso a paso para entender el módulo y aprobarlo. Cada unidad te explica las ideas con ejemplos de la vida real, te enseña el código línea a línea, te deja probarlo en laboratorios y te pregunta para que sepas si lo has entendido.</p>
+   <div class="row"><a class="btn pri" href="#${next.id}">${all > 0 ? 'Seguir por' : 'Empezar por'}: ${next.title} →</a><span class="chip a">Progreso total: ${Math.round(all)} %</span></div>
+  </header>
+  <section class="blk"><div class="blk-head"><h2>Cómo estudiar con esta guía</h2></div>
+   <div class="method">
+    <div><span class="tag t-lee eyebrow">1 · Lee</span><b>La idea</b><span>Siempre con una comparación de la vida real.</span></div>
+    <div><span class="tag t-mira eyebrow">2 · Mira</span><b>El código</b><span>Pulsa cada línea para ver qué hace.</span></div>
+    <div><span class="tag t-toca eyebrow">3 · Toca</span><b>El laboratorio</b><span>Cambia cosas y mira qué pasa.</span></div>
+    <div><span class="tag t-comprueba eyebrow">4 · Comprueba</span><b>El test</b><span>Con explicación en cada respuesta.</span></div>
+    <div><span class="tag t-toca eyebrow">5 · Practica</span><b>Los huecos</b><span>Escribe tú el código que falta.</span></div>
+    <div><span class="tag t-comprueba eyebrow">6 · Marca</span><b>"Ya sé…"</b><span>Solo si podrías explicarlo a otro.</span></div>
+   </div>
+   <div class="prose"><p><b>Consejos que funcionan:</b></p><ul><li>Sesiones cortas de <b>25 minutos</b> con 5 de descanso. Mejor 45 minutos cada día que 4 horas el domingo.</li><li><b>Escribe el código tú</b> en Android Studio, no lo copies y pegues. Los dedos también aprenden.</li><li>Si un error no se va en 15 minutos, mira la sección <b>Errores típicos</b> de la unidad y después pregunta.</li><li>Antes de cada sesión, haz 5 minutos de <a href="#flashcards">tarjetas</a> de lo anterior.</li><li>El progreso se guarda en este navegador. Si cambias de dispositivo, empieza desde ahí.</li></ul></div>
+  </section>
+  <section class="blk"><div class="blk-head"><h2>La ruta</h2></div>
+   <div class="cards">${UNITS.map(u => `<a class="ucard" href="#${u.id}"><div class="top"><span class="num">${u.id === 'kotlin' ? 'BASE' : 'UD ' + u.num} · ${u.minutes}</span><span class="chip ${unitPct(u) >= 80 ? 'a' : ''}">${unitPct(u)} %</span></div><h3>${u.title}</h3><p>${u.short}</p><div class="meter"><i style="width:${unitPct(u)}%"></i></div></a>`).join('')}
+   <a class="ucard" href="#proyecto"><div class="top"><span class="num">FINAL · 6–8 h</span><span class="chip">${projPct()} %</span></div><h3>Proyecto integrador</h3><p>Una app real que usa todo lo aprendido</p><div class="meter"><i style="width:${projPct()}%"></i></div></a></div>
+  </section>
+  <section class="blk"><div class="blk-head"><h2>Plan de 6 semanas</h2></div>
+   <div class="plan">
+    <div class="wk"><b>Semana 1</b><span>Kotlin desde cero (variables, control, funciones) + laboratorio "¿Compila?". 4 sesiones.</span></div>
+    <div class="wk"><b>Semana 2</b><span>Kotlin (clases, colecciones, nulos) · Ud1: instala Android Studio, crea y ejecuta tu primer proyecto.</span></div>
+    <div class="wk"><b>Semana 3</b><span>Ud2 parte 1: @Composable, MainActivity, Text, TextField, Image. Proyecto: pasos 1 y 2.</span></div>
+    <div class="wk"><b>Semana 4</b><span>Ud2 parte 2: layouts, modificadores, botones, localización · Ud3: LazyColumn. Proyecto: pasos 3 y 4.</span></div>
+    <div class="wk"><b>Semana 5</b><span>Ud3: grids y temas · Ud4: ciclo de vida, ViewModel. Proyecto: paso 5.</span></div>
+    <div class="wk"><b>Semana 6</b><span>Repaso: <a href="#chuleta">chuleta</a>, <a href="#flashcards">tarjetas</a> y 3 <a href="#examen">simulacros de examen</a>. Repite las unidades con menos del 70 %.</span></div>
+   </div>
+  </section>
+  <section class="blk"><div class="blk-head"><h2>Herramientas de repaso</h2></div>
+   <div class="cards">
+    <a class="ucard" href="#flashcards"><h3>Tarjetas de memoria</h3><p>${GLOSS.length} conceptos clave para darle la vuelta y repasar.</p></a>
+    <a class="ucard" href="#examen"><h3>Simulacro de examen</h3><p>15 preguntas al azar de todas las unidades, con nota por unidad.</p></a>
+    <a class="ucard" href="#chuleta"><h3>Chuleta</h3><p>Todo el código esencial del módulo en una página.</p></a>
+   </div>
+  </section>
+  </div>`;
+}
+
+function projPct() { const s = P.proyecto || {}; return Math.round(PROJECT.filter((_, i) => s[i]).length / PROJECT.length * 100); }
+function renderProject() {
+  const s = P.proyecto = P.proyecto || {};
+  return `<div class="page"><header class="unit-head"><span class="eyebrow">Proyecto integrador</span><h1>Mi lista de la compra</h1>
+  <p style="color:var(--muted);font-size:1.08rem;max-width:64ch">Una app pequeña pero completa que usa <b>todas</b> las unidades. Hazla en Android Studio, paso a paso. Intenta cada paso tú solo; abre la solución solo si llevas 20 minutos atascado.</p>
+  <div class="unit-meta"><span class="chip a">${projPct()} % completado</span></div></header>
+  ${PROJECT.map((p, i) => { const u = UNITS.find(x => x.id === p.u); return `<section class="blk"><div class="blk-head"><span class="tag t-toca">Paso ${i + 1} · ${u.id === 'kotlin' ? 'Kotlin' : 'Ud' + u.num}</span><h2>${p.t}</h2></div><p class="prose">${p.d}</p>
+  ${p.code ? `<details class="sol"><summary>Ver una solución posible</summary><div>${codeBox({ file: 'Solución', lines: p.code.split('\n').map(l => [l, '']) })}</div></details>` : ''}
+  <div class="check"><label><input type="checkbox" id="pj-${i}" data-i="${i}" ${s[i] ? 'checked' : ''}><span>Hecho y funcionando en el emulador</span></label></div></section>`; }).join('')}
+  <section class="blk"><div class="blk-head"><h2>Retos extra</h2></div><ul class="goals"><li><span>Añade un botón para borrar un producto (pista: <code>actual.productos - producto</code>).</span></li><li><span>Muestra la lista en una cuadrícula con <code>GridCells.Adaptive</code> en tablets.</span></li><li><span>Añade un contador de productos en la topBar del Scaffold.</span></li><li><span>Pon un <code>Log.d</code> en cada callback del ciclo de vida y comprueba el orden al girar.</span></li></ul></section>
+  </div>`;
+}
+
+let fc = { i: 0, f: 'all', order: [] };
+function renderFlash() {
+  return `<div class="page"><header class="unit-head"><span class="eyebrow">Repaso</span><h1>Tarjetas de memoria</h1><p style="color:var(--muted)">Lee el concepto, intenta explicarlo en voz alta y pulsa la tarjeta para comprobarlo.</p></header>
+  <div class="toolbar"><label for="fc-f" class="eyebrow">Unidad</label><select id="fc-f"><option value="all">Todas</option>${UNITS.map(u => `<option value="${u.id}">${u.title}</option>`).join('')}</select><button type="button" class="btn sm" id="fc-sh">Barajar</button><span class="score" id="fc-n"></span></div>
+  <div class="fc-wrap"><button type="button" class="fc" id="fc"><div class="fc-in"><div class="fc-f"><span class="eyebrow" id="fc-u"></span><b id="fc-t"></b><span class="score">Pulsa para dar la vuelta</span></div><div class="fc-b" id="fc-d"></div></div></button>
+  <div class="row"><button type="button" class="btn" id="fc-p">← Anterior</button><button type="button" class="btn pri" id="fc-nx">Siguiente →</button></div></div></div>`;
+}
+function bindFlash() {
+  const pool = () => GLOSS.map((g, i) => i).filter(i => fc.f === 'all' || GLOSS[i][2] === fc.f);
+  const show = () => {
+    const ord = fc.order; if (!ord.length) return;
+    const g = GLOSS[ord[fc.i]];
+    $('#fc').classList.remove('flip'); $('#fc-t').textContent = g[0]; $('#fc-d').textContent = g[1];
+    const u = UNITS.find(x => x.id === g[2]); $('#fc-u').textContent = u.title; $('#fc-n').textContent = `${fc.i + 1} / ${ord.length}`;
+  };
+  fc.order = pool(); fc.i = 0; $('#fc-f').value = fc.f;
+  $('#fc').addEventListener('click', () => $('#fc').classList.toggle('flip'));
+  $('#fc-nx').addEventListener('click', () => { fc.i = (fc.i + 1) % fc.order.length; show(); });
+  $('#fc-p').addEventListener('click', () => { fc.i = (fc.i - 1 + fc.order.length) % fc.order.length; show(); });
+  $('#fc-f').addEventListener('change', e => { fc.f = e.target.value; fc.order = pool(); fc.i = 0; show(); });
+  $('#fc-sh').addEventListener('click', () => { fc.order.sort(() => Math.random() - .5); fc.i = 0; show(); });
+  show();
+}
+
+let exam = null;
+function newExam() {
+  const bank = []; UNITS.forEach(u => u.quiz.forEach((q, i) => bank.push({ u: u.id, q })));
+  bank.sort(() => Math.random() - .5);
+  // al menos 2 por unidad
+  const pick = []; UNITS.forEach(u => pick.push(...bank.filter(b => b.u === u.id).slice(0, 2)));
+  bank.forEach(b => { if (pick.length < 15 && !pick.includes(b)) pick.push(b); });
+  exam = { items: pick.sort(() => Math.random() - .5), ans: {}, done: false };
+}
+function renderExam() {
+  if (!exam) newExam();
+  const best = P.examBest;
+  return `<div class="page"><header class="unit-head"><span class="eyebrow">Simulacro</span><h1>Examen tipo test</h1><p style="color:var(--muted)">15 preguntas al azar de todas las unidades. Respóndelas todas y pulsa <b>Corregir</b>. Objetivo: 8 o más.${best != null ? ` Tu mejor nota: <b>${best}/10</b>.` : ''}</p></header>
+  <div class="quiz" id="ex">${exam.items.map((it, i) => `<div class="q" data-i="${i}"><div class="qt">${i + 1}. ${it.q.q} <span class="chip">${UNITS.find(u => u.id === it.u).title}</span></div><div class="opts">${it.q.o.map((o, j) => `<button type="button" class="opt" data-j="${j}"><span class="l">${'ABCD'[j]}</span><span>${o}</span></button>`).join('')}</div><div class="why" hidden></div></div>`).join('')}</div>
+  <div class="row"><button type="button" class="btn pri" id="ex-c">Corregir</button><button type="button" class="btn" id="ex-n">Nuevo examen</button><span class="score" id="ex-s"></span></div>
+  <div id="ex-r"></div></div>`;
+}
+function bindExam() {
+  const cnt = () => $('#ex-s').textContent = `${Object.keys(exam.ans).length} / 15 respondidas`;
+  $$('#ex .q').forEach(q => { const i = +q.dataset.i; $$('.opt', q).forEach(b => b.addEventListener('click', () => { if (exam.done) return; exam.ans[i] = +b.dataset.j; $$('.opt', q).forEach(x => x.setAttribute('aria-pressed', x === b)); $$('.opt', q).forEach(x => x.style.borderColor = x === b ? 'var(--ink)' : ''); cnt(); })); });
+  $('#ex-n').addEventListener('click', () => { newExam(); render(); scrollTo(0, 0); });
+  $('#ex-c').addEventListener('click', () => {
+    exam.done = true; let ok = 0; const per = {};
+    exam.items.forEach((it, i) => {
+      const q = $(`#ex .q[data-i="${i}"]`), j = exam.ans[i], right = j === it.q.a; if (right) ok++;
+      per[it.u] = per[it.u] || [0, 0]; per[it.u][1]++; if (right) per[it.u][0]++;
+      $$('.opt', q).forEach((b, k) => { b.disabled = true; b.style.borderColor = ''; if (k === it.q.a) b.classList.add('right'); if (k === j && !right) b.classList.add('wrong'); });
+      const w = $('.why', q); w.hidden = false; w.innerHTML = (right ? '<b class="ok">Correcto.</b> ' : j === undefined ? '<b class="ko">Sin responder.</b> ' : '<b class="ko">Incorrecto.</b> ') + it.q.w;
+    });
+    const nota = Math.round(ok / 15 * 100) / 10; P.examBest = Math.max(P.examBest || 0, nota); save();
+    const weak = Object.entries(per).filter(([, v]) => v[0] / v[1] < .7).map(([k]) => UNITS.find(u => u.id === k));
+    $('#ex-r').innerHTML = `<div class="result"><h2>Nota: ${nota.toLocaleString('es-ES')} / 10</h2><p>${nota >= 8 ? 'Muy bien. Estás preparado para esta parte del examen.' : nota >= 5 ? 'Aprobado, pero repasa las unidades marcadas abajo.' : 'Todavía no. Repasa las unidades marcadas y vuelve a intentarlo mañana.'}</p>
+    <div class="bars">${Object.entries(per).map(([k, v]) => `<div class="br"><span>${UNITS.find(u => u.id === k).title}</span><div class="meter"><i style="width:${v[0] / v[1] * 100}%;${v[0] / v[1] < .7 ? 'background:var(--warn)' : ''}"></i></div><em>${v[0]}/${v[1]}</em></div>`).join('')}</div>
+    ${weak.length ? `<p>Repasa: ${weak.map(u => `<a href="#${u.id}">${u.title}</a>`).join(', ')}.</p>` : ''}</div>`;
+    $('#ex-r').scrollIntoView({ behavior: 'smooth' });
+  });
+  cnt();
+}
+
+function renderCheat() {
+  const C = [
+   ['Kotlin: lo básico', 'val fijo = 1        // no cambia\nvar cambia = 2      // sí cambia\n"Hola $nombre ${a + b}"\nval r = if (x > 0) "pos" else "neg"\nwhen (n) { 1 -> "a"; in 2..5 -> "b"; else -> "c" }\nfor (i in 1..10 step 2) {}\nfor (i in 10 downTo 1) {}\nfun suma(a: Int, b: Int = 0): Int = a + b\nval doble: (Int) -> Int = { it * 2 }'],
+   ['Kotlin: clases y nulos', 'open class A(val x: Int) { open fun f() {} }\nclass B(x: Int) : A(x) { override fun f() {} }\ndata class P(val n: String, val e: Int)\nenum class Color { ROJO, VERDE }\nobject Config { val v = 1 }\nval s: String? = null\ns?.length ?: 0      // llamada segura + Elvis\ns!!.length          // ¡peligro! NPE'],
+   ['Colecciones', 'listOf(1, 2)          // solo lectura\nmutableListOf(1)      // add, remove, [i] =\nsetOf("a")            // sin duplicados, "a" in s\nmutableMapOf("k" to 1) // m["k"], m["z"] = 2\narrayOf(1, 2, 3)'],
+   ['Manifest (Ud1)', '<activity android:name=".MainActivity"\n    android:exported="true">\n  <intent-filter>\n    <action android:name="android.intent.action.MAIN"/>\n    <category android:name="android.intent.category.LAUNCHER"/>\n  </intent-filter>\n</activity>'],
+   ['Log (Ud1)', 'Log.e(TAG, "error")\nLog.w(TAG, "aviso")\nLog.i(TAG, "info")\nLog.d(TAG, "depuración")\nLog.v(TAG, "detalle")\n// E > W > I > D > V'],
+   ['Composable y texto (Ud2)', '@Composable\nfun Tarjeta(modifier: Modifier = Modifier) {\n  Text(\n    text = stringResource(R.string.hola),\n    fontSize = 20.sp,\n    fontWeight = FontWeight.Bold,\n    textAlign = TextAlign.Start,\n    color = MaterialTheme.colorScheme.primary,\n    modifier = modifier\n  )\n}'],
+   ['Estado, TextField y botón (Ud2)', 'var t by remember { mutableStateOf("") }\nTextField(value = t, onValueChange = { t = it },\n  label = { Text(stringResource(R.string.x)) })\nButton(onClick = { /* acción */ }) {\n  Text(stringResource(R.string.ok))\n}'],
+   ['Imagen y layouts (Ud2)', 'Image(painter = painterResource(R.drawable.img),\n  contentDescription = null, alpha = 0.5f)\nColumn(verticalArrangement = Arrangement.Center,\n  horizontalAlignment = Alignment.CenterHorizontally) {}\nRow(horizontalArrangement = Arrangement.SpaceBetween,\n  verticalAlignment = Alignment.CenterVertically) {}\nBox(contentAlignment = Alignment.Center) {}'],
+   ['Listas y grids (Ud3)', 'data class Item(@StringRes val t: Int,\n  @DrawableRes val img: Int)\nLazyColumn { items(lista) { it -> Tarjeta(it) } }\nLazyVerticalGrid(\n  columns = GridCells.Fixed(2)          // o\n  // columns = GridCells.Adaptive(128.dp)\n) { items(lista) { Tarjeta(it) } }'],
+   ['Ciclo de vida (Ud4)', 'Abrir:  onCreate → onStart → onResume\nInicio: onPause → onStop\nVolver: onRestart → onStart → onResume\nGirar:  onPause → onStop → onDestroy →\n        onCreate → onStart → onResume\nAtrás:  onPause → onStop → onDestroy'],
+   ['ViewModel (Ud4)', 'class MiVM : ViewModel() {\n  private val _ui = MutableStateFlow(UiState())\n  val ui: StateFlow<UiState> = _ui.asStateFlow()\n  fun cambiar(v: String) {\n    _ui.update { it.copy(campo = v) }\n  }\n}\n// en la pantalla:\nvm: MiVM = viewModel()\nval ui by vm.ui.collectAsState()'],
+   ['Recursos', 'res/values/strings.xml     textos (por defecto)\nres/values-es/strings.xml  textos en español\nres/drawable               imágenes\nres/mipmap                 iconos\nres/font                   fuentes\nui.theme/Theme.kt          tema'],
+  ];
+  return `<div class="page"><header class="unit-head"><span class="eyebrow">Repaso rápido</span><h1>Chuleta del módulo</h1><p style="color:var(--muted)">Todo el código esencial en una página. Úsala para repasar, no para estudiar desde cero.</p></header><div class="cheat">${C.map(c => `<div class="cc"><h3>${c[0]}</h3><pre>${c[1].split('\n').map(l => hl(l, c[0].startsWith('Manifest') ? 'xml' : '')).join('\n')}</pre></div>`).join('')}</div></div>`;
+}
+
+/* ---------- Navegación ---------- */
+const ROUTES = [{ id: 'inicio', t: 'Inicio', s: 'Cómo usar la guía' }, ...UNITS.map(u => ({ id: u.id, t: u.title, s: u.id === 'kotlin' ? 'Base' : 'Unidad ' + u.num, u })), { id: 'proyecto', t: 'Proyecto final', s: 'Aplica todo' }, { id: 'flashcards', t: 'Tarjetas', s: 'Repaso' }, { id: 'examen', t: 'Simulacro', s: 'Repaso' }, { id: 'chuleta', t: 'Chuleta', s: 'Repaso' }];
+function ring(p) { const c = 2 * Math.PI * 13; return `<svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="13" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-dasharray="${c * p / 100} ${c}"/></svg>`; }
+function nav() {
+  const cur = location.hash.slice(1) || 'inicio';
+  $('#route').innerHTML = ROUTES.map((r, i) => {
+    const p = r.u ? unitPct(r.u) : r.id === 'proyecto' ? projPct() : null;
+    const label = r.id === 'inicio' ? '⌂' : r.u ? (r.u.id === 'kotlin' ? 'K' : r.u.num) : r.id === 'proyecto' ? '★' : '·';
+    const sep = r.id === 'flashcards' ? '<div class="eyebrow route-title">Herramientas</div>' : '';
+    return `${sep}<a class="stop${cur === r.id ? ' active' : ''}${p >= 100 ? ' done' : ''}" href="#${r.id}"><span class="dot">${p != null && p > 0 && p < 100 ? ring(p) : ''}${label}</span><span class="lbl">${r.t}<small>${r.s}${p != null ? ' · ' + p + ' %' : ''}</small></span></a>`;
+  }).join('');
+  $('#mnav').innerHTML = ROUTES.map(r => `<option value="${r.id}" ${cur === r.id ? 'selected' : ''}>${r.u ? (r.u.id === 'kotlin' ? 'Base · ' : 'Ud' + r.u.num + ' · ') : ''}${r.t}</option>`).join('');
+}
+function updateProgress() {
+  const all = (UNITS.reduce((a, u) => a + unitPct(u), 0) + projPct()) / (UNITS.length + 1);
+  $('#gbar').style.width = all + '%'; $('#gtxt').textContent = Math.round(all) + ' % del módulo';
+  nav();
+}
+function render() {
+  const id = location.hash.slice(1) || 'inicio';
+  const u = UNITS.find(x => x.id === id);
+  const main = $('#view');
+  if (u) main.innerHTML = renderUnit(u);
+  else if (id === 'proyecto') main.innerHTML = renderProject();
+  else if (id === 'flashcards') main.innerHTML = renderFlash();
+  else if (id === 'examen') main.innerHTML = renderExam();
+  else if (id === 'chuleta') main.innerHTML = renderCheat();
+  else main.innerHTML = renderHome();
+  $$('.lab', main).forEach(l => LABS[l.dataset.lab] && LABS[l.dataset.lab](l));
+  if (u) { bindQuiz(main, u); bindPractice(main, u); bindCheck(main, u); $$('[data-sec]', main).forEach(a => a.addEventListener('click', e => { e.preventDefault(); document.getElementById(a.dataset.sec).scrollIntoView({ behavior: 'smooth' }); })); }
+  if (id === 'proyecto') $$('.check input', main).forEach(c => c.addEventListener('change', () => { P.proyecto[c.dataset.i] = c.checked; save(); $('.unit-meta .chip', main).textContent = projPct() + ' % completado'; }));
+  if (id === 'flashcards') bindFlash();
+  if (id === 'examen') bindExam();
+  updateProgress();
+}
+let lastId = null;
+window.addEventListener('hashchange', () => { const id = location.hash.slice(1) || 'inicio'; if (id !== lastId) { lastId = id; render(); scrollTo(0, 0); } });
+$('#mnav').addEventListener('change', e => { location.hash = e.target.value; });
+$('#reset').addEventListener('click', e => {
+  const b = e.currentTarget;
+  if (b.dataset.armed) { P = {}; save(); exam = null; render(); b.textContent = 'Borrar mi progreso'; delete b.dataset.armed; }
+  else { b.dataset.armed = 1; b.textContent = 'Pulsa otra vez para confirmar'; setTimeout(() => { b.textContent = 'Borrar mi progreso'; delete b.dataset.armed; }, 3000); }
+});
+lastId = location.hash.slice(1) || 'inicio';
+render();
+</script>
