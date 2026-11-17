@@ -1,0 +1,326 @@
+[
+  {
+    "id": 1,
+    "descripcion": "El equipo no enciende tras un corte de corriente.",
+    "equipo": {
+      "numSerie": "PC-VAL-001",
+      "modelo": "OptiPlex 7090",
+      "tipo": "PC Sobremesa"
+    },
+    "tecnico": {
+      "nombre": "Carlos",
+      "apellidos": "Martinez Lopez"
+    },
+    "fechaRegistro": "2026-09-01",
+    "fechaResolucion": "2026-09-02",
+    "estado": "RESUELTA",
+    "piezasUtilizadas": [
+      {
+        "tipo": "Fuente de alimentacion",
+        "descripcion": "Fuente ATX 500W"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "descripcion": "Pantalla con parpadeos constantes.",
+    "equipo": {
+      "numSerie": "PORT-002",
+      "modelo": "Latitude 5520",
+      "tipo": "Portatil"
+    },
+    "tecnico": {
+      "nombre": "Ana",
+      "apellidos": "Garcia Ruiz"
+    },
+    "fechaRegistro": "2026-09-03",
+    "fechaResolucion": "2026-09-04",
+    "estado": "RESUELTA",
+    "piezasUtilizadas": [
+      {
+        "tipo": "Cable",
+        "descripcion": "Cable flex de pantalla"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "descripcion": "Disco duro con errores de lectura.",
+    "equipo": {
+      "numSerie": "PC-VAL-003",
+      "modelo": "ThinkCentre M75",
+      "tipo": "PC Sobremesa"
+    },
+    "tecnico": {
+      "nombre": "Javier",
+      "apellidos": "Sanchez Perez"
+    },
+    "fechaRegistro": "2026-09-05",
+    "fechaResolucion": "2026-09-07",
+    "estado": "RESUELTA",
+    "piezasUtilizadas": [
+      {
+        "tipo": "SSD",
+        "descripcion": "SSD 1TB SATA"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "descripcion": "Teclado no responde correctamente.",
+    "equipo": {
+      "numSerie": "PORT-004",
+      "modelo": "HP ProBook 450",
+      "tipo": "Portatil"
+    },
+    "tecnico": {
+      "nombre": "Elena",
+      "apellidos": "Moreno Gil"
+    },
+    "fechaRegistro": "2026-09-08",
+    "fechaResolucion": "2026-09-08",
+    "estado": "RESUELTA",
+    "piezasUtilizadas": [
+      {
+        "tipo": "Teclado",
+        "descripcion": "Teclado español para ProBook"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "descripcion": "Sobrecalentamiento del equipo.",
+    "equipo": {
+      "numSerie": "PC-VAL-005",
+      "modelo": "Precision 3650",
+      "tipo": "Workstation"
+    },
+    "tecnico": {
+      "nombre": "Miguel",
+      "apellidos": "Torres Molina"
+    },
+    "fechaRegistro": "2026-09-10",
+    "fechaResolucion": "2026-09-11",
+    "estado": "RESUELTA",
+    "piezasUtilizadas": [
+      {
+        "tipo": "Ventilador",
+        "descripcion": "Ventilador CPU 120 mm"
+      },
+      {
+        "tipo": "Pasta termica",
+        "descripcion": "Pasta termica de alto rendimiento"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "descripcion": "La bateria no carga.",
+    "equipo": {
+      "numSerie": "PORT-006",
+      "modelo": "ThinkPad E15",
+      "tipo": "Portatil"
+    },
+    "tecnico": {
+      "nombre": "Laura",
+      "apellidos": "Navarro Torres"
+    },
+    "fechaRegistro": "2026-09-12",
+    "fechaResolucion": "2026-09-13",
+    "estado": "RESUELTA",
+    "piezasUtilizadas": [
+      {
+        "tipo": "Bateria",
+        "descripcion": "Bateria original Lenovo"
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "descripcion": "Puerto USB averiado.",
+    "equipo": {
+      "numSerie": "PC-VAL-007",
+      "modelo": "EliteDesk 800",
+      "tipo": "PC Sobremesa"
+    },
+    "tecnico": {
+      "nombre": "David",
+      "apellidos": "Lopez Martin"
+    },
+    "fechaRegistro": "2026-09-14",
+    "fechaResolucion": "2026-09-15",
+    "estado": "RESUELTA",
+    "piezasUtilizadas": [
+      {
+        "tipo": "Placa base",
+        "descripcion": "Sustitucion de placa base"
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "descripcion": "Equipo bloqueado durante el arranque.",
+    "equipo": {
+      "numSerie": "PORT-008",
+      "modelo": "Aspire 5",
+      "tipo": "Portatil"
+    },
+    "tecnico": {
+      "nombre": "Sergio",
+      "apellidos": "Ruiz Gomez"
+    },
+    "fechaRegistro": "2026-09-15",
+    "fechaResolucion": null,
+    "estado": "ABIERTA",
+    "piezasUtilizadas": []
+  },
+  {
+    "id": 9,
+    "descripcion": "Monitor sin imagen.",
+    "equipo": {
+      "numSerie": "MON-009",
+      "modelo": "Dell P2422H",
+      "tipo": "Monitor"
+    },
+    "tecnico": {
+      "nombre": "Ana",
+      "apellidos": "Garcia Ruiz"
+    },
+    "fechaRegistro": "2026-09-16",
+    "fechaResolucion": "2026-09-17",
+    "estado": "RESUELTA",
+    "piezasUtilizadas": [
+      {
+        "tipo": "Fuente",
+        "descripcion": "Modulo de alimentacion del monitor"
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "descripcion": "Ruido excesivo en el equipo.",
+    "equipo": {
+      "numSerie": "PC-VAL-010",
+      "modelo": "Vostro 3910",
+      "tipo": "PC Sobremesa"
+    },
+    "tecnico": {
+      "nombre": "Carlos",
+      "apellidos": "Martinez Lopez"
+    },
+    "fechaRegistro": "2026-09-18",
+    "fechaResolucion": "2026-09-19",
+    "estado": "RESUELTA",
+    "piezasUtilizadas": [
+      {
+        "tipo": "Ventilador",
+        "descripcion": "Ventilador trasero 80 mm"
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "descripcion": "Conector de carga roto.",
+    "equipo": {
+      "numSerie": "PORT-011",
+      "modelo": "MacBook Pro 14",
+      "tipo": "Portatil"
+    },
+    "tecnico": {
+      "nombre": "Elena",
+      "apellidos": "Moreno Gil"
+    },
+    "fechaRegistro": "2026-09-20",
+    "fechaResolucion": null,
+    "estado": "EN_REPARACION",
+    "piezasUtilizadas": [
+      {
+        "tipo": "Conector",
+        "descripcion": "Puerto de carga MagSafe"
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "descripcion": "Tarjeta de red defectuosa.",
+    "equipo": {
+      "numSerie": "PC-VAL-012",
+      "modelo": "ProDesk 600",
+      "tipo": "PC Sobremesa"
+    },
+    "tecnico": {
+      "nombre": "Miguel",
+      "apellidos": "Torres Molina"
+    },
+    "fechaRegistro": "2026-09-21",
+    "fechaResolucion": "2026-09-22",
+    "estado": "RESUELTA",
+    "piezasUtilizadas": [
+      {
+        "tipo": "Tarjeta de red",
+        "descripcion": "Adaptador Gigabit PCIe"
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "descripcion": "Pantalla rota por impacto.",
+    "equipo": {
+      "numSerie": "PORT-013",
+      "modelo": "ZenBook 14",
+      "tipo": "Portatil"
+    },
+    "tecnico": {
+      "nombre": "Laura",
+      "apellidos": "Navarro Torres"
+    },
+    "fechaRegistro": "2026-09-23",
+    "fechaResolucion": "2026-09-25",
+    "estado": "RESUELTA",
+    "piezasUtilizadas": [
+      {
+        "tipo": "Pantalla",
+        "descripcion": "Panel LCD 14 pulgadas"
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "descripcion": "Memoria RAM dañada.",
+    "equipo": {
+      "numSerie": "PC-VAL-014",
+      "modelo": "ThinkStation P350",
+      "tipo": "Workstation"
+    },
+    "tecnico": {
+      "nombre": "Javier",
+      "apellidos": "Sanchez Perez"
+    },
+    "fechaRegistro": "2026-09-26",
+    "fechaResolucion": "2026-09-27",
+    "estado": "RESUELTA",
+    "piezasUtilizadas": [
+      {
+        "tipo": "Memoria RAM",
+        "descripcion": "Modulo DDR4 16GB"
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "descripcion": "Fallo intermitente de la fuente de alimentacion.",
+    "equipo": {
+      "numSerie": "PC-VAL-015",
+      "modelo": "OptiPlex 5000",
+      "tipo": "PC Sobremesa"
+    },
+    "tecnico": {
+      "nombre": "David",
+      "apellidos": "Lopez Martin"
+    },
+    "fechaRegistro": "2026-09-28",
+    "fechaResolucion": null,
+    "estado": "PENDIENTE",
+    "piezasUtilizadas": []
+  }
+]
