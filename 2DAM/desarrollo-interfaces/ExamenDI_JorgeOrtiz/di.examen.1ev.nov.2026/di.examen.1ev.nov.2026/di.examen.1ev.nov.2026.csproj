@@ -1,0 +1,65 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows7.0</TargetFramework>
+    <RootNamespace>di.examen._1ev.nov._2026</RootNamespace>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Recursos\Iconos\buscar.png" />
+    <None Remove="Recursos\Iconos\chart.png" />
+    <None Remove="Recursos\Iconos\ciclismo.png" />
+    <None Remove="Recursos\Iconos\continuar.png" />
+    <None Remove="Recursos\Iconos\correr.png" />
+    <None Remove="Recursos\Iconos\editar.png" />
+    <None Remove="Recursos\Iconos\grid.png" />
+    <None Remove="Recursos\Iconos\grupo.png" />
+    <None Remove="Recursos\Iconos\home.png" />
+    <None Remove="Recursos\Iconos\matisse.png" />
+    <None Remove="Recursos\Iconos\mensaje.png" />
+    <None Remove="Recursos\Iconos\perfil.png" />
+    <None Remove="Recursos\Iconos\perfil1.png" />
+    <None Remove="Recursos\Iconos\perfil2.png" />
+    <None Remove="Recursos\Iconos\reloj.png" />
+    <None Remove="Recursos\Iconos\salir.png" />
+    <None Remove="Recursos\Iconos\settings.png" />
+    <None Remove="Recursos\Iconos\zapatillas.png" />
+    <None Remove="Recursos\Imagenes\grafico.jpg" />
+    <None Remove="Recursos\Imagenes\login.jpg" />
+    <None Remove="Recursos\Imagenes\mapa.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MaterialDesignThemes.MahApps" Version="5.4.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Recursos\Iconos\buscar.png" />
+    <Resource Include="Recursos\Iconos\chart.png" />
+    <Resource Include="Recursos\Iconos\ciclismo.png" />
+    <Resource Include="Recursos\Iconos\continuar.png" />
+    <Resource Include="Recursos\Iconos\correr.png" />
+    <Resource Include="Recursos\Iconos\editar.png" />
+    <Resource Include="Recursos\Iconos\grid.png" />
+    <Resource Include="Recursos\Iconos\grupo.png" />
+    <Resource Include="Recursos\Iconos\home.png" />
+    <Resource Include="Recursos\Iconos\matisse.png" />
+    <Resource Include="Recursos\Iconos\mensaje.png" />
+    <Resource Include="Recursos\Iconos\perfil.png" />
+    <Resource Include="Recursos\Iconos\perfil1.png" />
+    <Resource Include="Recursos\Iconos\perfil2.png" />
+    <Resource Include="Recursos\Iconos\reloj.png" />
+    <Resource Include="Recursos\Iconos\salir.png" />
+    <Resource Include="Recursos\Iconos\settings.png" />
+    <Resource Include="Recursos\Iconos\zapatillas.png" />
+    <Resource Include="Recursos\Imagenes\grafico.jpg" />
+    <Resource Include="Recursos\Imagenes\login.jpg" />
+    <Resource Include="Recursos\Imagenes\mapa.jpg" />
+  </ItemGroup>
+
+</Project>

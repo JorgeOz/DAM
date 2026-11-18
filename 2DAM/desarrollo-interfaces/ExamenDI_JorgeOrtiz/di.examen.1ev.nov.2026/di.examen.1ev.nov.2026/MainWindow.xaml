@@ -1,0 +1,114 @@
+﻿<Window x:Class="di.examen._1ev.nov._2026.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mat="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:di.examen._1ev.nov._2026"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="700" Width="1400"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen">
+    <Grid Background="WhiteSmoke">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+            <Border CornerRadius="30" Background="#017dca" Margin="15, 15, 15, 15">
+                <StackPanel>
+                    <Button Background="Transparent" BorderBrush="Transparent" Margin="0, 30, 0, 0" Height="50">
+                        <Image Source="/Recursos/Iconos/home.png"/>
+                    </Button>
+                    <Button Background="Transparent" BorderBrush="Transparent" Margin="0, 30, 0, 0" Height="50">
+                        <Image Source="/Recursos/Iconos/editar.png"/>
+                    </Button>
+                    <Button Background="Transparent" BorderBrush="Transparent" Margin="0, 30, 0, 0" Height="50">
+                        <Image Source="/Recursos/Iconos/reloj.png"/>
+                    </Button>
+                    <Button Background="Transparent" BorderBrush="Transparent" Margin="0, 30, 0, 0" Height="50">
+                        <Image Source="/Recursos/Iconos/settings.png"/>
+                    </Button>
+                    <Button Background="Transparent" BorderBrush="Transparent" Margin="0, 30, 0, 0" Height="50">
+                        <Image Source="/Recursos/Iconos/chart.png"/>
+                    </Button>
+                    <Button Background="Transparent" BorderBrush="Transparent" Margin="0, 200, 0, 0" Height="50">
+                        <Image Source="/Recursos/Iconos/salir.png"/>
+                    </Button>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <Grid Grid.Column="0">
+                    <TextBlock Text="Dashboard" FontSize="38" FontWeight="Bold" VerticalAlignment="Center" Margin="40, 0, 0, 0"/>
+                </Grid>
+            </Grid>
+
+            <Grid Grid.Row="1">
+                <Border Background="LightGray" CornerRadius="20" Margin="10, 0, 0, 0">
+                    <Image Source="/Recursos/Imagenes/grafico.jpg" Width="400"/>
+                </Border>
+            </Grid>
+
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="4*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0">
+                    <Border Background="LightGray" CornerRadius="20" Margin="10, 0, 0, 0" Height="220">
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock Text="CICLISMO" TextAlignment="Center" FontSize="30" FontWeight="Bold"/>
+                            <TextBlock Text="Distancia recorrida: 1.200km" TextAlignment="Center" FontSize="14" FontWeight="DemiBold" Margin="0, 10, 0, 0"/>
+                            <Border Background="#fbdde7" CornerRadius="20" Margin="0, 15, 0, 0">
+                                <TextBlock Text="Dos días quedan" Foreground="#e1a1b7" FontWeight="Bold" TextAlignment="Center" Height="25" Margin="0, 10, 0, 0"/>
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+
+                <Grid Grid.Column="1">
+                    <Border Background="LightGray" CornerRadius="20" Margin="10, 0, 0, 0" Height="220">
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock Text="CORRER" TextAlignment="Center" FontSize="30" FontWeight="Bold"/>
+                            <TextBlock Text="Distancia recorrida: 654km" TextAlignment="Center" FontSize="14" FontWeight="DemiBold" Margin="0, 10, 0, 0"/>
+                            <Border Background="#fbdde7" CornerRadius="20" Margin="0, 15, 0, 0">
+                                <TextBlock Text="Dos días quedan" Foreground="#e1a1b7" FontWeight="Bold" TextAlignment="Center" Height="25" Margin="0, 10, 0, 0"/>
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="1">
+                <Border CornerRadius="20" Background="#69c2fa" Height="120" Margin="20, 0, 0, 0">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Recursos/Iconos/zapatillas.png" Width="120"/>
+                        <TextBlock Text="Media Diaria" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="90, 0, 0, 0" FontSize="22"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

@@ -1,0 +1,28 @@
+{
+  "version": 2,
+  "dgSpecHash": "EbMX/G0i4Hk=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\jorortvil2\\Downloads\\ExamenDI_JorgeOrtiz\\di.examen.1ev.nov.2026\\di.examen.1ev.nov.2026\\di.examen.1ev.nov.2026.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\jorortvil2\\.nuget\\packages\\controlzex\\4.4.0\\controlzex.4.4.0.nupkg.sha512",
+    "C:\\Users\\jorortvil2\\.nuget\\packages\\mahapps.metro\\2.4.11\\mahapps.metro.2.4.11.nupkg.sha512",
+    "C:\\Users\\jorortvil2\\.nuget\\packages\\materialdesigncolors\\5.4.0\\materialdesigncolors.5.4.0.nupkg.sha512",
+    "C:\\Users\\jorortvil2\\.nuget\\packages\\materialdesignthemes\\5.4.0\\materialdesignthemes.5.4.0.nupkg.sha512",
+    "C:\\Users\\jorortvil2\\.nuget\\packages\\materialdesignthemes.mahapps\\5.4.0\\materialdesignthemes.mahapps.5.4.0.nupkg.sha512",
+    "C:\\Users\\jorortvil2\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\8.0.1\\microsoft.extensions.dependencyinjection.8.0.1.nupkg.sha512",
+    "C:\\Users\\jorortvil2\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.2\\microsoft.extensions.dependencyinjection.abstractions.8.0.2.nupkg.sha512",
+    "C:\\Users\\jorortvil2\\.nuget\\packages\\microsoft.xaml.behaviors.wpf\\1.1.142\\microsoft.xaml.behaviors.wpf.1.1.142.nupkg.sha512",
+    "C:\\Users\\jorortvil2\\.nuget\\packages\\system.text.json\\4.7.2\\system.text.json.4.7.2.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1900",
+      "level": "Warning",
+      "message": "Error occurred while getting package vulnerability data: Unable to load the service index for source https://api.nuget.org/v3/index.json.",
+      "projectPath": "C:\\Users\\jorortvil2\\Downloads\\ExamenDI_JorgeOrtiz\\di.examen.1ev.nov.2026\\di.examen.1ev.nov.2026\\di.examen.1ev.nov.2026.csproj",
+      "warningLevel": 1,
+      "filePath": "C:\\Users\\jorortvil2\\Downloads\\ExamenDI_JorgeOrtiz\\di.examen.1ev.nov.2026\\di.examen.1ev.nov.2026\\di.examen.1ev.nov.2026.csproj",
+      "targetGraphs": []
+    }
+  ]
+}
