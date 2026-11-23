@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\proyecto_clase_2026\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{D3FC4089-C81D-4CF4-B884-82EE9441B1C1}|proyecto_clase_2026\\proyecto_clase_2026.csproj|c:\\users\\jorortvil2\\documents\\dam\\2dam\\desarrollo-interfaces\\proyecto_clase_2026\\proyecto_clase_2026\\vista\\dialogos\\login.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D3FC4089-C81D-4CF4-B884-82EE9441B1C1}|proyecto_clase_2026\\proyecto_clase_2026.csproj|solutionrelative:proyecto_clase_2026\\vista\\dialogos\\login.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{D3FC4089-C81D-4CF4-B884-82EE9441B1C1}|proyecto_clase_2026\\proyecto_clase_2026.csproj|c:\\users\\jorortvil2\\documents\\dam\\2dam\\desarrollo-interfaces\\proyecto_clase_2026\\proyecto_clase_2026\\vista\\dialogos\\login.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{D3FC4089-C81D-4CF4-B884-82EE9441B1C1}|proyecto_clase_2026\\proyecto_clase_2026.csproj|solutionrelative:proyecto_clase_2026\\vista\\dialogos\\login.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     }
@@ -59,6 +63,19 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "Login.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\proyecto_clase_2026\\proyecto_clase_2026\\Vista\\Dialogos\\Login.xaml.cs",
+              "RelativeDocumentMoniker": "proyecto_clase_2026\\Vista\\Dialogos\\Login.xaml.cs",
+              "ToolTip": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\proyecto_clase_2026\\proyecto_clase_2026\\Vista\\Dialogos\\Login.xaml.cs",
+              "RelativeToolTip": "proyecto_clase_2026\\Vista\\Dialogos\\Login.xaml.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAACEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-11T07:31:51.587Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "Login.xaml",
               "DocumentMoniker": "C:\\Users\\jorortvil2\\Documents\\DAM\\2DAM\\desarrollo-interfaces\\proyecto_clase_2026\\proyecto_clase_2026\\Vista\\Dialogos\\Login.xaml",
               "RelativeDocumentMoniker": "proyecto_clase_2026\\Vista\\Dialogos\\Login.xaml",

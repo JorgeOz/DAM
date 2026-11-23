@@ -20,7 +20,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             Examen_1EV_JorgeTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
+                    PantallaReservas(
                         modifier = Modifier.padding(innerPadding)
                     )
                 }

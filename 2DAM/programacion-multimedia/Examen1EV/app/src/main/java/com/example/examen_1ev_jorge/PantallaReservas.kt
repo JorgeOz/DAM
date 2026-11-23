@@ -25,8 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.examen_1ev_jorge.modelo.Reserva
 import com.example.examen_1ev_jorge.ui.ReservasViewModel
-import lista.tareas.modelo.Tarea
-import lista.tareas.ui.TareasViewModel
+
 
 private val ColorEsApartamento = Color(0xFFFFCDD2)
 private val ColorEsHotel = Color(0xFFE8F5E9)
