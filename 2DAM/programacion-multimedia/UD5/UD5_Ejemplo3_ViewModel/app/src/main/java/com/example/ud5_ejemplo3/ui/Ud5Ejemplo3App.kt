@@ -66,6 +66,7 @@ fun Ud5Ejemplo3App(
             // Grafo de las rutas
             composable(route = Pantallas.Inicio.name) {
                 PantallaInicio(
+                    uistate = uiState,
                     onBotonSiguientePulsado = {
                         viewModel.actualizarNumero1(it)
                         navController.navigate(Pantallas.Pantalla1.name)
@@ -76,6 +77,7 @@ fun Ud5Ejemplo3App(
             }
             composable(route = Pantallas.Pantalla1.name) {
                 PrimeraPantalla(
+                    uistate = uiState,
                     onBotonSiguientePulsado = {
                         viewModel.actualizarNumero2(it)
                         navController.navigate(Pantallas.Pantalla2.name)
@@ -93,7 +95,6 @@ fun Ud5Ejemplo3App(
                         .fillMaxSize()
                 )
             }
-
         }
     }
 }

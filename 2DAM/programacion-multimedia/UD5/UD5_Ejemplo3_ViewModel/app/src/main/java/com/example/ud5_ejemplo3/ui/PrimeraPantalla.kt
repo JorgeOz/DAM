@@ -20,16 +20,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.ud5_ejemplo3.R
+import com.example.ud5_ejemplo3.modelo.AppUIState
 
 @Composable
 fun PrimeraPantalla(
+    uistate: AppUIState,
     onBotonSiguientePulsado: (String) -> Unit,
     modifier: Modifier = Modifier
 ){
-    var numero by remember { mutableStateOf("") }
+    var numero by remember { mutableStateOf(uistate.numero2) }
 
-    Column (modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         Text(
             text = stringResource(id = R.string.pantalla1),
             style = MaterialTheme.typography.headlineLarge
@@ -38,8 +42,8 @@ fun PrimeraPantalla(
 
         TextField(
             value = numero,
-            label = { Text(text = stringResource(R.string.numero_2))},
-            onValueChange = {numero = it},
+            label = { Text(text = stringResource(R.string.numero_2)) },
+            onValueChange = { numero = it },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
 

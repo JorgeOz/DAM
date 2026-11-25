@@ -17,13 +17,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import com.example.ud5_ejemplo3.R
+import com.example.ud5_ejemplo3.modelo.AppUIState
 
 @Composable
 fun PantallaInicio(
+    uistate: AppUIState,
     onBotonSiguientePulsado: (String) -> Unit,
     modifier: Modifier = Modifier
 ){
-    var numero by remember { mutableStateOf("") }
+    var numero by remember { mutableStateOf(uistate.numero1) }
 
     Column (modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally) {
@@ -44,7 +46,6 @@ fun PantallaInicio(
         Spacer(modifier = Modifier.weight(1F))
 
         BotonSiguiente(onClick = {onBotonSiguientePulsado(numero)})
-
     }
 }
 
