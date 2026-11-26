@@ -63,7 +63,7 @@ namespace proyecto_clase_2026 {
             
             #line default
             #line hidden
-            System.Uri resourceLocater = new System.Uri("/proyecto_clase_2026;V1.0.0.0;component/app.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/proyecto_clase_2026;component/app.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\App.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

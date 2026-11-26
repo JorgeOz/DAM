@@ -14,10 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Datos\Repositorios\" />
     <Folder Include="Modelos\" />
     <Folder Include="Recursos\Estilos\" />
-    <Folder Include="Servicios\Interfaces\" />
     <Folder Include="ViewModel\" />
     <Folder Include="Vista\UserControl\" />
   </ItemGroup>

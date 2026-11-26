@@ -100,7 +100,7 @@ namespace proyecto_clase_2026.Vista.Dialogos {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/proyecto_clase_2026;V1.0.0.0;component/vista/dialogos/login.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/proyecto_clase_2026;component/vista/dialogos/login.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\..\Vista\Dialogos\Login.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
